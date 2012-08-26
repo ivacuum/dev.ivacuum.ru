@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+<fieldset class="ui-corner-all">
+	<legend>Просмотров</legend>
+	<p>
+		В локальной сети: <img class="icons" src="{{ static('i', '_/network_ethernet') }}" alt="" /><b>{{ LOCAL_VIEWS }}</b> |
+		В сети интернет: <img class="icons" src="{{ static('i', '_/globe_green') }}" alt="" /><b>{{ INTERNET_VIEWS }}</b>.
+	</p>
+</fieldset>
+
+<br />
+
+<table class="stats shadow-extralight">
+	<thead>
+	<tr>
+		<th class="number">#</th>
+		<th>Домен</th>
+		<th class="number">Просмотров <img src="{{ static('i', '_/arrow_270') }}" alt="" /></th>
+	</tr>
+	</thead>
+	{% for row in ref %}
+	<tr>
+		<td class="number">{{ loop.index }}</td>
+		<td><a href="//{{ row.DOMAIN }}"><b>{{ row.DOMAIN }}</b></a></td>
+		<td class="number">{{ row.VIEWS }}</td>
+	</tr>
+	{% endfor %}
+</table>
+{% endblock %}

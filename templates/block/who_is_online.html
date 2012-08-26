@@ -1,0 +1,8 @@
+{% if S_WHO_IS_ONLINE %}
+<fieldset class="ui-corner-all">
+	<legend><a href="{{ U_WHO_IS_ONLINE }}">{{ lang.WHO_IS_ONLINE }}</a></legend>
+	<p>{{ ONLINE_LIST }}</p>
+	<p>{{ lang.ONLINE_USERLIST }}: {{ ONLINE_USERLIST }}.</p>
+	<i>{{ ONLINE_TIME }}</i>
+</fieldset>
+{% endif %}

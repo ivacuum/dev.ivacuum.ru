@@ -1,0 +1,5 @@
+<ul class="nav nav-tabs">
+	{% for row in submenu %}
+		<li{% if row.ACTIVE %} class="active"{% endif %}><a href="{{ row.U_VIEW }}">{% if row.IMAGE %}<img src="{{ static('i', '_/' ~ row.IMAGE) }}" alt=""> {% endif %}{{ row.TITLE }}</a></li>
+	{% endfor %}
+</ul>

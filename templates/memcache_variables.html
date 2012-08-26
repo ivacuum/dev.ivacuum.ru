@@ -1,0 +1,24 @@
+{% extends "memcache_base.html" %}
+
+{% block content %}
+<table class="table-stats b-center">
+	<thead>
+	<tr>
+		<th>Entry Label</th>
+		<th>Size</th>
+		<th>Expire on</th>
+		<th>Delete</th>
+	</tr>
+	</thead>
+	<tbody>
+	{% for key, row in vars %}
+		<tr>
+			<td><a href="/memcache/item.html?key={{ key }}">{{ key }}</a></td>
+			<td>{{ row.SIZE }}</td>
+			<td>{{ row.EXPIRE }}</td>
+			<td class="t-center"><a href="/memcache/delete.html?key={{ key }}"><img src="{{ static('i', '_/cross') }}" alt=""></a></td>
+		</tr>
+	{% endfor %}
+	</tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+	<!-- <div class="span5">
+		<div class="page-header">
+			<h3>Вы можете авторизоваться через</h3>
+		</div>
+		{% include "block/loginza.html" %}
+	</div> -->
+	<div class="span5 offset4">
+		<div class="page-header">
+			<h3>{{ lang.LOGIN }}</h3>
+		</div>
+		<!-- <br> -->
+		{% if LOGIN_ERROR %}
+			<div class="alert alert-error" data-dismiss="alert">
+				<a class="close" href="#">&times;</a>
+				<h4 class="alert-heading">Ошибка авторизации</h4>
+				<ul>
+					<li>{{ LOGIN_ERROR }}</li>
+				</ul>
+			</div>
+		{% elseif LOGIN_EXPLAIN %}
+			<div class="alert alert-error" data-dismiss="alert">
+				<a class="close" href="#">&times;</a>
+				<h4 class="alert-heading">Внимание!</h4>
+				{{ LOGIN_EXPLAIN }}
+			</div>
+		{% endif %}
+		<form action="{{ U_ACTION }}" method="post">
+			<input type="text" name="username" value="{{ USERNAME }}" tabindex="1" placeholder="{{ lang.USERNAME }}"><br>
+			<input type="password" name="password" tabindex="2" placeholder="{{ lang.PASSWORD }}"><br>
+			<label class="checkbox">
+				<input name="autologin" type="checkbox" tabindex="3" checked="checked"> {{ lang.AUTOLOGIN }}
+			</label>
+			<!-- <label class="checkbox">
+				<input name="hideme" type="checkbox" tabindex="4" disabled="disabled"> {{ lang.HIDEME }}
+			</label> -->
+			<input class="btn btn-primary btn-large" type="submit" name="submit" value="{{ lang.LOGIN }}" tabindex="4">
+			{{ S_HIDDEN_FIELDS }}
+		</form>
+	</div>
+</div>
+{% endblock %}

@@ -1,0 +1,59 @@
+<br clear="all" />
+
+<form action="{{ U_ACTION }}" method="post">
+<fieldset class="ui-corner-all w150">
+	<legend>{{ lang.COMMENTS_ADD }}</legend>
+	<dl>
+		<dt>{{ lang.MESSAGE }}:<br /><br />
+			<div class="smilies">
+				<a href="#" title=":D"><img src="{{ static('smiley', 'icon_biggrin') }}" alt="" /></a>
+				<a href="#" title=":bro:"><img src="{{ static('smiley', 'icon_brows') }}" alt="" /></a>
+				<a href="#" title=":)"><img src="{{ static('smiley', 'icon_smile') }}" alt="" /></a>
+				<a href="#" title=":))"><img src="{{ static('smiley', 'icon_smile2') }}" alt="" /></a>
+				<a href="#" title=":P"><img src="{{ static('smiley', 'icon_tongue') }}" alt="" /></a>
+			</div>
+		</dt>
+		<dd><textarea class="post-editor shadow-light" name="post_text" rows="10" style="padding: 2px; width: 550px;"></textarea></dd>
+	</dl>
+	<dl>
+		<dt></dt>
+		<dd><input class="btn btn-primary" type="submit" name="submit" value="{{ lang.SEND }}" /></dd>
+	</dl>
+</fieldset>
+</form>
+
+<script type="text/javascript" src="{{ static('js', 'jquery.markitup') }}"></script>
+<script type="text/javascript">
+var editorSettings = {
+  markupSet: [
+    { id: 'bold', name: 'Полужирный', key: 'B', openWith: '[b]', closeWith: '[/b]' },
+    { id: 'italic', name: 'Курсив', key:'I', openWith: '[i]', closeWith: '[/i]' },
+    { id: 'underline', name: 'Подчеркнутый', key: 'U', openWith: '[u]', closeWith: '[/u]' },
+    { separator: true },
+    { id: 'align-left', name: 'Выровнять текст по левому краю', openWith: '[align=left]', closeWith: '[/align]' },
+    { id: 'align-center', name: 'Выровнять текст по центру', openWith: '[align=center]', closeWith: '[/align]' },
+    { id: 'align-right', name: 'Выровнять текст по правому краю', openWith: '[align=right]', closeWith: '[/align]' },
+    { id: 'align-justify', name: 'Выровнять текст по ширине', openWith: '[align=justify]', closeWith: '[/align]' },
+    { separator: true },
+    { id: 'list', name: 'Маркированный список', openWith: '[list]\n', closeWith: '\n[/list]' },
+    { id: 'list-order', name: 'Нумерованный список', openWith: '[list=1]\n', closeWith: '\n[/list]' },
+    { id: 'list-entry', name: 'Элемент списка', openWith: '[*] ' },
+    { separator: true },
+    { id: 'image', name: 'Изображение', key: 'R', openWith: '[img]', closeWith: '[/img]' },
+    { id: 'url', name: 'Ссылка', key: 'W', openWith: '[url]', closeWith: '[/url]' },
+    { id: 'quote', name: 'Цитата', openWith: '[quote]', closeWith: '[/quote]' },
+    { id: 'code', name: 'Код', openWith: '[code]', closeWith: '[/code]' },
+    { id: 'spoiler', name: 'Спойлер', key: 'S', openWith: '[spoiler="скрытый текст"]', closeWith: '[/spoiler]' }
+  ]
+}
+
+$(document).ready(function() {
+  $('.post-editor').markItUp(editorSettings);
+});
+
+$('.smilies a').click(function() {
+  smiley = $(this).attr('title');
+  $.markItUp( { replaceWith: ' ' + smiley } );
+  return false;
+});
+</script>

@@ -1,0 +1,34 @@
+{% if EDIT_FORM %}
+<form method="post">
+<textarea class="shadow-light quickedit" id="comment_{{ COMMENT_ID }}_textarea">{{ COMMENT_TEXT }}</textarea><br />
+<div align="center">
+	<input class="btn btn-primary" type="button" onclick="submit_changes({{ COMMENT_ID }});" style="width: 100px;" value="{{ lang.SAVE }}" /> &nbsp;
+	<input class="btn btn-negative" type="button" onclick="cancel_changes({{ COMMENT_ID }});" style="width: 100px;" value="{{ lang.CANCEL }}" />
+</div>
+</form>
+{% elseif SEND_TEXT %}
+{{ TEXT }}
+{% else %}
+<script type="text/javascript">
+// <![CDATA[
+{% if S_DELETE %}
+function quick_delete(id) {
+  if( confirm('{{ lang.DELETE_CONFIRM }}') ) {
+    window.location = '{{ U_DELETE }}';
+  }
+}
+{% endif %}
+{% if S_EDIT %}
+function quick_edit(id) {
+  $.post(encodeURI('{{ U_QUICKEDIT }}'), { comment_id: id }, function(data) { $('#comment_' + id).html(data); });
+}
+function cancel_changes(id) {
+  $.post(encodeURI('{{ U_QUICKEDIT }}'), { button: 'cancel', comment_id: id }, function(data) { $('#comment_' + id).html(data); });
+}
+function submit_changes(id) {
+  $.post(encodeURI('{{ U_QUICKEDIT }}'), { button: 'submit', comment_id: id, post_text: $('#comment_' + id + '_textarea').val() }, function(data) { $('#comment_' + id).html(data); });
+}
+{% endif %}
+// ]]>
+</script>
+{% endif %}

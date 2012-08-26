@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% for row in games %}
+	{% if loop.index0 is divisibleby(4) %}
+		<div class="row">
+	{% endif %}
+	<div class="span3 t-center">
+		<p><a href="{{ row.U_DETAIL }}"><img src="{{ static('i', 'games/_covers/' ~ row.COVER, 'gif') }}" alt=""></a></p>
+		<p><a href="{{ row.U_DETAIL }}"><b>{{ row.TITLE }}</b></a></p>
+	</div>
+	{% if loop.index is divisibleby(4) or loop.last %}
+		</div><br>
+	{% endif %}
+{% endfor %}
+{% endblock %}

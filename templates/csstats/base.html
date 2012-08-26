@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content_header %}
+<style type="text/css">
+.bubble-bg { padding: 3px 12px 5px; }
+
+#csstats .ct { background: #d2e0ff; }
+#csstats .ct a:hover { color: #0080aa; }
+#csstats .ct-bgcolor { background-color: #0080aa; }
+#csstats .ct-color { color: #0080aa; }
+#csstats .ct-overall { background: #d2e0ff; border-top: 1px solid #0080aa; }
+#csstats .ct-overall td { padding: 5px 0; }
+#csstats .t { background: #ffc0c0; }
+#csstats .t a:hover { color: #ff4142; }
+#csstats .t-bgcolor { background-color: #ff4142; }
+#csstats .t-color { color: #ff4142; }
+#csstats .t-overall { background: #ffc0c0; border-top: 1px solid #ff8d8d; }
+#csstats .t-overall td { padding: 5px 0; }
+
+#csstats h2 { border: 0; }
+#csstats p { margin-bottom: 4px; }
+#csstats .bar { border: 1px solid silver; float: none !important; height: 11px; width: 250px; margin-bottom: 6px; }
+#csstats .bar span { display: block; height: 100%; }
+#csstats .faq h2 { border-bottom: 4px solid silver; }
+#csstats .data { border: 1px solid silver; border-collapse: collapse; font-size: 12px; }
+#csstats .data td { border: 1px solid silver; padding: 5px; }
+#csstats .data th { background-color: #dce1e5; border: 1px solid silver; padding: 4px; }
+#csstats .data u { display: none; }
+#csstats .servers { border: 1px solid silver; border-collapse: collapse; font-size: 12px; }
+#csstats .servers td { border: 0; padding: 3px 0; }
+#csstats .servers th { background-color: #dce1e5; border: 1px solid silver; padding: 4px; }
+#csstats .tab { background: #e5ecf9 none repeat scroll 0 0; margin-right: 3px; padding: 5px 13px 3px 13px; white-space: nowrap; }
+#csstats .tab a, #csstats .tab-active a { color: black; font-weight: bold; }
+#csstats .tab-active, #csstats .tab:hover { background: #c3d9ff none repeat scroll 0 0; margin-right: 3px; padding: 5px 13px 3px 13px; white-space: nowrap; }
+#csstats .tabs { font-size: 12px; }
+</style>
+
+{% include "block/submenu.html" %}
+
+<br />
+
+<div id="csstats">
+{% endblock %}
+
+{% block content_footer %}
+</div>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>{{ lang.GALLERY }}</h2>
+<div class="row">
+	<div class="span3">
+		<h4>Всего изображений</h4>
+		<p><img src="{{ static('i', '_/images') }}" alt=""> {{ TOTAL_IMAGES }}</p>
+	</div>
+	<div class="span3">
+		<h4>Занимаемый объём</h4>
+		<p><img src="{{ static('i', '_/chart_pie') }}" alt=""> {{ TOTAL_SIZE }}</p>
+	</div>
+	<div class="span3">
+		<h4>Просмотров</h4>
+		<p><img src="{{ static('i', '_/eye') }}" alt=""> {{ TOTAL_VIEWS }}</p>
+	</div>
+	<div class="span3">
+		<h4>Общий трафик</h4>
+		<p><img src="{{ static('i', '_/traffic_light') }}" alt=""> {{ TOTAL_TRAFFIC }}</p>
+	</div>
+</div>
+
+<br>
+
+<table class="b-center table-stats ui-shadow-light">
+	<thead>
+	<tr>
+		<th class="number">#</th>
+		<th>Пользователь</th>
+		<th class="number">Просмотров <img src="{{ static('i', '_/arrow_270') }}" alt="" /></th>
+		<th class="number">Изображений</th>
+		<th class="number">Размер</th>
+	</tr>
+	</thead>
+	{% for row in users %}
+	<tr>
+		<td class="number">{{ loop.index }}</td>
+		<td><b>{{ row.PROFILE }}</b></td>
+		<td class="number">{{ row.VIEWS }}</td>
+		<td class="number">{{ row.IMAGES }}</td>
+		<td class="number">{{ row.SIZE }}</td>
+	</tr>
+	{% endfor %}
+</table>
+{% endblock %}

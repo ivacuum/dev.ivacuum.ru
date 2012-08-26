@@ -1,0 +1,41 @@
+<p class="t-center">
+	<button class="btn btn-primary btn-large" id="close_images_links"><img src="{{ static('i', '_/magnifier') }}" alt=""> Продолжить просмотр</button>
+</p>
+
+<div class="row">
+	<div class="span8 offset2">
+		{% if FILES >= 2 %}
+			<h3>Ссылки на все картинки</h3>
+			<label>Ссылка:<textarea class="span8" style="height: {{ FILES * 20 }}px;">{% for row in files %}http://img.ivacuum.ru/g/{{ row.DATE }}/{{ row.URL }}{% if not loop.last %}&#10;{% endif %}{% endfor %}</textarea></label>
+			<label>Полная картинка:<input type="text" class="span8" value="{% for row in files %}[img]http://img.ivacuum.ru/g/{{ row.DATE }}/{{ row.URL }}[/img] {% endfor %}"></label>
+			{% if FILES_THUMB > 0 %}
+				<label>Превью - увеличение по клику:<input type="text" class="span8" value="{% for row in files %}[url=http://ivacuum.ru/галерея/просмотр/{{ row.ID }}.html][img]http://img.ivacuum.ru/g/{{ row.DATE }}/s/{{ row.URL }}[/img][/url] {% endfor %}"></label>
+			{% endif %}
+		{% endif %}
+
+		<h3>Индивидуальные ссылки</h3>
+		{% for row in files %}
+			<div class="row">
+				<div class="span2 t-center">
+					<p><img class="ui-shadow-med" src="{{ cfg.gallery_path }}/{{ row.DATE }}/t/{{ row.URL }}" alt=""></p>
+				</div>
+				<div class="span6">
+					<label>Ссылка:<input type="text" class="span6" value="http://img.ivacuum.ru/g/{{ row.DATE }}/{{ row.URL }}"></label>
+					<label>Полная картинка:<input type="text" class="span6" value="[img]http://img.ivacuum.ru/g/{{ row.DATE }}/{{ row.URL }}[/img]"></label>
+					{% if row.THUMB %}
+						<label>Превью - увеличение по клику:<input type="text" class="span6" value="[url=http://ivacuum.ru/галерея/просмотр/{{ row.ID }}.html][img]http://img.ivacuum.ru/g/{{ row.DATE }}/s/{{ row.URL }}[/img][/url]"></label>
+					{% endif %}
+				</div>
+			</div>
+			<hr>
+		{% endfor %}
+	</div>
+</div>
+
+<script>
+$(document).ready(function() {
+	$('#images_links input[type=text], #images_links textarea').bind('click', function() {
+		highlight(this);
+	});
+});
+</script>

@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>{{ lang.STATS }}</h2>
+<ol>
+	{% for row in pages %}
+		<li><img src="{{ static('i', '_/' ~ row.IMAGE) }}" alt=""> <a href="{{ row.U_VIEW }}">{{ row.TITLE }}</a></li>
+	{% endfor %}
+</ol>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "memcache_base.html" %}
+
+{% block content %}
+<table class="table-stats b-center">
+	<thead>
+	<tr>
+		<th>Attribute</th>
+		<th>Value</th>
+	</tr>
+	</thead>
+	<tbody>
+	<tr>
+		<td>Info</td>
+		<td>{{ KEY }}</td>
+	</tr>
+	<tr>
+		<td>Flag</td>
+		<td>{{ FLAG }}</td>
+	</tr>
+	<tr>
+		<td>Size</td>
+		<td>{{ SIZE }}</td>
+	</tr>
+	<tr>
+		<td colspan="2"><pre>{{ VALUE }}</pre></td>
+	</tr>
+	</tbody>
+</table>
+{% endblock %}

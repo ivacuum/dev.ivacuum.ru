@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block content %}
+</div>
+
+<div class="t-center">
+	<img class="ui-shadow-med" src="{{ cfg.gallery_path }}/{{ DATE }}/{{ URL }}" id="image_to_scale">
+</div>
+
+<div class="container">
+
+<br>
+
+<div class="row" id="images_links">
+	<div class="span6 offset3">
+		<label>Ссылка:<input type="text" class="span6" value="http://img.ivacuum.ru/g/{{ DATE }}/{{ URL }}"></label>
+		<label>Полная картинка:<input type="text" class="span6" value="[img]http://img.ivacuum.ru/g/{{ DATE }}/{{ URL }}[/img]"></label>
+		{% if THUMB %}
+			<label>Превью - увеличение по клику:<input type="text" class="span6" value="[url=http://ivacuum.ru/галерея/просмотр/{{ ID }}.html][img]http://img.ivacuum.ru/g/{{ DATE }}/s/{{ URL }}[/img][/url]"></label>
+		{% endif %}
+	</div>
+</div>
+
+<script>
+var S_DISABLE_GALLERY = true;
+
+$(document).ready(function() {
+	$('#image_to_scale').load(function() {
+		$.scrollTo('#image_to_scale', 800, { offset: -40 });
+		scale_image('image_to_scale');
+	});
+
+	$('#images_links input[type=text], #images_links textarea').bind('click', function() {
+		highlight(this);
+	});
+});
+
+function scale_image(id) {
+  var image = $('#' + id);
+
+  var h = image.height();
+  var w = image.width();
+  
+  var dw = $('body').width();
+
+  if( dw >= w ) {
+    return;
+  }
+
+  image.hover(function() {
+    $(this).css('cursor', 'pointer');
+  }, function() {
+    $(this).css('cursor', 'default');
+  });
+
+  var new_height = dw / w * h;
+
+  if( !$.browser.msie ) {
+    image.animate({ height: new_height, width: dw }, 800);
+  } else {
+    image.attr('width', dw).attr('height', new_height);
+  }
+
+  image.click(function() {
+    if( dw == image.attr('width') ) {
+      image.animate({ height: h, width: w }, 800);
+    } else {
+      image.animate({ height: new_height, width: dw }, 800);
+    }
+  });
+}
+</script>
+{% endblock %}

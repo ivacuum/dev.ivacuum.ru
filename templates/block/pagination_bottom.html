@@ -1,0 +1,14 @@
+{% if pagination and pagination.PAGES > 1 %}
+<script type="text/javascript">var S_NAVIGATE_PAGES = true;</script>
+
+<form action="{{ pagination.URL }}" method="post" style="margin: 0;">
+	<div class="pull-right">
+		{{ lang.GO_TO_PAGE }}
+		{% if pagination.PREV %}<a class="btn btn-mini" href="{{ pagination.PREV }}"><i class="icon-arrow-left"></i></a>{% endif %}
+		<input type="text" name="{{ pagination.VAR }}" value="{{ pagination.PAGE }}" style="display: inline-block; width: 2em;" onclick="highlight(this);">
+		{{ lang.OF }} {{ pagination.PAGES }}
+		{% if pagination.NEXT %}<a class="btn btn-mini" href="{{ pagination.NEXT }}"><i class="icon-arrow-right"></i></a>{% endif %}
+	</div>
+</form>
+<div class="clearfix"></div>
+{% endif %}

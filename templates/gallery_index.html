@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+	<div class="span3">
+		<h4>Изображений</h4>
+		<p><img src="{{ static('i', '_/images') }}" alt=""> {{ TOTAL_IMAGES }}</p>
+	</div>
+	<div class="span3">
+		<h4>Общий размер</h4>
+		<p><img src="{{ static('i', '_/chart_pie') }}" alt=""> {{ TOTAL_SIZE }}</p>
+	</div>
+	<div class="span3">
+		<h4>Просмотров</h4>
+		<p><img src="{{ static('i', '_/eye') }}" alt=""> {{ TOTAL_VIEWS }}</p>
+	</div>
+	<div class="span3">
+		<h4>Общий трафик</h4>
+		<p><img src="{{ static('i', '_/traffic_light') }}" alt=""> {{ TOTAL_TRAFFIC }}</p>
+	</div>
+</div>
+
+<br>
+
+<div id="pagination" style="display: none;">
+	{% include "block/pagination_top.html" %}
+</div>
+
+<div class="row">
+	<div class="span6 offset4">
+		<div class="btn-group">
+			<button class="btn btn-large" id="get_images_links"><img src="{{ static('i', '_/images') }}" alt=""> Получить ссылки</button>
+			<button class="btn btn-large" id="delete_images"><img src="{{ static('i', '_/cross_script') }}" alt=""> Удалить картинки</button>
+		</div>
+	</div>
+</div>
+
+<br>
+
+<table class="table table-bordered ui-shadow-light" id="gallery">
+	<tbody>
+	{% for row in images %}
+		{% if loop.index0 is divisibleby(4) %}
+			<tr>
+		{% endif %}
+		<td data-id="{{ row.ID }}" id="image{{ row.ID }}" style="text-align: center; vertical-align: bottom;">
+			<p><a href="{{ row.U_PREVIEW }}"><img class="ui-shadow-med" src="{{ cfg.gallery_path }}/{{ row.DATE }}/t/{{ row.URL }}" alt=""></a></p>
+			<div>
+				<img src="{{ static('i', '_/eye') }}" alt=""> {{ row.VIEWS }}
+				<br><img src="{{ static('i', '_/calendar_day') }}" alt=""> {{ row.TIME }}
+				{% if row.OUTDATE %}
+					<br><img src="{{ static('i', '_/exclamation_button') }}" alt=""> {{ row.OUTDATE }}
+				{% endif %}
+			</div>
+		</td>
+		{% if loop.index is divisibleby(4) or loop.last %}
+			</tr>
+		{% endif %}
+	{% else %}
+		<tr>
+			<td class="t-center">Вы не загрузили ни одного изображения</td>
+		</tr>
+	{% endfor %}
+	</tbody>
+</table>
+
+<div id="images_links"></div>
+
+<script type="text/javascript">
+var g_loading = false;
+var S_DISABLE_GALLERY = true;
+var images_id;
+
+$(document).ready(function() {
+  /**
+  * Выбор изображений
+  */
+  $('#gallery').selectable({
+    cancel: ':input,option,a',
+    filter: 'td',
+    stop: function() {
+      images_id = [];
+      $('.ui-selected', this).each(function() {
+        images_id.push($(this).data('id'));
+      });
+    }
+  });
+});
+
+/**
+* Удаление картинок
+*/
+$('#delete_images').bind('click', function() {
+ 	$(this).blur();
+
+	if( images_id.length > 0 ) {
+		if( confirm('Вы действительно хотите удалить картинки?') ) {
+			$.post(encodeURI('{{ U_DELETE }}'), { images_id: images_id.join() }, function() {
+				window.location = '{{ U_REFRESH }}';
+			});
+		}
+	} else {
+		alert('Вы не выбрали ни одного файла');
+	}
+});
+
+/**
+* Получение ссылок
+*/
+$('#get_images_links').bind('click', function() {
+  $(this).blur();
+  g_loading = true;
+
+  if( images_id.length > 0 ) {
+    $.post(encodeURI('{{ U_LINKS }}'), { images_id: images_id.join() }, function(data) { $('#images_links').empty().hide().html(data).fadeIn('slow'); $.scrollTo('#images_links', 800); });
+  }
+});
+
+/**
+* Дозагрузка изображений
+*/
+$(document).bind('get_more_images', function(e) {
+  var url =  $('#next_page').attr('href');
+
+  if( !g_loading && url ) {
+    $('#pagination').remove();
+
+    g_loading = true;
+    $.get(encodeURI(url), function(data) { $('#gallery').append(data); g_loading = false; });
+  }
+});
+
+/**
+* Реагирование на прокрутку окна
+*/
+$(document).bind('on_scroll_gallery', function(e) {
+  var position = $(window).height() + $(window).scrollTop();
+  var bottom = parseInt($('#images_links').offset().top);
+
+  if( !g_loading && position > (bottom - 50) ) {
+    $(document).trigger('get_more_images');
+  }
+});
+
+/**
+* Прокрутка окна
+*/
+$(window).bind('scroll', function(e) {
+  $(document).trigger('on_scroll_gallery');
+});
+
+/**
+* Продолжение обзора галереи
+*/
+$('#close_images_links').live('click', function(e) {
+  g_loading = false;
+  $('#images_links').empty();
+});
+</script>
+{% endblock %}

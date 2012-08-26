@@ -1,0 +1,122 @@
+{% spaceless %}
+<!DOCTYPE html>
+<html dir="{{ S_LANGUAGE_DIRECTION }}" lang="{{ S_LANGUAGE }}">
+<head>
+<meta charset="utf-8">
+<title>{% for row in nav_links %}{{ row.TEXT }}{% if not loop.last %} &raquo; {% else %}. {% endif %}{% endfor %}{{ cfg.sitename }}</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="copyright" content="{{ S_YEAR }} vacuum">
+{% if page.page_noindex %}
+	<meta name="robots" content="noindex, nofollow">
+{% endif %}
+<meta name="keywords" content="{{ page.page_keywords }}">
+<meta name="description" content="{{ page.page_description }}">
+{{ META }}
+{% for row in rss %}
+	<link rel="alternate" type="application/rss+xml" title="{{ row.TITLE }}" href="{{ row.URL }}">
+{% endfor %}
+<link rel="shortcut icon" href="{{ static('i', '_/home') }}">
+<link rel="stylesheet" href="{{ static('i', 'bootstrap/' ~ cfg.bootstrap_version ~ '/style', 'css') }}">
+<link rel="stylesheet" href="{{ static('i', 'bootstrap/' ~ cfg.bootstrap_version ~ '/expansion.css?mtime=' ~ S_STYLE_MTIME, '') }}">
+
+<script>var g_local = {% if S_ISP == 'local' %}true{% else %}false{% endif %};</script>
+<script src="{{ static('js', 'jquery/' ~ cfg.jquery_version ~ '/jquery.min') }}"></script>
+<script src="{{ static('js', 'hs.min') }}"></script>
+<script src="{{ static('i', 'bootstrap/' ~ cfg.bootstrap_version ~ '/plugins.js?mtime=' ~ S_BASE_JS_MTIME, '') }}"></script>
+<script src="{{ static('js', 'base.js?mtime=' ~ S_MAIN_JS_MTIME, '') }}"></script>
+</head>
+<body class="{{ S_LANGUAGE_DIRECTION }}">
+<div class="navbar navbar-fixed-top">
+	<div class="navbar-inner">
+		<div class="container">
+			<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</a>
+			<a class="brand" href="{{ U_INDEX }}">{{ cfg.sitename }}</a>
+			<div class="nav-collapse">
+				<ul class="nav">
+				{% for row in menu %}
+					{% if row.children %}
+						<li class="dropdown{% if row.ACTIVE %} active{% endif %}"><a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ row.TITLE }} <b class="caret"></b></a>
+							<ul class="dropdown-menu">
+							{% for row in row.children %}
+								<li><a href="{{ row.URL }}">{{ row.TITLE }}</a></li>
+							{% endfor %}
+							</ul>
+						</li>
+					{% else %}
+						<li{% if row.ACTIVE %} class="active"{% endif %}><a href="{{ row.URL }}">{{ row.TITLE }}</a></li>
+					{% endif %}
+				{% endfor %}
+				</ul>
+				{% if S_USER_REGISTERED %}
+					<ul class="nav pull-right">
+						<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="{{ S_OPENID_PROVIDER ? static('i', 'openid/' ~ S_OPENID_PROVIDER) : static('i', '_/user_guest_question') }}" alt=""> {{ S_USERNAME }} <b class="caret"></b></a>
+							<ul class="dropdown-menu">
+								<li><a href="https://lk.beeline.ru/">Личный Кабинет «Билайн»</a></li>
+								<li><a href="http://portal.klg.corbina.net/">Портал Корбины</a></li>
+								<li class="divider"></li>
+								<li><a href="//ivacuum.ru/ucp/logout.html?goto={{ U_THIS_PAGE }}">{{ lang.SIGNOUT }}</a></li>
+							</ul>
+						</li>
+						{% if languages %}
+							<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="{{ static('flag16', S_LANGUAGE) }}" alt="">&nbsp;<b class="caret"></b></a>
+								<ul class="dropdown-menu">
+									{% for row in languages %}
+										<li><a href="{{ row.URL }}"><img src="{{ static('flag16', row.IMG) }}" alt=""> &nbsp;{{ row.NAME }}</a></li>
+									{% endfor %}
+								</ul>
+							</li>
+						{% endif %}
+					</ul>
+				{% else %}
+					<ul class="nav pull-right">
+						<li><a href="/ucp/login.html?goto={{ U_THIS_PAGE }}">{{ lang.LOGIN }}</a></li>
+						<li><a href="/ucp/register.html">{{ lang.REGISTER }}</a></li>
+					</ul>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+</div>
+<div class="container">
+	{% block breadcrumbs %}
+		<ul class="breadcrumb ui-shadow-extralight">
+			<li><a href="{{ U_INDEX }}">{{ lang.INDEX_PAGE }}</a></li>
+			{% for row in nav_links %}
+				<span class="divider">&rarr;</span>
+				{% if not loop.last %}
+					<a href="{{ row.URL }}">{{ row.TEXT }}</a>
+				{% else %}
+					<span>{{ row.TEXT }}</span>
+				{% endif %}
+			{% endfor %}
+		</ul>
+	{% endblock %}
+	{% endspaceless %}
+	{% block content_header %}{% endblock %}
+	{% block content %}{% endblock %}
+	{% block content_footer %}{% endblock %}
+	{% spaceless %}
+	<footer>
+		<p class="pull-right"><a href="mailto:{{ cfg.email_support }}">{{ lang.FEEDBACK }}</a></p>
+		<p>&copy; {{ S_YEAR }} vacuum</p>
+	</footer>
+</div>
+
+{% if S_ISP == 'internet' %}
+<!--LiveInternet counter--><script type="text/javascript"><!--
+document.write("<img src='http://counter.yadro.ru/hit?r"+
+escape(document.referrer)+((typeof(screen)=="undefined")?"":
+";s"+screen.width+"*"+screen.height+"*"+(screen.colorDepth?
+screen.colorDepth:screen.pixelDepth))+";u"+escape(document.URL)+
+";"+Math.random()+
+"' width=1 height=1 alt=''>")//--></script><!--/LiveInternet-->
+
+<!-- Yandex.Metrika counter --><div style="display:none;"><script type="text/javascript">(function(w, c) { (w[c] = w[c] || []).push(function() { try { w.yaCounter5266444 = new Ya.Metrika({id:5266444, clickmap:true, accurateTrackBounce:true, webvisor:true}); } catch(e) { } }); })(window, "yandex_metrika_callbacks");</script></div><script src="//mc.yandex.ru/metrika/watch.js" type="text/javascript" defer="defer"></script><noscript><div><img src="//mc.yandex.ru/watch/5266444" style="position:absolute; left:-9999px;" alt="" /></div></noscript><!-- /Yandex.Metrika counter -->
+{% endif %}
+</body>
+</html>
+{% endspaceless %}

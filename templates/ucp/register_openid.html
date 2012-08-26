@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+	<div class="span4">&nbsp;</div>
+	<div class="span8">
+		<div class="page-header">
+			<h3>Вы уже регистрировались на сайте ivacuum.ru?</h3>
+		</div>
+		<form action="{{ U_ACTION }}" method="post">
+		<p>Очень скоро вы сможете авторизовываться на ivacuum.ru без пароля.</p>
+		<p><input class="btn" type="submit" name="new_user" value="Я новый пользователь" id="new_user"> &nbsp; <input class="btn" type="submit" name="have_one" value="У меня уже есть логин" id="have_one"></p>
+		</form>
+	</div>
+		{#
+		<form action="{{ U_ACTION }}" method="post" id="register_form">
+			{% if MESSAGE %}
+				<div class="alert-message" data-alert="alert">
+					<a class="close" href="#">&times;</a>
+					<p>{{ MESSAGE }}</p>
+				</div>
+			{% endif %}
+			<div class="clearfix">
+				<input name="username" id="username" type="text" value="{{ USERNAME }}" placeholder="{{ lang.USERNAME }}">
+			</div>
+			<div class="clearfix">
+				<input name="email" id="email" type="text" value="{{ EMAIL }}" placeholder="{{ lang.EMAIL }}">
+			</div>
+			<div class="clearfix">
+				<input name="password" id="password" type="password" value="{{ PASSWORD }}" placeholder="{{ lang.PASSWORD }}">
+			</div>
+			<div class="clearfix">
+				<input class="btn primary large" type="submit" name="submit" value="{{ lang.REGISTER }}">
+			</div>
+			{{ S_HIDDEN_FIELDS }}
+		</form>
+		#}
+</div>
+{% endblock %}

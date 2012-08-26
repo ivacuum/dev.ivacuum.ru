@@ -1,0 +1,119 @@
+{% extends "csstats/base.html" %}
+
+{% block content %}
+<table align="center" cellpadding="0" cellspacing="0" class="shadow-light" width="920">
+	<tr>
+		<td>
+			<table class="servers" width="100%">
+				<tr>
+					<th width="32%">Сервер</th>
+					<th width="18%">Адрес</th>
+					<th width="12%">Карта</th>
+					<th width="10%">Сыграно</th>
+					<th width="8%">Игроки</th>
+					<th width="10%">Фраги</th>
+					<th width="10%">Хэды</th>
+				</tr>
+				<tr>
+					<td style="padding-left: 7px;"><img src="{{ static('i', 'games/_icons/cstrike') }}" alt="" /> <b>{NAME}</b></td>
+					<td align="center">{{ ADDRESS }}</td>
+					<td align="center"><a href="{{ U_MAP }}"><b>{{ MAP }}</b></a></td>
+					<td align="center">{{ PLAYED }}</td>
+					<td align="center">{{ ACT_PLAYERS }}/{{ MAX_PLAYERS }}</td>
+					<td align="center">{{ KILLS }}</td>
+					<td align="center">{{ HEADSHOTS }}</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+</table>
+
+<br />
+
+<div class="b-center" style="width: 920px;">
+	<table cellpadding="4" cellspacing="0" width="100%">
+		<tr>
+			<td width="15%"></td>
+			<td align="center" valign="top">
+				<div class="bubble-bg shadow-light ui-corner-all">
+					<h2>Текущая карта:</h2>
+					{% if MAP %}
+					<p class="t-center"><img class="shadow-med" src="{{ static('i', 'games/cstrike/maps/' ~ MAP, 'jpg') }}" alt="{{ MAP }}" title="{{ MAP }}" /></p>
+					<p class="t-center"><a href="{{ U_MAP }}"><b>{{ MAP }}</b></a></p>
+					{% else %}
+					<p class="t-center"><i>неизвестна</i></p>
+					{% endif %}
+				</div>
+			</td>
+			<td width="2%"></td>
+			<td align="center" valign="top">
+				<div class="bubble-green-bg shadow-light ui-corner-all">
+					<h2>Следующая карта:</h2>
+					{% if NEXTMAP %}
+					<p class="t-center"><img class="shadow-med" src="{{ static('i', 'games/cstrike/maps/' ~ NEXTMAP, 'jpg') }}" alt="{{ NEXTMAP }}" title="{{ NEXTMAP }}" /></p>
+					<p class="t-center"><a href="{{ U_NEXTMAP }}"><b>{{ NEXTMAP }}</b></a></p>
+					{% else %}
+					<p class="t-center"><i>неизвестна</i></p>
+					{% endif %}
+				</div>
+			</td>
+			<td width="15%"></td>
+		</tr>
+	</table>
+</div>
+
+<br />
+
+<div class="b-center bubble-gray-bg shadow-light ui-corner-all" style="width: 615px;">
+	<table cellpadding="4" cellspacing="0" width="100%">
+		<tr>
+			<td align="center" colspan="3"><h2>Установленные карты</h2></td>
+		</tr>
+		{% for row in maplist %}
+		<tr>
+			<td align="right" width="49%"><a href="{{ row.U_MAPINFO }}"><b>{{ row.NAME }}</b></a></td>
+			<td width="2%"></td>
+			<td width="49%">{{ row.LAST_TIME }}</td>
+		</tr>
+		{% endfor %}
+	</table>
+</div>
+
+<br />
+
+<div class="b-center bubble-gray-bg shadow-light ui-corner-all" style="width: 615px;">
+	<table cellpadding="4" cellspacing="0" width="100%">
+		<tr>
+			<td align="center" colspan="3"><h2>Статистика сервера</h2></td>
+		</tr>
+		<tr>
+			<td valign="top" width="38%">
+				<p>Сыграно карт: <b>{{ MAP_CHANGES }}</b></p>
+				<p>Сыграно раундов: <b>{{ ROUNDS }}</b></p>
+			</td>
+			<td valign="top" width="37%">
+				<p>Побед <span class="ct-color"><b>CT</b></span>: <b>{{ CT_WINS }}</b></p>
+				<p>Побед <span class="t-color"><b>T</b></span>: <b>{{ T_WINS }}</b></p>
+				<p>Бомб разминировано: <b>{{ BOMBS_DEFUSED }}</b></p>
+				<p>Бомб взорвано: <b>{{ BOMBS_PLANTED }}</b></p>
+			</td>
+			<td valign="top" width="25%">
+				<p>Slaps: <b>{{ SLAPS }}</b></p>
+				<p>Slays: <b>{{ SLAYS }}</b></p>
+				<p>Kicks: <b>{{ KICKS }}</b></p>
+			</td>
+		</tr>
+	</table>
+</div>
+
+<br />
+
+<!-- <div class="b-center t-center" style="width: 920px;">
+	<h2>Посещаемость за последние сутки</h2>
+	<img src="/includes/csstats/graph.php?server_id={ID}" alt="" width="900" height="200" /><br /><br />
+	<h2>За последнюю неделю</h2>
+	<img src="/includes/csstats/graph.php?server_id={ID}&range=2" alt="" width="900" height="200" /><br /><br />
+	<h2>За последний месяц</h2>
+	<img src="/includes/csstats/graph.php?server_id={ID}&range=3" alt="" width="900" height="200" />
+</div> -->
+{% endblock %}

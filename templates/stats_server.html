@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h3>MySQL сервер работает {{ UPTIME }}</h3>
+<p><img src="{{ static('i', '_/traffic_light') }}" alt=""> <b>Трафик:</b> эти таблицы показывают статистику по сетевому трафику MySQL сервера со времени его запуска.</p>
+
+<div class="row">
+	<div class="span4">
+		<table class="table-stats ui-shadow-light">
+			<thead>
+				<tr>
+					<th colspan="2">Трафик</th>
+					<th>&oslash; в час</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td><b>Принято:</b></td>
+					<td>{{ BYTES_RECEIVED }}</td>
+					<td>{{ BYTES_RECEIVED_PER_HOUR }}</td>
+				</tr>
+				<tr>
+					<td><b>Послано:</b></td>
+					<td>{{ BYTES_SENT }}</td>
+					<td>{{ BYTES_SENT_PER_HOUR }}</td>
+				</tr>
+				<tr>
+					<td><b>Всего:</b></td>
+					<td>{{ BYTES_OVERALL }}</td>
+					<td>{{ BYTES_OVERALL_PER_HOUR }}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="span6">
+		<table class="table-stats ui-shadow-light">
+			<thead>
+				<tr>
+					<th colspan="2">Соединения</th>
+					<th>&oslash; в час</th>
+					<th>%</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td><b>Неудачные попытки:</b></td>
+					<td>{{ ABORTED_CONNECTS }}</td>
+					<td>{{ ABORTED_CONNECTS_PER_HOUR }}</td>
+					<td>{{ ABORTED_CONNECTS_PERCENT }} %</td>
+				</tr>
+				<tr>
+					<td><b>Отменены:</b></td>
+					<td>{{ ABORTED_CLIENTS }}</td>
+					<td>{{ ABORTED_CLIENTS_PER_HOUR }}</td>
+					<td>{{ ABORTED_CLIENTS_PERCENT }} %</td>
+				</tr>
+				<tr>
+					<td><b>Всего:</b></td>
+					<td>{{ CONNECTIONS }}</td>
+					<td>{{ CONNECTIONS_PER_HOUR }}</td>
+					<td>100.00 %</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<br>
+<h3>С момента запуска сервера было послано запросов: {{ QUERIES }}</h3>
+<p><img src="{{ static('i', '_/sql') }}" alt=""> <b>Статистика запросов:</b> эта таблица показывает статистику по запросам, произведенным в базе данных.</p>
+
+<table class="table-stats ui-shadow-light">
+	<thead>
+		<tr>
+			<th>Всего</th>
+			<th>&oslash; в час</th>
+			<th>&oslash; в минуту</th>
+			<th>&oslash; в секунду</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>{{ QUERIES }}</td>
+			<td>{{ QUERIES_PER_HOUR }}</td>
+			<td>{{ QUERIES_PER_MINUTE }}</td>
+			<td>{{ QUERIES_PER_SECOND }}</td>
+		</tr>
+	</tbody>
+</table>
+</li>
+</ul>
+{% endblock %}

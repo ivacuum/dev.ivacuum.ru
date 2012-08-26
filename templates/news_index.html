@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% include "block/pagination_top.html" %}
+
+{% for row in news %}
+	<div class="row">
+		<div class="span12">
+			<h2>{{ row.TITLE }}</h2>
+			<div class="row">
+				<div class="span8">
+					<div>{{ row.TEXT }}</div>
+					<p><a href="{{ row.U_COMMENTS }}">{{ lang.GO_TO_COMMENTS }} &rarr;</a></p>
+				</div>
+				<div class="span4">
+					<div class="well">
+						<p><img src="{{ static('i', '_/calendar_day') }}" alt=""> {{ row.TIME }}</p>
+						<p><img src="{{ static('i', '_/eye') }}" alt=""> {{ row.VIEWS }}</p>
+						<p><img src="{{ static('i', '_/balloons') }}" alt=""> <a href="{{ row.U_COMMENTS }}">{{ row.COMMENTS }}</a></p>
+						<p><img src="{{ static('i', '_/user_black') }}" alt=""> {{ row.AUTHOR }}</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<br>
+{% else %}
+	<h3>Новостей за выбранный период нет.</h3>
+{% endfor %}
+
+{% include "block/pagination_bottom.html" %}
+{% endblock %}

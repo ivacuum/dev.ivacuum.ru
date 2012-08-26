@@ -1,0 +1,19 @@
+{% extends "soft/base.html" %}
+
+{% block soft_header %}
+<p class="t-center"><img src="{{ static('i', 'soft/_covers/commfort') }}" alt=""></p>
+
+<h3>Адрес сервера</h3>
+<ul>
+	<li><span style="color: green;">cmf.ivacuum.ru:9750</span></li>
+</ul>
+
+<h3>Скачать клиент</h3>
+<ul>
+	<li><a href="//dl.ivacuum.ru/119/">Commfort 5.20</a></li>
+</ul>
+{% endblock %}
+
+{% block content %}
+<div>{{ page.page_text }}</div>
+{% endblock %}

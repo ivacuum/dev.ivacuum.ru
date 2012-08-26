@@ -1,0 +1,22 @@
+{% for row in images %}
+	{% if loop.index0 is divisibleby(4) %}
+		<tr>
+	{% endif %}
+	<td data-id="{{ row.ID }}" id="image{{ row.ID }}" style="text-align: center; vertical-align: bottom;">
+		<p><a href="{{ row.U_PREVIEW }}"><img class="ui-shadow-med" src="{{ cfg.gallery_path }}/{{ row.DATE }}/t/{{ row.URL }}" alt="" title="" vspace="5" /></a></p>
+		<div>
+			<img src="{{ static('i', '_/eye') }}" alt=""> {{ row.VIEWS }}
+			<br><img src="{{ static('i', '_/calendar_day') }}" alt=""> {{ row.TIME }}
+			{% if row.OUTDATE %}
+				<br><img src="{{ static('i', '_/exclamation_button') }}" alt=""> {{ row.OUTDATE }}
+			{% endif %}
+		</div>
+	</td>
+	{% if loop.index is divisibleby(4) or loop.last %}
+		</tr>
+	{% endif %}
+{% endfor %}
+
+<tr id="pagination" style="display: none;">
+	<td>{% include "block/pagination_top.html" %}</td>
+</tr>

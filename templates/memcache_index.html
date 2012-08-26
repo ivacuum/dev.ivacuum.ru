@@ -1,0 +1,129 @@
+{% extends "memcache_base.html" %}
+
+{% block content %}
+<div class="row">
+	<div class="span5">
+		<h3>General Cache Information</h3>
+		<table class="table-stats ui-shadow-light">
+			<tr>
+				<td>PHP Version</td>
+				<td>{{ PHP_VERSION }}</td>
+			</tr>
+			<tr>
+				<td>Total Memcache Cache</td>
+				<td>{{ LIMIT_MAXBYTES }}</td>
+			</tr>
+		</table>
+
+		<br>
+
+		<h3>Memcache Server Information</h3>
+		{% for row in servers %}
+			<table class="table-stats ui-shadow-light">
+				<thead>
+					<th colspan="2">{{ row.SERVER }}</th>
+				</thead>
+				<tr>
+					<td>Start Time</td>
+					<td>{{ row.START_TIME }}</td>
+				</tr>
+				<tr>
+					<td>Uptime</td>
+					<td>{{ row.UPTIME }}</td>
+				</tr>
+				<tr>
+					<td>Server Version</td>
+					<td>{{ row.VERSION }}</td>
+				</tr>
+				<tr>
+					<td>Used Cache Size</td>
+					<td>{{ row.CACHE_USED }}</td>
+				</tr>
+				<tr>
+					<td>Total Cache Size</td>
+					<td>{{ row.CACHE_TOTAL }}</td>
+				</tr>
+			</table>
+		{% endfor %}
+	</div>
+	<div class="span7">
+		<h3>Host Status Diagrams</h3>
+		<table class="table-stats ui-shadow-light" style="width: 100%;">
+			<thead>
+				<th colspan="2">Cache Usage</th>
+				<th colspan="2">Hits &amp; Misses</th>
+			</thead>
+			<tbody>
+			<tr>
+				<td>Free</td>
+				<td style="width: 35%;">
+					<div class="progress progress-success">
+						<div class="bar" style="width: {{ "%d"|format(MEMORY_FREE_PERCENT) }}%;"></div>
+						<span class="bar-text">{{ MEMORY_FREE_PERCENT }}%</span>
+					</div>
+				</td>
+				<td>Hits</td>
+				<td style="width: 35%;">
+					<div class="progress progress-success">
+						<div class="bar" style="width: {{ "%d"|format(HITS_PERCENT) }}%;"></div>
+						<span class="bar-text">{{ HITS_PERCENT }}%</span>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td>Used</td>
+				<td>
+					<div class="progress progress-danger">
+						<div class="bar" style="width: {{ "%d"|format(MEMORY_USED_PERCENT) }}%;"></div>
+						<span class="bar-text">{{ MEMORY_USED_PERCENT }}%</span>
+					</div>
+				</td>
+				<td>Misses</td>
+				<td>
+					<div class="progress progress-danger">
+						<div class="bar" style="width: {{ "%d"|format(MISSES_PERCENT) }}%;"></div>
+						<span class="bar-text">{{ MISSES_PERCENT }}%</span>
+					</div>
+				</td>
+			</tr>
+			</tbody>
+		</table>
+
+		<br>
+
+		<h3>Cache Information</h3>
+		<table class="table-stats ui-shadow-light">
+			<tbody>
+			<tr>
+				<td>Current Items (total)</td>
+				<td>{{ CURR_ITEMS }} ({{ TOTAL_ITEMS }})</td>
+			</tr>
+			<tr>
+				<td>Hits</td>
+				<td>{{ HITS }}</td>
+			</tr>
+			<tr>
+				<td>Misses</td>
+				<td>{{ MISSES }}</td>
+			</tr>
+			<tr>
+				<td>Request Rate (hits, misses)</td>
+				<td>{{ REQ_RATE }} cache requests/second</td>
+			</tr>
+			<tr>
+				<td>Hit Rate</td>
+				<td>{{ HIT_RATE }} cache requests/second</td>
+			</tr>
+			<tr>
+				<td>Miss Rate</td>
+				<td>{{ MISS_RATE }} cache requests/second</td>
+			</tr>
+			<tr>
+				<td>Set Rate</td>
+				<td>{{ SET_RATE }} cache requests/second</td>
+			</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+{% endblock %}

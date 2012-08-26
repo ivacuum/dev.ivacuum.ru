@@ -1,0 +1,27 @@
+{% extends "memopu3_base.html" %}
+
+{% block content %}
+<div id="quotes">
+	<div id="addquote">
+		<div id="form">
+			<p style="margin: 0 0 10px 0; padding: 0;"></p>
+			<form action="{{ U_ACTION }}" id="quote_add_form" method="post">
+				<textarea cols="40" id="quote_text" name="text" rows="20"></textarea>
+				<input class="btn btn-primary" type="submit" name="submit" value="{{ lang.SEND }}" />
+			</form>
+		</div>
+
+	<blockquote><strong>Это полезно знать:</strong>
+	<p></p>
+	<ol>
+		<li>Ограничение по длине: от 10 до 2000 символов.</li>
+		<li>Не отправляйте баяны и анекдоты — мемориз не для этого.</li>
+		<li>Если таймстампы в цитате не несут смысловой нагрузки, убирайте их, пожалуйста.</li>
+		<li>А вам самим ваша цитата нравится? Уверены? Отправляйте.</li>
+	</ol>
+	</blockquote>
+
+	<br style="clear: both; "/>
+	</div>
+</div>
+{% endblock %}

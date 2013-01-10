@@ -1,9 +1,7 @@
 <?php
 /**
-*
 * @package vacuum.kaluga.spark
 * @copyright (c) 2009
-*
 */
 
 if( $_SERVER['REMOTE_ADDR'] != '10.164.248.166' )

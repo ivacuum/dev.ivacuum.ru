@@ -1,9 +1,7 @@
 <?php
 /**
-*
 * @package vacuum.kaluga.spark
 * @copyright (c) 2009
-*
 */
 
 define('IN_SITE', true);

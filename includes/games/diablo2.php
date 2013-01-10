@@ -1,9 +1,7 @@
 <?php
 /**
-*
 * @package vacuum.kaluga.spark
 * @copyright (c) 2008
-*
 */
 
 if( !defined('IN_SITE') )

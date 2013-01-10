@@ -1,10 +1,8 @@
 #!/usr/bin/php
 <?php
 /**
-*
 * @package ivacuum.ru
-* @copyright (c) 2012
-*
+* @copyright (c) 2013
 */
 
 namespace app;

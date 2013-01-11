@@ -15,6 +15,7 @@ require('/srv/www/vhosts/src/bootstrap.php');
 $user->session_begin();
 $auth->init($user->data);
 $user->setup();
+$profiler->log('привет');
 
 /* Домен временно закрыт для публики */
 if( $request->header('Host') == 'dev.ivacuum.ru' && $user['user_id'] != 1 && $user->ip != '10.171.2.236' && $user->ip != '79.175.20.190' )

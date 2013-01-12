@@ -6,7 +6,7 @@
 
 namespace app;
 
-require('/srv/www/vhosts/src/bootstrap.php');
+require('/srv/www/vhosts/_/fw/master/bootstrap.php');
 
 /**
 * Создание сессии
@@ -17,7 +17,7 @@ $auth->init($user->data);
 $user->setup();
 
 /* Домен временно закрыт для публики */
-if( $request->header('Host') == 'dev.ivacuum.ru' && $user['user_id'] != 1 && $user->ip != '10.171.2.236' && $user->ip != '79.175.20.190' )
+if ($request->header('Host') == 'dev.ivacuum.ru' && $user['user_id'] != 1 && $user->ip != '10.171.2.236' && $user->ip != '79.175.20.190')
 {
 	// redirect(ilink('', 'http://ivacuum.ru'));
 }

@@ -23,5 +23,5 @@ if ($request->header('Host') == 'dev.ivacuum.ru' && $user['user_id'] != 1 && $us
 }
 
 /* Маршрутизация запроса */
-$router = new \engine\core\router();
+$router = new \fw\core\router();
 $router->handle_request();

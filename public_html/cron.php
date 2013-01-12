@@ -19,5 +19,5 @@ $_SERVER['SERVER_NAME'] = 'dev.ivacuum.ru';
 require('/srv/www/vhosts/src/bootstrap.php');
 
 /* Выполнение задач */
-$cron = new \engine\cron\manager();
+$cron = new \fw\cron\manager();
 $cron->run();

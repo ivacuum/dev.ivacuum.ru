@@ -43,7 +43,7 @@ class register extends page
 		$uid         = $this->request->post('uid', '');
 		$username    = $this->request->post('username', '');
 		
-		$captcha = new \engine\captcha\validator();
+		$captcha = new \fw\captcha\validator();
 		$error_ary = array();
 		
 		if( !$username )

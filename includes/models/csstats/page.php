@@ -18,7 +18,7 @@ class page extends base_page
 		
 		parent::__construct();
 		
-		$this->csstats_db = new \engine\db\mysqli($dbhost, $csstats_dbuser, $csstats_dbpass, $csstats_dbname, $dbport, $dbsock, $dbpers);
+		$this->csstats_db = new \fw\db\mysqli($dbhost, $csstats_dbuser, $csstats_dbpass, $csstats_dbname, $dbport, $dbsock, $dbpers);
 	}
 	
 	/**

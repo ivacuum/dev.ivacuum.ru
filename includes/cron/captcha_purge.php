@@ -6,7 +6,7 @@
 
 namespace app\cron;
 
-use engine\cron\task;
+use fw\cron\task;
 
 /**
 * Чистка неактуальных капч

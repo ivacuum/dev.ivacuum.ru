@@ -6,7 +6,7 @@
 
 namespace app\models;
 
-use engine\models\page as base_page;
+use fw\models\page as base_page;
 
 class page extends base_page
 {

@@ -7,7 +7,7 @@
 
 namespace app;
 
-if( PHP_SAPI != 'cli' )
+if (PHP_SAPI != 'cli')
 {
 	exit;
 }

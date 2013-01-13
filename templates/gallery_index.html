@@ -93,8 +93,8 @@ $(document).ready(function() {
 $('#delete_images').bind('click', function() {
  	$(this).blur();
 
-	if( images_id.length > 0 ) {
-		if( confirm('Вы действительно хотите удалить картинки?') ) {
+	if (images_id.length > 0) {
+		if (confirm('Вы действительно хотите удалить картинки?')) {
 			$.post(encodeURI('{{ U_DELETE }}'), { images_id: images_id.join() }, function() {
 				window.location = '{{ U_REFRESH }}';
 			});
@@ -111,7 +111,7 @@ $('#get_images_links').bind('click', function() {
   $(this).blur();
   g_loading = true;
 
-  if( images_id.length > 0 ) {
+  if (images_id.length > 0) {
     $.post(encodeURI('{{ U_LINKS }}'), { images_id: images_id.join() }, function(data) { $('#images_links').empty().hide().html(data).fadeIn('slow'); $.scrollTo('#images_links', 800); });
   }
 });
@@ -122,7 +122,7 @@ $('#get_images_links').bind('click', function() {
 $(document).bind('get_more_images', function(e) {
   var url =  $('#next_page').attr('href');
 
-  if( !g_loading && url ) {
+  if (!g_loading && url) {
     $('#pagination').remove();
 
     g_loading = true;
@@ -137,7 +137,7 @@ $(document).bind('on_scroll_gallery', function(e) {
   var position = $(window).height() + $(window).scrollTop();
   var bottom = parseInt($('#images_links').offset().top);
 
-  if( !g_loading && position > (bottom - 50) ) {
+  if (!g_loading && position > (bottom - 50)) {
     $(document).trigger('get_more_images');
   }
 });

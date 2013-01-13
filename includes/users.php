@@ -23,7 +23,7 @@ class users extends page
 	*/
 	public function profile($user = false)
 	{
-		if( !$user )
+		if (!$user)
 		{
 			trigger_error('PAGE_NOT_FOUND');
 		}
@@ -31,7 +31,7 @@ class users extends page
 		$u = '';
 		$uid = 0;
 		
-		if( ((string)(int) $user) === ((string) $user) )
+		if (((string)(int) $user) === ((string) $user))
 		{
 			/* Числовой идентификатор */
 			$uid = (int) $user;
@@ -45,7 +45,7 @@ class users extends page
 		/**
 		* Получение данных пользователя
 		*/
-		if( !($uid && $uid == $this->user['user_id']) && !($u && $u == $this->user['user_url']) )
+		if (!($uid && $uid == $this->user['user_id']) && !($u && $u == $this->user['user_url']))
 		{
 			$sql = '
 				SELECT
@@ -64,7 +64,7 @@ class users extends page
 			$row = $this->user->data;
 		}
 		
-		if( !$row )
+		if (!$row)
 		{
 			trigger_error('PAGE_NOT_FOUND');
 		}
@@ -81,7 +81,7 @@ class users extends page
 			'ICQ'        => number_format(intval($row['user_icq']), 0, '.', '-'),
 			'IP'         => $row['user_ip'],
 			'JID'        => $row['user_jid'],
-			'LASTVISIT'  => ( $row['user_session_time'] ) ? $this->user->create_date($row['user_session_time']) : '',
+			'LASTVISIT'  => $row['user_session_time'] ? $this->user->create_date($row['user_session_time']) : '',
 			'OCCUPATION' => $row['user_occ'],
 			'ONLINE'     => $this->user->ctime - $row['user_session_time'] < $this->config['load_online_time'],
 			

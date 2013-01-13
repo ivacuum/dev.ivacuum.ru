@@ -20,7 +20,7 @@ class stats extends page
 	{
 		$rows = $this->get_page_descendants();
 		
-		foreach( $rows as $row )
+		foreach ($rows as $row)
 		{
 			$this->template->append('pages', array(
 				'IMAGE' => $row['page_image'],
@@ -39,7 +39,7 @@ class stats extends page
 		$sql = 'SHOW GLOBAL STATUS';
 		$this->db->query($sql);
 
-		while( $row = $this->db->fetchrow() )
+		while ($row = $this->db->fetchrow())
 		{
 			$info[$row['Variable_name']] = $row['Value'];
 		}

@@ -17,7 +17,7 @@ class register extends page
 	
 	public function index()
 	{
-		if( $this->user->is_registered )
+		if ($this->user->is_registered)
 		{
 			redirect(ilink());
 		}
@@ -46,27 +46,27 @@ class register extends page
 		$captcha = new \fw\captcha\validator();
 		$error_ary = array();
 		
-		if( !$username )
+		if (!$username)
 		{
 			$error_ary[] = 'Вы не указали логин';
 		}
-		if( mb_strlen($username) < 3 || mb_strlen($username) > 30 )
+		if (mb_strlen($username) < 3 || mb_strlen($username) > 30)
 		{
 			$error_ary[] = 'Введите логин от 3 до 30 символов';
 		}
-		if( !$email )
+		if (!$email)
 		{
 			$error_ary[] = 'Вы не указали адрес электронной почты';
 		}
-		if( !$password )
+		if (!$password)
 		{
 			$error_ary[] = 'Вы не указали пароль';
 		}
-		if( mb_strlen($password) < 6 || mb_strlen($password) > 60 )
+		if (mb_strlen($password) < 6 || mb_strlen($password) > 60)
 		{
 			$error_ary[] = 'Введите пароль от 6 до 60 символов';
 		}
-		if( !$captcha->is_solved() )
+		if (!$captcha->is_solved())
 		{
 			$error_ary[] = 'Неверно введен код подтверждения';
 		}
@@ -74,7 +74,7 @@ class register extends page
 		$username_clean = mb_strtolower($username);
 
 		/* Проверка существования пользователя с подобным ником */
-		if( $username_clean )
+		if ($username_clean)
 		{
 			$sql = '
 				SELECT
@@ -87,7 +87,7 @@ class register extends page
 			$row = $this->db->fetchrow();
 			$this->db->freeresult();
 			
-			if( $row )
+			if ($row)
 			{
 				$error_ary[] = 'Данный логин уже занят';
 			}
@@ -104,7 +104,7 @@ class register extends page
 			'U_ACTION' => ilink($this->url)
 		));
 
-		if( sizeof($error_ary) )
+		if (sizeof($error_ary))
 		{
 			$this->template->assign('REGISTER_ERROR', $error_ary);
 			return;
@@ -142,7 +142,7 @@ class register extends page
 	{
 		$token = $this->request->post('token', '');
 		
-		if( !$token )
+		if (!$token)
 		{
 			trigger_error('PAGE_NOT_FOUND');
 		}
@@ -172,7 +172,7 @@ class register extends page
 		$username    = $this->get_openid_username();
 		$website     = $this->get_openid_user_website();
 		
-		if( isset($this->openid_response['dob']) )
+		if (isset($this->openid_response['dob']))
 		{
 			/* Дата рождения */
 			$ary = explode('-', $this->openid_response['dob']);
@@ -182,7 +182,7 @@ class register extends page
 			$birth_day   = $ary[2];
 		}
 		
-		if( false === $user_id = $this->get_openid_user_id() )
+		if (false === $user_id = $this->get_openid_user_id())
 		{
 			/* Новые OpenID данные */
 			$user_id = 0;
@@ -207,7 +207,7 @@ class register extends page
 			$this->db->query($sql);
 		}
 		
-		if( $user_id > 0 )
+		if ($user_id > 0)
 		{
 			/* Авторизация прошла успешно */
 			$this->user->session_create($user_id, true, false, true, $this->get_openid_provider());
@@ -236,7 +236,7 @@ class register extends page
 	{
 		$ary = parse_url($this->openid_response['provider']);
 		
-		if( empty($ary) )
+		if (empty($ary))
 		{
 			return false;
 		}
@@ -281,9 +281,9 @@ class register extends page
 			)
 		);
 		
-		foreach( $providers as $key => $row )
+		foreach ($providers as $key => $row)
 		{
-			if( false !== strpos($ary['host'], $row['needle']) )
+			if (false !== strpos($ary['host'], $row['needle']))
 			{
 				return $row['return'];
 			}
@@ -297,17 +297,17 @@ class register extends page
 	*/
 	private function get_openid_username()
 	{
-		if( isset($this->openid_response['nickname']) )
+		if (isset($this->openid_response['nickname']))
 		{
 			return $this->openid_response['nickname'];
 		}
 		
-		if( isset($this->openid_response['email']) )
+		if (isset($this->openid_response['email']))
 		{
 			return mb_substr($this->openid_response['email'], 0, mb_strpos($this->openid_response['email'], '@'));
 		}
 		
-		if( isset($this->openid_response['name']['full_name']) )
+		if (isset($this->openid_response['name']['full_name']))
 		{
 			return $this->openid_response['name']['full_name'];
 		}
@@ -320,9 +320,9 @@ class register extends page
 			'([^\.]+)\.myopenid\.com'
 		);
 		
-		foreach( $patterns as $pattern )
+		foreach ($patterns as $pattern)
 		{
-			if( preg_match('/^https?\:\/\/' . $pattern . '/i', $this->openid_response['identity'], $match) )
+			if (preg_match('/^https?\:\/\/' . $pattern . '/i', $this->openid_response['identity'], $match))
 			{
 				return $match[1];
 			}
@@ -336,12 +336,12 @@ class register extends page
 	*/
 	private function get_openid_user_full_name()
 	{
-		if( isset($this->openid_response['name']['full_name']) )
+		if (isset($this->openid_response['name']['full_name']))
 		{
 			return $this->openid_response['name']['full_name'];
 		}
 		
-		if( isset($this->openid_response['name']['first_name']) || isset($this->openid_response['name']['last_name']) )
+		if (isset($this->openid_response['name']['first_name']) || isset($this->openid_response['name']['last_name']))
 		{
 			return trim(@$this->openid_response['name']['last_name'] . ' ' . @$this->openid_response['name']['first_name']);
 		}
@@ -354,14 +354,14 @@ class register extends page
 	*/
 	private function get_openid_user_gender()
 	{
-		if( isset($this->openid_response['gender']) )
+		if (isset($this->openid_response['gender']))
 		{
-			if( $this->openid_response['gender'] == 'F' )
+			if ($this->openid_response['gender'] == 'F')
 			{
 				return 2;
 			}
 			
-			if( $this->openid_response['gender'] == 'M' )
+			if ($this->openid_response['gender'] == 'M')
 			{
 				return 1;
 			}
@@ -376,7 +376,7 @@ class register extends page
 	*/
 	private function get_openid_user_id()
 	{
-		if( isset($this->openid_response['uid']) )
+		if (isset($this->openid_response['uid']))
 		{
 			$sql = '
 				SELECT
@@ -391,7 +391,7 @@ class register extends page
 			$row = $this->db->fetchrow();
 			$this->db->freeresult();
 			
-			if( !$row )
+			if (!$row)
 			{
 				return false;
 			}
@@ -410,7 +410,7 @@ class register extends page
 		$row = $this->db->fetchrow();
 		$this->db->freeresult();
 		
-		if( !$row )
+		if (!$row)
 		{
 			return false;
 		}
@@ -423,12 +423,12 @@ class register extends page
 	*/
 	private function get_openid_user_website()
 	{
-		if( isset($this->openid_response['web']['blog']) )
+		if (isset($this->openid_response['web']['blog']))
 		{
 			return $this->openid_response['web']['blog'];
 		}
 		
-		if( isset($this->openid_response['web']['default']) )
+		if (isset($this->openid_response['web']['default']))
 		{
 			return $this->openid_response['web']['default'];
 		}

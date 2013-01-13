@@ -37,7 +37,7 @@ $(document).ready(function() {
   $('img[rel="vote_remove"]').click(function() {
     vote_id = $(this).attr('id');
     $.post(encodeURI('{{ U_DETAILS }}'), { mode: 'vote_remove', vote_id: vote_id }, function(response) {
-      if( response.success ) {
+      if (response.success) {
         $('#vote' + vote_id).fadeOut('slow');
         $('#q' + response.quote_id).html(response.votes);
       }

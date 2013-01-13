@@ -27,14 +27,14 @@ class captcha_purge extends task
 		$result = $this->db->query($sql);
 		$sql_in = array();
 		
-		while( $row = $this->db->fetchrow($result) )
+		while ($row = $this->db->fetchrow($result))
 		{
 			$sql_in[] = (string) $row['session_id'];
 		}
 		
 		$this->db->freeresult($result);
 		
-		if( !empty($sql_in) )
+		if (!empty($sql_in))
 		{
 			$sql = '
 				DELETE

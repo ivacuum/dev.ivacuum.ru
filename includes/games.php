@@ -20,7 +20,7 @@ class games extends page
 	{
 		$rows = $this->get_page_descendants();
 		
-		foreach( $rows as $row )
+		foreach ($rows as $row)
 		{
 			$this->template->append('games', array(
 				'COVER' => $row['page_url'],

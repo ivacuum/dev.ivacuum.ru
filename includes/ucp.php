@@ -18,7 +18,7 @@ class ucp extends page
 		parent::__construct();
 
 		/* Поисковым роботам панель недоступна */
-		if( $this->user->is_bot )
+		if ($this->user->is_bot)
 		{
 			redirect(ilink(), 301);
 		}
@@ -34,7 +34,7 @@ class ucp extends page
 	*/
 	public function login()
 	{
-		if( $this->user->is_registered )
+		if ($this->user->is_registered)
 		{
 			redirect(ilink());
 		}
@@ -49,7 +49,7 @@ class ucp extends page
 		
 		$login_explain = '';
 		
-		if( $this->request->get('goto', '') )
+		if ($this->request->get('goto', ''))
 		{
 			$login_explain = 'Для просмотра страницы необходимо авторизоваться.';
 		}
@@ -65,9 +65,9 @@ class ucp extends page
 		$close_sessions = $this->request->post('close_sessions', false);
 		$redirect       = $this->request->variable('goto', $this->user->page_prev);
 		
-		if( $this->user->is_registered )
+		if ($this->user->is_registered)
 		{
-			if( $close_sessions )
+			if ($close_sessions)
 			{
 				$this->user->reset_login_keys(false, false);
 			}

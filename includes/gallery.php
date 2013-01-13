@@ -20,7 +20,7 @@ class gallery extends page
 	{
 		$this->user->is_auth('redirect');
 
-		if( $this->page != $this->config['router_directory_index'] )
+		if ($this->page != $this->config['router_directory_index'])
 		{
 			trigger_error('PAGE_NOT_FOUND');
 		}
@@ -46,7 +46,7 @@ class gallery extends page
 		$total_traffic = $row['total_traffic'];
 		$total_views   = $row['total_views'];
 
-		if( !$total_images )
+		if (!$total_images)
 		{
 			trigger_error('Вы еще не <a href="' . ilink('', 'http://up.ivacuum.ru') . '"><b>загрузили</b></a> ни одного изображения.');
 		}
@@ -67,14 +67,14 @@ class gallery extends page
 				image_time DESC';
 		$this->db->query_limit($sql, $pagination['on_page'], $pagination['offset']);
 
-		while( $row = $this->db->fetchrow() )
+		while ($row = $this->db->fetchrow())
 		{
-			$outdate = ( $row['image_touch'] ) ? time() - $row['image_touch'] : time() - $row['image_time'];
+			$outdate = $row['image_touch'] ? time() - $row['image_touch'] : time() - $row['image_time'];
 
 			$this->template->append('images', array(
 				'DATE'    => $row['image_date'],
 				'ID'      => $row['image_id'],
-				'OUTDATE' => ( $outdate > $this->config['images_purge_interval'] ) ? create_time($outdate, true) : '',
+				'OUTDATE' => $outdate > $this->config['images_purge_interval'] ? create_time($outdate, true) : '',
 				'TIME'    => $this->user->create_date($row['image_time'], '|j F Y|, H:i', false, true),
 				'URL'     => $row['image_url'],
 				'VIEWS'   => num_format($row['image_views']),
@@ -106,7 +106,7 @@ class gallery extends page
 
 		$image_id = $this->request->variable('image_id', 0);
 		
-		if( $image_id < 1 )
+		if ($image_id < 1)
 		{
 			trigger_error('DATA_NOT_FOUND');
 		}
@@ -124,7 +124,7 @@ class gallery extends page
 		$row = $this->db->fetchrow();
 		$this->db->freeresult();
 
-		if( !$row )
+		if (!$row)
 		{
 			trigger_error('DATA_NOT_FOUND');
 		}
@@ -158,7 +158,7 @@ class gallery extends page
 
 		$images_id = $this->request->variable('images_id', '');
 		
-		if( !$images_id || !$this->request->is_ajax )
+		if (!$images_id || !$this->request->is_ajax)
 		{
 			trigger_error('DATA_NOT_FOUND');
 		}
@@ -177,7 +177,7 @@ class gallery extends page
 				user_id = ' . $this->user['user_id'];
 		$result = $this->db->query($sql);
 
-		while( $row = $this->db->fetchrow($result) )
+		while ($row = $this->db->fetchrow($result))
 		{
 			/**
 			* Удаляем файлы с жёсткого диска
@@ -212,7 +212,7 @@ class gallery extends page
 		/* images_id = 5000,7525,10759,23409 */
 		$images_id = $this->request->variable('images_id', '');
 
-		if( !$this->request->is_ajax || !$images_id )
+		if (!$this->request->is_ajax || !$images_id)
 		{
 			trigger_error('PAGE_NOT_FOUND');
 		}
@@ -232,10 +232,10 @@ class gallery extends page
 				user_id = ' . $this->user['user_id'];
 		$this->db->query($sql);
 
-		while( $row = $this->db->fetchrow() )
+		while ($row = $this->db->fetchrow())
 		{
 			$thumb = file_exists($this->config['images_upload_dir'] . implode('/', str_split($row['image_date'], 2)) . '/s/' . $row['image_url']);
-			$files_thumb += ( $thumb ) ? 1 : 0;
+			$files_thumb += $thumb ? 1 : 0;
 
 			$this->template->append('files', array(
 				'DATE'  => $row['image_date'],
@@ -262,7 +262,7 @@ class gallery extends page
 	{
 		$image_id = (int) $this->page;
 
-		if( $image_id < 1 )
+		if ($image_id < 1)
 		{
 			trigger_error('Изображение не выбрано.');
 		}
@@ -287,7 +287,7 @@ class gallery extends page
 		$row = $this->db->fetchrow();
 		$this->db->freeresult();
 
-		if( !$row )
+		if (!$row)
 		{
 			trigger_error('Изображение не найдено.');
 		}
@@ -318,7 +318,7 @@ class gallery extends page
 	{
 		$image_id = (int) $this->page;
 
-		if( $image_id < 1 )
+		if ($image_id < 1)
 		{
 			trigger_error('Изображение не выбрано.');
 		}
@@ -337,7 +337,7 @@ class gallery extends page
 		$row = $this->db->fetchrow();
 		$this->db->freeresult();
 
-		if( !$row )
+		if (!$row)
 		{
 			trigger_error('Изображение не найдено.');
 		}

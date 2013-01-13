@@ -43,7 +43,7 @@ function scale_image(id) {
   
   var dw = $('body').width();
 
-  if( dw >= w ) {
+  if (dw >= w) {
     return;
   }
 
@@ -55,14 +55,14 @@ function scale_image(id) {
 
   var new_height = dw / w * h;
 
-  if( !$.browser.msie ) {
+  if (!$.browser.msie) {
     image.animate({ height: new_height, width: dw }, 800);
   } else {
     image.attr('width', dw).attr('height', new_height);
   }
 
   image.click(function() {
-    if( dw == image.attr('width') ) {
+    if (dw == image.attr('width')) {
       image.animate({ height: h, width: w }, 800);
     } else {
       image.animate({ height: new_height, width: dw }, 800);

@@ -47,7 +47,7 @@ class sessions_purge extends task
 		$result = $this->db->query($sql);
 		$del_users_id = array();
 
-		while( $row = $this->db->fetchrow($result) )
+		while ($row = $this->db->fetchrow($result))
 		{
 			$sql_ary = array(
 				'user_session_page' => (string) $row['session_page'],
@@ -69,7 +69,7 @@ class sessions_purge extends task
 
 		$this->db->freeresult($result);
 
-		if( !empty($del_users_id) )
+		if (!empty($del_users_id))
 		{
 			$sql = '
 				DELETE
@@ -86,7 +86,7 @@ class sessions_purge extends task
 		/**
 		* Удаляем ключи автовхода
 		*/
-		if( $this->config['autologin_time'] )
+		if ($this->config['autologin_time'])
 		{
 			$sql = '
 				DELETE

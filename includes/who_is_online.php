@@ -46,9 +46,9 @@ class who_is_online extends page
 				s.session_time DESC';
 		$this->db->query($sql);
 
-		while( $row = $this->db->fetchrow() )
+		while ($row = $this->db->fetchrow())
 		{
-			if( !isset($prev_id[$row['user_id']]) )
+			if (!isset($prev_id[$row['user_id']]))
 			{
 				$patterns[0] = '/ ?\.net clr \d\.\d\.\d{1,5}(\.\d{1,5})?;?/i';
 				$patterns[1] = '/ ?mrsputnik \d\, \d\, \d\, \d{1,3};?/i';
@@ -93,9 +93,9 @@ class who_is_online extends page
 				session_time DESC';
 		$this->db->query($sql);
 
-		while( $row = $this->db->fetchrow() )
+		while ($row = $this->db->fetchrow())
 		{
-			if( !isset($prev_ip[$row['session_ip']]) )
+			if (!isset($prev_ip[$row['session_ip']]))
 			{
 				$patterns[0] = '/ ?\.net clr \d\.\d\.\d{1,5}(\.\d{1,5})?;?/i';
 				$patterns[1] = '/ ?mrsputnik \d\, \d\, \d\, \d{1,3};?/i';
@@ -134,16 +134,16 @@ class who_is_online extends page
 		*/
 		$groups = $this->cache->obtain_groups();
 
-		foreach( $groups as $row )
+		foreach ($groups as $row)
 		{
-			if( !$row['group_legend'] )
+			if (!$row['group_legend'])
 			{
 				continue;
 			}
 
 			$groups_link = '<span style="color: #' . $row['group_colour'] . ';">' . $this->user->lang($row['group_name']) . '</span>';
 
-			$groups_list .= ( $groups_list ) ? ', ' . $groups_link : $groups_link;
+			$groups_list .= $groups_list ? ', ' . $groups_link : $groups_link;
 		}
 
 		$this->template->assign(array(

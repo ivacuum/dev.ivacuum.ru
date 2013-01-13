@@ -135,7 +135,7 @@ $template->vars(array(
 if( $mode != 'faq' )
 {
 	$csstats_db = new db_mysqli();
-	$csstats_db->connect($dbhost, 'csstats', 'dfHYpWSR9T23vQtY', 'csstats', $dbport, $dbsock);
+	$csstats_db->connect($dbhost, $csstats_dbuser, $csstats_dbpass, $csstats_dbname, $dbport, $dbsock);
 }
 
 switch( $mode )
@@ -160,14 +160,12 @@ switch( $mode )
 	case 'weaponinfo':
 	case 'weapons':
 
-		include($site_root_path . 'includes/csstats/' . $mode . '.php');
+		include(SITE_DIR . 'includes/csstats/' . $mode . '.php');
 
 	break;
 	default:
 
-		include($site_root_path . 'includes/csstats/index.php');
+		include(SITE_DIR . 'includes/csstats/index.php');
 
 	break;
 }
-
-?>

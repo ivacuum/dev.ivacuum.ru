@@ -13,10 +13,10 @@ if( PHP_SAPI != 'cli' )
 }
 
 /* Установка недостающих переменных */
-$_SERVER['DOCUMENT_ROOT'] = dirname(__FILE__);
+$_SERVER['DOCUMENT_ROOT'] = __DIR__;
 $_SERVER['SERVER_NAME'] = 'dev.ivacuum.ru';
 
-require('/srv/www/vhosts/src/bootstrap.php');
+require('/srv/www/vhosts/_/fw/master/bootstrap.php');
 
 /* Выполнение задач */
 $cron = new \fw\cron\manager();

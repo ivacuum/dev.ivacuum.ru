@@ -17,11 +17,11 @@ $auth->init($user->data);
 $user->setup();
 
 /* Домен временно закрыт для публики */
-if ($request->header('Host') == 'dev.ivacuum.ru' && $user['user_id'] != 1 && $user->ip != '10.171.2.236' && $user->ip != '79.175.20.190')
+if ($request->header('Host') == 'dev.ivacuum.ru' && $user['user_id'] != 1 && $user->ip != '192.168.1.1' && $user->ip != '79.175.20.190')
 {
 	// redirect(ilink('', 'http://ivacuum.ru'));
 }
 
 /* Маршрутизация запроса */
-$router = new \fw\core\router();
-$router->handle_request();
+$router = new \fw\core\router($cache, $config, $db, $request, $template, $user);
+$router->_init()->handle_request();

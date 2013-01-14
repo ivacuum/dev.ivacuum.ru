@@ -12,16 +12,15 @@ require('/srv/www/vhosts/_/fw/master/bootstrap.php');
 * Создание сессии
 * Инициализация привилегий
 */
-$user->session_begin();
-$auth->init($user->data);
-$user->setup();
+$app['user']->session_begin();
+$app['auth']->init($app['user']->data);
+$app['user']->setup();
 
 /* Домен временно закрыт для публики */
-if ($request->header('Host') == 'dev.ivacuum.ru' && $user['user_id'] != 1 && $user->ip != '192.168.1.1' && $user->ip != '79.175.20.190')
+if ($app['request']->header('Host') == 'dev.ivacuum.ru' && $app['user']['user_id'] != 1 && $app['user']->ip != '192.168.1.1' && $app['user']->ip != '79.175.20.190')
 {
 	// redirect(ilink('', 'http://ivacuum.ru'));
 }
 
 /* Маршрутизация запроса */
-$router = new \fw\core\router($auth, $cache, $config, $db, $profiler, $request, $template, $user);
-$router->_init()->handle_request();
+$app['router']->_init()->handle_request();

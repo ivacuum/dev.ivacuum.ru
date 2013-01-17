@@ -155,8 +155,7 @@ class register extends page
 
 		$this->openid_response = json_decode(file_get_contents($url), true);
 		
-		global $profiler;
-		$profiler->log($this->openid_response);
+		$this->profiler->log($this->openid_response);
 		
 		$birth_day   = 0;
 		$birth_month = 0;

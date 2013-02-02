@@ -19,7 +19,7 @@ class register extends page
 	{
 		if ($this->user->is_registered)
 		{
-			redirect(ilink());
+			$this->request->redirect(ilink());
 		}
 		
 		$this->template->assign('U_ACTION', ilink($this->url));
@@ -211,7 +211,7 @@ class register extends page
 			/* Авторизация прошла успешно */
 			$this->user->session_create($user_id, true, false, true, $this->get_openid_provider());
 			
-			redirect(ilink(''));
+			$this->request->redirect(ilink(''));
 		}
 		
 		$s_hidden_fields = build_hidden_fields(array(

@@ -146,7 +146,7 @@ class gallery extends page
 				image_id = ' . $this->db->check_value($image_id);
 		$this->db->query($sql);
 
-		redirect(ilink($this->get_handler_url('index')));
+		$this->request->redirect(ilink($this->get_handler_url('index')));
 	}
 
 	/**

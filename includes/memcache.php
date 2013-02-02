@@ -85,7 +85,7 @@ class memcache extends page
 		
 		$this->send_memcache_command($host, $port, 'delete ' . $key);
 		
-		redirect(ilink($this->get_handler_url('variables')));
+		$this->request->redirect(ilink($this->get_handler_url('variables')));
 	}
 	
 	/**

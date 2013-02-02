@@ -20,7 +20,7 @@ class ucp extends page
 		/* Поисковым роботам панель недоступна */
 		if ($this->user->is_bot)
 		{
-			redirect(ilink(), 301);
+			$this->request->redirect(ilink(), 301);
 		}
 	}
 	
@@ -36,7 +36,7 @@ class ucp extends page
 	{
 		if ($this->user->is_registered)
 		{
-			redirect(ilink());
+			$this->request->redirect(ilink());
 		}
 		
 		$goto = $this->request->variable('goto', '');
@@ -75,6 +75,6 @@ class ucp extends page
 			$this->user->session_end();
 		}
 		
-		redirect(ilink($redirect));
+		$this->request->redirect(ilink($redirect));
 	}
 }

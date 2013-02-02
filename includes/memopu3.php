@@ -397,7 +397,7 @@ class memopu3 extends page
 
 		if (!$this->request->is_ajax)
 		{
-			redirect(ilink(sprintf('%s%d', $this->urls['view'], $quote_id)));
+			$this->request->redirect(ilink(sprintf('%s%d', $this->urls['view'], $quote_id)));
 		}
 		
 		json_output(array(

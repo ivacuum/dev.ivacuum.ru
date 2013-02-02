@@ -77,7 +77,7 @@ class news extends page
 		{
 			$page = (int) $matches[1];
 			
-			redirect($this->get_handler_url('index') . '?p=' . $page, 301);
+			$this->request->redirect($this->get_handler_url('index') . '?p=' . $page, 301);
 		}
 		
 		preg_match(sprintf('#^(\d+)-(%s)$#', get_preg_expression('url_symbols')), $this->page, $matches);
@@ -115,7 +115,7 @@ class news extends page
 			$row['news_url']
 		);
 		
-		redirect($this->get_handler_url('display_single', $params), 301);
+		$this->request->redirect($this->get_handler_url('display_single', $params), 301);
 	}
 	
 	/**

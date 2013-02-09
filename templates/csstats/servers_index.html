@@ -16,7 +16,7 @@
 					<th width="10%">Хэды</th>
 				</tr>
 				<tr>
-					<td style="padding-left: 7px;"><img src="{{ static('i', 'games/_icons/cstrike') }}" alt="" /> <a href="{{ row.U_DETAILS }}"><b>{{ row.NAME }}</b></a></td>
+					<td style="padding-left: 7px;"><img src="{{ hostname() }}/i/games/_icons/cstrike.png" alt="" /> <a href="{{ row.U_DETAILS }}"><b>{{ row.NAME }}</b></a></td>
 					<td align="center">{{ row.ADDRESS }}</td>
 					<td align="center"><a href="{{ row.U_MAP }}"><b>{{ row.MAP }}</b></a></td>
 					<td align="center">{{ row.PLAYED }}</td>
@@ -59,8 +59,8 @@
 				{% for row in row.t %}
 				<tr align="center" class="t">
 					<td>{{ row.N }}.</td>
-					<td align="left" style="padding-left: 4px;">{% if not row.SPARK %}<img class="icons" src="{{ static('i', '_/globe_green') }}" alt="{{ row.IP }}" title="{{ row.IP }}" />{% endif %}<a href="{{ row.U_DETAILS }}"><b>{{ row.NAME }}</b></a></td>
-					<td>{% if row.IS_DEAD %}<img src="{{ static('i', '_/skull') }}" alt="" title="" />{% elseif row.HAS_BOMB %}<img src="{{ static('i', '_/bomb') }}" alt="" />{% endif %}</td>
+					<td align="left" style="padding-left: 4px;">{% if not row.SPARK %}<img class="icons" src="{{ hostname() }}/i/_/globe_green.png" alt="{{ row.IP }}" title="{{ row.IP }}" />{% endif %}<a href="{{ row.U_DETAILS }}"><b>{{ row.NAME }}</b></a></td>
+					<td>{% if row.IS_DEAD %}<img src="{{ hostname() }}/i/_/skull.png" alt="" title="" />{% elseif row.HAS_BOMB %}<img src="{{ hostname() }}/i/_/bomb.png" alt="" />{% endif %}</td>
 					<td align="right" width="4%">{{ row.KILLS }}</td>
 					<td width="2%">:</td>
 					<td align="left" width="4%">{{ row.DEATHS }}</td>
@@ -93,8 +93,8 @@
 				{% for row in row.ct %}
 				<tr align="center" class="ct">
 					<td>{{ row.N }}.</td>
-					<td align="left" style="padding-left: 4px;">{% if not row.SPARK %}<img class="icons" src="{{ static('i', '_/globe_green') }}" alt="{{ row.IP }}" title="{{ row.IP }}" />{% endif %}<a href="{{ row.U_DETAILS }}"><b>{{ row.NAME }}</b></a></td>
-					<td>{% if row.IS_DEAD %}<img src="{{ static('i', '_/skull') }}" alt="" title="" />{% elseif row.HAS_BOMB %}<img src="{{ static('i', '_/bomb') }}" alt="" />{% endif %}</td>
+					<td align="left" style="padding-left: 4px;">{% if not row.SPARK %}<img class="icons" src="{{ hostname() }}/i/_/globe_green.png" alt="{{ row.IP }}" title="{{ row.IP }}" />{% endif %}<a href="{{ row.U_DETAILS }}"><b>{{ row.NAME }}</b></a></td>
+					<td>{% if row.IS_DEAD %}<img src="{{ hostname() }}/i/_/skull.png" alt="" title="" />{% elseif row.HAS_BOMB %}<img src="{{ hostname() }}/i/_/bomb.png" alt="" />{% endif %}</td>
 					<td align="right" width="4%">{{ row.KILLS }}</td>
 					<td width="2%">:</td>
 					<td align="left" width="4%">{{ row.DEATHS }}</td>
@@ -126,8 +126,8 @@
 				{% for row in row.s %}
 				<tr align="center">
 					<td>{{ row.N }}.</td>
-					<td align="left" style="padding-left: 4px;">{% if not row.SPARK %}<img class="icons" src="{{ static('i', '_/globe_green') }}" alt="{{ row.IP }}" title="{{ row.IP }}" />{% endif %}<a href="{{ row.U_DETAILS }}"><b>{{ row.NAME }}</b></a></td>
-					<td><img src="{{ static('i', '_/eye') }}" alt="" /></td>
+					<td align="left" style="padding-left: 4px;">{% if not row.SPARK %}<img class="icons" src="{{ hostname() }}/i/_/globe_green.png" alt="{{ row.IP }}" title="{{ row.IP }}" />{% endif %}<a href="{{ row.U_DETAILS }}"><b>{{ row.NAME }}</b></a></td>
+					<td><img src="{{ hostname() }}/i/_/eye.png" alt="" /></td>
 					<td align="right" width="4%">{{ row.KILLS }}</td>
 					<td width="2%">:</td>
 					<td align="left" width="4%">{{ row.DEATHS }}</td>

@@ -5,10 +5,10 @@
 	<td data-id="{{ row.ID }}" id="image{{ row.ID }}" style="text-align: center; vertical-align: bottom;">
 		<p><a href="{{ row.U_PREVIEW }}"><img class="ui-shadow-med" src="{{ cfg.gallery_path }}/{{ row.DATE }}/t/{{ row.URL }}" alt="" title="" vspace="5" /></a></p>
 		<div>
-			<img src="{{ static('i', '_/eye') }}" alt=""> {{ row.VIEWS }}
-			<br><img src="{{ static('i', '_/calendar_day') }}" alt=""> {{ row.TIME }}
+			<img src="{{ hostname() }}/i/_/eye.png" alt=""> {{ row.VIEWS }}
+			<br><img src="{{ hostname() }}/i/_/calendar_day.png" alt=""> {{ row.TIME }}
 			{% if row.OUTDATE %}
-				<br><img src="{{ static('i', '_/exclamation_button') }}" alt=""> {{ row.OUTDATE }}
+				<br><img src="{{ hostname() }}/i/_/exclamation_button.png" alt=""> {{ row.OUTDATE }}
 			{% endif %}
 		</div>
 	</td>

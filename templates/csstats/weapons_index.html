@@ -12,19 +12,19 @@
 		<th width="20%">
 			<a href="{{ U_SORT_KILLS }}">Фраги</a>
 			{% if SORT_KEY == 'a' %}
-			<img src="{{ static('i', '_/arrow_' ~ (SORT_DIR == 'd' ? '270' : '090') ~ '_medium') }}" alt="" />
+			<img src="{{ hostname() }}/i/_/arrow_{{ SORT_DIR == 'd' ? '270' : '090' }}_medium.png" alt="" />
 			{% endif %}
 		</th>
 		<th width="20%">
 			<a href="{{ U_SORT_HEADSHOTS }}">Хэды</a>
 			{% if SORT_KEY == 'b' %}
-			<img src="{{ static('i', '_/arrow_' ~ (SORT_DIR == 'd' ? '270' : '090') ~ '_medium') }}" alt="" />
+			<img src="{{ hostname() }}/i/_/arrow_{{ SORT_DIR == 'd' ? '270' : '090' }}_medium.png" alt="" />
 			{% endif %}
 		</th>
 		<th width="20%">
 			<a href="{{ U_SORT_HPK }}">%хэдов</a>
 			{% if SORT_KEY == 'c' %}
-			<img src="{{ static('i', '_/arrow_' ~ (SORT_DIR == 'd' ? '270' : '090') ~ '_medium') }}" alt="" />
+			<img src="{{ hostname() }}/i/_/arrow_{{ SORT_DIR == 'd' ? '270' : '090' }}_medium.png" alt="" />
 			{% endif %}
 		</th>
 	</tr>
@@ -32,7 +32,7 @@
 	<tbody>
 	{% for row in weapons %}
 	<tr align="center" class="{{ cycle(['row1', ''], loop.index) }}">
-		<td><a href="{{ row.U_WEAPONINFO }}"><img src="{{ static('i', 'games/cstrike/weapons/' ~ row.CODE) }}" alt="{{ row.NAME }}" title="{{ row.NAME }}" /></a></td>
+		<td><a href="{{ row.U_WEAPONINFO }}"><img src="{{ hostname() }}/i/games/cstrike/weapons/{{ row.CODE }}.png" alt="{{ row.NAME }}" title="{{ row.NAME }}" /></a></td>
 		<td>{{ row.MF }}</td>
 		<td>{{ row.KILLS }}</td>
 		<td>{{ row.HEADSHOTS }}</td>

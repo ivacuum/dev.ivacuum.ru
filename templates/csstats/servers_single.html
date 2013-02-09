@@ -15,7 +15,7 @@
 					<th width="10%">Хэды</th>
 				</tr>
 				<tr>
-					<td style="padding-left: 7px;"><img src="{{ static('i', 'games/_icons/cstrike') }}" alt="" /> <b>{NAME}</b></td>
+					<td style="padding-left: 7px;"><img src="{{ hostname() }}/i/games/_icons/cstrike.png" alt="" /> <b>{NAME}</b></td>
 					<td align="center">{{ ADDRESS }}</td>
 					<td align="center"><a href="{{ U_MAP }}"><b>{{ MAP }}</b></a></td>
 					<td align="center">{{ PLAYED }}</td>
@@ -38,7 +38,7 @@
 				<div class="bubble-bg shadow-light ui-corner-all">
 					<h2>Текущая карта:</h2>
 					{% if MAP %}
-					<p class="t-center"><img class="shadow-med" src="{{ static('i', 'games/cstrike/maps/' ~ MAP, 'jpg') }}" alt="{{ MAP }}" title="{{ MAP }}" /></p>
+					<p class="t-center"><img class="shadow-med" src="{{ hostname() }}/i/games/cstrike/maps/{{ MAP }}.jpg" alt="{{ MAP }}" title="{{ MAP }}" /></p>
 					<p class="t-center"><a href="{{ U_MAP }}"><b>{{ MAP }}</b></a></p>
 					{% else %}
 					<p class="t-center"><i>неизвестна</i></p>
@@ -50,7 +50,7 @@
 				<div class="bubble-green-bg shadow-light ui-corner-all">
 					<h2>Следующая карта:</h2>
 					{% if NEXTMAP %}
-					<p class="t-center"><img class="shadow-med" src="{{ static('i', 'games/cstrike/maps/' ~ NEXTMAP, 'jpg') }}" alt="{{ NEXTMAP }}" title="{{ NEXTMAP }}" /></p>
+					<p class="t-center"><img class="shadow-med" src="{{ hostname() }}/i/games/cstrike/maps/{{ NEXTMAP }}.jpg" alt="{{ NEXTMAP }}" title="{{ NEXTMAP }}" /></p>
 					<p class="t-center"><a href="{{ U_NEXTMAP }}"><b>{{ NEXTMAP }}</b></a></p>
 					{% else %}
 					<p class="t-center"><i>неизвестна</i></p>

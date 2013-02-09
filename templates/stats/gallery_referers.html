@@ -4,8 +4,8 @@
 <fieldset class="ui-corner-all">
 	<legend>Просмотров</legend>
 	<p>
-		В локальной сети: <img class="icons" src="{{ static('i', '_/network_ethernet') }}" alt="" /><b>{{ LOCAL_VIEWS }}</b> |
-		В сети интернет: <img class="icons" src="{{ static('i', '_/globe_green') }}" alt="" /><b>{{ INTERNET_VIEWS }}</b>.
+		В локальной сети: <img class="icons" src="{{ hostname() }}/i/_/network_ethernet.png" alt="" /><b>{{ LOCAL_VIEWS }}</b> |
+		В сети интернет: <img class="icons" src="{{ hostname() }}/i/_/globe_green.png" alt="" /><b>{{ INTERNET_VIEWS }}</b>.
 	</p>
 </fieldset>
 
@@ -16,7 +16,7 @@
 	<tr>
 		<th class="number">#</th>
 		<th>Домен</th>
-		<th class="number">Просмотров <img src="{{ static('i', '_/arrow_270') }}" alt="" /></th>
+		<th class="number">Просмотров <img src="{{ hostname() }}/i/_/arrow_270.png" alt="" /></th>
 	</tr>
 	</thead>
 	{% for row in ref %}

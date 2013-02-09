@@ -4,9 +4,9 @@
 <div id="quotes">
 	<div class="q">
 		<div class="vote">
-			<img class="icons" src="{{ static('i', '_/receipt_text') }}" alt="" />
+			<img class="icons" src="{{ hostname() }}/i/_/receipt_text.png" alt="" />
 			<a href="{{ U_DETAILS }}"><b>{{ ID }}</b></a>
-			[ &nbsp;<a href="{{ U_PLUS }}" id="{{ ID }}" rel="quote_vote_up"><img class="icons" src="{{ static('i', '_/plus') }}" alt="" /></a> &nbsp;<span id="q{{ ID }}">{{ VOTES }}</span>&nbsp; <a href="{{ U_MINUS }}" id="{{ ID }}" rel="quote_vote_down"><img class="icons" src="{{ static('i', '_/minus') }}" alt="" /></a>&nbsp; ]
+			[ &nbsp;<a href="{{ U_PLUS }}" id="{{ ID }}" rel="quote_vote_up"><img class="icons" src="{{ hostname() }}/i/_/plus.png" alt="" /></a> &nbsp;<span id="q{{ ID }}">{{ VOTES }}</span>&nbsp; <a href="{{ U_MINUS }}" id="{{ ID }}" rel="quote_vote_down"><img class="icons" src="{{ hostname() }}/i/_/minus.png" alt="" /></a>&nbsp; ]
 			опубликована {{ TIME }}, {{ COMMENTS }}
 		</div>
 		<div class="shadow-light">{{ TEXT }}</div>
@@ -17,15 +17,15 @@
 		<div id="quote_votes_log" style="display: none;">
 		{% for row in votes %}
 			<p id="vote{{ row.ID }}">
-				<img class="icons" src="{{ static('i', '_/balloon_left_minus') }}" alt="" rel="vote_remove" id="{{ row.ID }}" />
-				<img class="icons" src="{{ static('i', '_/icon_' ~ row.TYPE) }}" alt="" /> &nbsp;
-				<img class="icons" src="{{ static('i', '_/user_black') }}" alt="" />{{ row.USER }} ({{ row.IP }})
-				<img class="icons" src="{{ static('i', '_/calendar_day') }}" alt="" />{{ row.TIME }}
+				<img class="icons" src="{{ hostname() }}/i/_/balloon_left_minus.png" alt="" rel="vote_remove" id="{{ row.ID }}" />
+				<img class="icons" src="{{ hostname() }}/i/_/icon_{{ row.TYPE }}.png" alt="" /> &nbsp;
+				<img class="icons" src="{{ hostname() }}/i/_/user_black.png" alt="" />{{ row.USER }} ({{ row.IP }})
+				<img class="icons" src="{{ hostname() }}/i/_/calendar_day.png" alt="" />{{ row.TIME }}
 			</p>
 		{% endfor %}
 		<hr class="dashed" />
 		{% for row in votes_guest %}
-			<p id="vote{{ row.ID }}"><img class="icons" src="{{ static('i', '_/balloon_left_minus') }}" alt="" rel="vote_remove" id="{{ row.ID }}" /> <span class="icons icon-{{ row.TYPE }}"></span> &nbsp; <img class="icons" src="{{ static('i', '_/user_guest') }}" alt="" /></span>{{ lang.GUEST }} ({{ row.IP }}) <img class="icons" src="{{ static('i', '_/calendar_day') }}" alt="" />{{ row.TIME }}</p>
+			<p id="vote{{ row.ID }}"><img class="icons" src="{{ hostname() }}/i/_/balloon_left_minus.png" alt="" rel="vote_remove" id="{{ row.ID }}" /> <span class="icons icon-{{ row.TYPE }}"></span> &nbsp; <img class="icons" src="{{ hostname() }}/i/_/user_guest.png" alt="" /></span>{{ lang.GUEST }} ({{ row.IP }}) <img class="icons" src="{{ hostname() }}/i/_/calendar_day.png" alt="" />{{ row.TIME }}</p>
 		{% endfor %}
 	{% endif %}
 	</div>

@@ -4,7 +4,7 @@
 <div class="b-center" style="width: 800px;">
 	<table align="center" cellpadding="8" cellspacing="0" width="100%">
 		<tr>
-			<td><img src="{{ static('i', 'games/cstrike/weapons/' ~ CODE) }}" alt="{{ CODE }}" title="{{ CODE }}" /></td>
+			<td><img src="{{ hostname() }}/i/games/cstrike/weapons/{{ CODE }}.png" alt="{{ CODE }}" title="{{ CODE }}" /></td>
 			<td valign="top" width="100%">
 				<h2>{{ NAME }}</h2>
 				<p>Фрагов: <b>{{ KILLS }}</b> | Хэдов: <b>{{ HEADSHOTS }}</b>{% if HEADSHOTS > 0 %} ({{ HPK }}){% endif %}</p>

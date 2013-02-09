@@ -7,21 +7,21 @@
 			<dt>
 				<div class="bubble-bg imgpad shadow-light ui-corner-all">
 					{% if row.ONLINE %}
-						<img src="{{ static('i', '_/status_online') }}" alt="{{ lang.ONLINE }}" title="{{ lang.ONLINE }}" />
+						<img src="{{ hostname() }}/i/_/status_online.png" alt="{{ lang.ONLINE }}" title="{{ lang.ONLINE }}" />
 					{% else %}
-						<img src="{{ static('i', '_/status_offline') }}" alt="{{ lang.OFFLINE }}" title="{{ lang.OFFLINE }}" />
+						<img src="{{ hostname() }}/i/_/status_offline.png" alt="{{ lang.OFFLINE }}" title="{{ lang.OFFLINE }}" />
 					{% endif %}
 					{{ row.USERNAME }}
 				</div>
 			</dt>
 			<dd>
 				<div class="bubble-gray-bg imgpad shadow-light ui-corner-all" style="width: 97%;">
-					<img class="icons" src="{{ static('i', '_/calendar_day') }}" alt="" />{{ row.TIME }}
+					<img class="icons" src="{{ hostname() }}/i/_/calendar_day.png" alt="" />{{ row.TIME }}
 					{% if S_EDIT %}
-						<a href="#" id="quick_edit{{ row.ID }}" onclick="quick_edit({{ row.ID }}); return false;" title="{{ lang.EDIT }}"><img class="icons" src="{{ static('i', '_/pencil') }}" alt="" /></a>
+						<a href="#" id="quick_edit{{ row.ID }}" onclick="quick_edit({{ row.ID }}); return false;" title="{{ lang.EDIT }}"><img class="icons" src="{{ hostname() }}/i/_/pencil.png" alt="" /></a>
 					{% endif %}
 					{% if S_DELETE %}
-						<a href="#" onclick="quick_delete({{ row.ID }}); return false;" title="{{ lang.DELETE }}"><img class="icons" src="{{ static('i', '_/cross_script') }}" alt="" /></a>
+						<a href="#" onclick="quick_delete({{ row.ID }}); return false;" title="{{ lang.DELETE }}"><img class="icons" src="{{ hostname() }}/i/_/cross_script.png" alt="" /></a>
 					{% endif %}
 				</div>
 			</dd>
@@ -33,7 +33,7 @@
 				{% elseif row.RANK_TITLE %}
 					<p><b class="genmed">{{ row.RANK_TITLE }}</b></p>
 				{% endif %}
-				<p><img class="icons" src="{{ static('i', '_/balloons') }}" alt="" />{{ row.POSTS }}</p>
+				<p><img class="icons" src="{{ hostname() }}/i/_/balloons.png" alt="" />{{ row.POSTS }}</p>
 			</dt>
 			<dd>
 				<p id="comment_{{ row.ID }}">{{ row.TEXT }}</p>

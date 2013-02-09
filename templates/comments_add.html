@@ -6,11 +6,11 @@
 	<dl>
 		<dt>{{ lang.MESSAGE }}:<br /><br />
 			<div class="smilies">
-				<a href="#" title=":D"><img src="{{ static('smiley', 'icon_biggrin') }}" alt="" /></a>
-				<a href="#" title=":bro:"><img src="{{ static('smiley', 'icon_brows') }}" alt="" /></a>
-				<a href="#" title=":)"><img src="{{ static('smiley', 'icon_smile') }}" alt="" /></a>
-				<a href="#" title=":))"><img src="{{ static('smiley', 'icon_smile2') }}" alt="" /></a>
-				<a href="#" title=":P"><img src="{{ static('smiley', 'icon_tongue') }}" alt="" /></a>
+				<a href="#" title=":D"><img src="{{ hostname() }}/i/smilies/icon_biggrin.gif" alt="" /></a>
+				<a href="#" title=":bro:"><img src="{{ hostname() }}/i/smilies/icon_brows.gif" alt="" /></a>
+				<a href="#" title=":)"><img src="{{ hostname() }}/i/smilies/icon_smile.gif" alt="" /></a>
+				<a href="#" title=":))"><img src="{{ hostname() }}/i/smilies/icon_smile2.gif" alt="" /></a>
+				<a href="#" title=":P"><img src="{{ hostname() }}/i/smilies/icon_tongue.gif" alt="" /></a>
 			</div>
 		</dt>
 		<dd><textarea class="post-editor shadow-light" name="post_text" rows="10" style="padding: 2px; width: 550px;"></textarea></dd>
@@ -22,7 +22,7 @@
 </fieldset>
 </form>
 
-<script type="text/javascript" src="{{ static('js', 'jquery.markitup') }}"></script>
+<script type="text/javascript" src="{{ hostname() }}/js/jquery.markitup.js"></script>
 <script type="text/javascript">
 var editorSettings = {
   markupSet: [

@@ -40,7 +40,7 @@
 			<input name="username" id="username" type="text" value="{{ USERNAME }}" placeholder="{{ lang.USERNAME }}" tabindex="1"><br>
 			<input name="email" id="email" type="text" value="{{ EMAIL }}" placeholder="{{ lang.EMAIL }}" tabindex="2"><br>
 			<input name="password" id="password" type="password" value="{{ PASSWORD }}" placeholder="{{ lang.PASSWORD }}" tabindex="3"><br>
-			<img src="/captcha.html" alt="" style="vertical-align: middle;" id="confirm_code_image"> &nbsp; <a href="#" id="refresh_confirm_code"><img src="{{ static('i', '_/24/arrow_circle_double_135') }}" alt="" style="vertical-align: middle;"></a><br>
+			<img src="/captcha.html" alt="" style="vertical-align: middle;" id="confirm_code_image"> &nbsp; <a href="#" id="refresh_confirm_code"><img src="{{ hostname() }}/i/_/24/arrow_circle_double_135.png" alt="" style="vertical-align: middle;"></a><br>
 			<input name="confirm_code" id="confirm_code" type="text" value="" placeholder="Код подтверждения" tabindex="4"><br>
 			<input class="btn btn-primary btn-large" type="submit" name="submit" value="Зарегистрироваться" tabindex="5">
 			{{ S_HIDDEN_FIELDS }}

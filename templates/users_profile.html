@@ -5,17 +5,17 @@
 	<div class="span5">
 		<h3>Профиль</h3>
 		<ul class="unstyled">
-			<li><img src="{{ static('i', '_/calendar_day') }}" alt=""> {{ REGDATE }}</li>
-			<li><img src="{{ static('i', '_/balloons') }}" alt=""> {{ COMMENTS }}</li>
-			<li><img src="{{ static('i', '_/eye') }}" alt=""> {{ LASTVISIT|default(lang.NEVER) }}</li>
+			<li><img src="{{ hostname() }}/i/_/calendar_day.png" alt=""> {{ REGDATE }}</li>
+			<li><img src="{{ hostname() }}/i/_/balloons.png" alt=""> {{ COMMENTS }}</li>
+			<li><img src="{{ hostname() }}/i/_/eye.png" alt=""> {{ LASTVISIT|default(lang.NEVER) }}</li>
 		</ul>
 		<h3>Контактная информация</h3>
 		<ul class="unstyled">
 			{% if S_ACP %}
-				<li><img src="{{ static('i', '_/user_guest') }}" alt=""> {{ IP|default('&mdash;') }}</li>
+				<li><img src="{{ hostname() }}/i/_/user_guest.png" alt=""> {{ IP|default('&mdash;') }}</li>
 			{% endif %}
-			<li><img src="{{ static('i', '_/icq') }}" alt=""> {{ ICQ|default('&mdash;') }}</li>
-			<li><img src="{{ static('i', '_/light_bulb') }}" alt=""> {{ JID|default('&mdash;') }}</li>
+			<li><img src="{{ hostname() }}/i/_/icq.png" alt=""> {{ ICQ|default('&mdash;') }}</li>
+			<li><img src="{{ hostname() }}/i/_/light_bulb.png" alt=""> {{ JID|default('&mdash;') }}</li>
 		</ul>
 		<h3>О себе</h3>
 		<h6>Откуда</h6>
@@ -26,9 +26,9 @@
 		<p>{{ INTERESTS|default('&mdash;') }}</p>
 	</div>
 	<div class="span11">
-		<p><img src="{{ static('i', '_/status_' ~ (ONLINE ? 'online' : 'offline')) }}" alt=""> {{ USERNAME }}</p>
+		<p><img src="{{ hostname() }}/i/_/status_{{ ONLINE ? 'online' : 'offline' }}.png" alt=""> {{ USERNAME }}</p>
 		{% if RANK_IMG %}
-			<p><img src="{{ static('rank', RANK_IMG) }}" alt="">{% if RANK_TITLE %}<br>{{ RANK_TITLE }}{% endif %}</p>
+			<p><img src="{{ hostname() }}/i/ranks/{{ RANK_IMG }}.png" alt="">{% if RANK_TITLE %}<br>{{ RANK_TITLE }}{% endif %}</p>
 		{% endif %}
 	</div>
 </div>

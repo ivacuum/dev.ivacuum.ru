@@ -16,13 +16,13 @@
 	<link rel="alternate" type="application/rss+xml" title="{{ row.TITLE }}" href="{{ row.URL }}">
 {% endfor %}
 <link rel="shortcut icon" href="{{ hostname() }}/i/_/home.png">
-<link rel="stylesheet" href="{{ hostname() }}/i/bootstrap/2.0.2/style.css">
-<link rel="stylesheet" href="{{ hostname() }}/i/bootstrap/2.0.2/expansion.css">
+<link rel="stylesheet" href="{{ hostname() }}/i/bootstrap/2.3.0/style.css">
+<link rel="stylesheet" href="{{ hostname() }}/i/bootstrap/2.3.0/expansion.css">
 
 <script>var g_local = {% if S_ISP == 'local' %}true{% else %}false{% endif %};</script>
 <script src="{{ hostname() }}/js/jquery/1.7.1/jquery.min.js"></script>
 <script src="{{ hostname() }}/js/hs.min.js"></script>
-<script src="{{ hostname() }}/i/bootstrap/2.0.2/plugins.js"></script>
+<script src="{{ hostname() }}/i/bootstrap/2.3.0/plugins.js"></script>
 <script src="{{ hostname() }}/js/base.js"></script>
 </head>
 <body class="{{ S_LANGUAGE_DIRECTION }}">
@@ -83,15 +83,15 @@
 </div>
 <div class="container">
 	{% block breadcrumbs %}
-		<ul class="breadcrumb ui-shadow-extralight">
+		<ul class="breadcrumb">
 			<li><a href="{{ U_INDEX }}">{{ lang.INDEX_PAGE }}</a></li>
 			{% for row in nav_links %}
-				<span class="divider">&rarr;</span>
 				{% if not loop.last %}
-					<a href="{{ row.URL }}">{{ row.TEXT }}</a>
+					<li><span class="divider">&rarr;</span><a href="{{ row.URL }}">{{ row.TEXT }}</a></li>
 				{% else %}
-					<span>{{ row.TEXT }}</span>
+					<li class="active"><span class="divider">&rarr;</span>{{ row.TEXT }}</li>
 				{% endif %}
+				</li>
 			{% endfor %}
 		</ul>
 	{% endblock %}

@@ -37,7 +37,7 @@ class gallery extends page
 				' . IMAGES_TABLE . '
 			WHERE
 				user_id = ' . $this->user['user_id'];
-		$this->db->query($sql, 60);
+		$this->db->query($sql);
 		$row = $this->db->fetchrow();
 		$this->db->freeresult();
 

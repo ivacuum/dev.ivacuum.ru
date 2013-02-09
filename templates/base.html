@@ -34,7 +34,7 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</a>
-			<a class="brand" href="{{ U_INDEX }}">{{ cfg.sitename }}</a>
+			<a class="brand" href="{{ U_INDEX }}">{{ cfg.sitename }}{% if S_ISP == 'local' %} <sup>local</sup>{% endif %}</a>
 			<div class="nav-collapse">
 				<ul class="nav">
 				{% for row in menu %}

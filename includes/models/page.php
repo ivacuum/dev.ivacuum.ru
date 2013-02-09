@@ -1,7 +1,7 @@
 <?php
 /**
 * @package ivacuum.ru
-* @copyright (c) 2012
+* @copyright (c) 2013
 */
 
 namespace app\models;
@@ -14,12 +14,8 @@ class page extends base_page
 	{
 		parent::page_header();
 		
-		$this->template->assign(array(
-			'S_BASE_JS_MTIME' => filemtime($this->config['images_dir'] . 'bootstrap/' . $this->config['bootstrap_version'] . '/plugins.js'),
-			'S_MAIN_JS_MTIME' => filemtime($this->config['js_dir'] . 'base.js'),
-			'S_STYLE_MTIME'   => filemtime($this->config['images_dir'] . 'bootstrap/' . $this->config['bootstrap_version'] . '/expansion.css'),
-			
-			'U_LOCAL' => ilink('', 'http://local.ivacuum.ru')
-		));
+		$this->template->assign([
+			'U_LOCAL' => ilink('', 'http://local.ivacuum.ru'),
+		]);
 	}
 }

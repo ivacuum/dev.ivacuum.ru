@@ -6,7 +6,7 @@
 
 namespace app;
 
-require('/srv/www/vhosts/_/fw/master/bootstrap.php');
+require('../../_/fw/master/bootstrap.php');
 
 /**
 * Создание сессии

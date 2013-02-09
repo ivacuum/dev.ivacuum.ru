@@ -7,17 +7,14 @@
 
 namespace app;
 
-if (PHP_SAPI != 'cli')
-{
-	exit;
-}
+use fw\cron\manager;
 
 /* Установка недостающих переменных */
-$_SERVER['DOCUMENT_ROOT'] = __DIR__;
-$_SERVER['SERVER_NAME'] = 'dev.ivacuum.ru';
+$_SERVER['DOCUMENT_ROOT'] = __DIR__ . '/public_html';
+$_SERVER['SERVER_NAME'] = basename(__DIR__);
 
-require('/srv/www/vhosts/_/fw/master/bootstrap.php');
+require('../_/fw/master/bootstrap.php');
 
 /* Выполнение задач */
-$cron = new \fw\cron\manager();
+$cron = new manager();
 $cron->run();

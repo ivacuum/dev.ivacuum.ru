@@ -44,7 +44,7 @@
 			<tr>
 		{% endif %}
 		<td data-id="{{ row.ID }}" id="image{{ row.ID }}" style="text-align: center; vertical-align: bottom;">
-			<p><a href="{{ row.U_PREVIEW }}"><img class="ui-shadow-med" src="{{ cfg.gallery_path }}/{{ row.DATE }}/t/{{ row.URL }}" alt=""></a></p>
+			<p><a href="{{ url_for('preview', [row.ID]) }}"><img class="ui-shadow-med" src="{{ cfg.gallery_path }}/{{ row.DATE }}/t/{{ row.URL }}" alt=""></a></p>
 			<div>
 				<img src="{{ hostname() }}/i/_/eye.png" alt=""> {{ row.VIEWS }}
 				<br><img src="{{ hostname() }}/i/_/calendar_day.png" alt=""> {{ row.TIME }}
@@ -95,8 +95,8 @@ $('#delete_images').bind('click', function() {
 
 	if (images_id.length > 0) {
 		if (confirm('Вы действительно хотите удалить картинки?')) {
-			$.post(encodeURI('{{ U_DELETE }}'), { images_id: images_id.join() }, function() {
-				window.location = '{{ U_REFRESH }}';
+			$.post(encodeURI('{{ url_for('delete_images') }}'), { images_id: images_id.join() }, function() {
+				window.location = '{{ url_for('index') }}';
 			});
 		}
 	} else {
@@ -112,7 +112,7 @@ $('#get_images_links').bind('click', function() {
   g_loading = true;
 
   if (images_id.length > 0) {
-    $.post(encodeURI('{{ U_LINKS }}'), { images_id: images_id.join() }, function(data) { $('#images_links').empty().hide().html(data).fadeIn('slow'); $.scrollTo('#images_links', 800); });
+    $.post(encodeURI('{{ url_for('links') }}'), { images_id: images_id.join() }, function(data) { $('#images_links').empty().hide().html(data).fadeIn('slow'); $.scrollTo('#images_links', 800); });
   }
 });
 

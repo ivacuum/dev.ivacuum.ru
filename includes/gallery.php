@@ -78,8 +78,6 @@ class gallery extends page
 				'TIME'    => $this->user->create_date($row['image_time'], '|j F Y|, H:i', false, true),
 				'URL'     => $row['image_url'],
 				'VIEWS'   => num_format($row['image_views']),
-
-				'U_PREVIEW' => ilink($this->get_handler_url('preview', array($row['image_id'])))
 			));
 		}
 
@@ -90,10 +88,6 @@ class gallery extends page
 			'TOTAL_SIZE'    => humn_size($total_size),
 			'TOTAL_TRAFFIC' => humn_size($total_traffic),
 			'TOTAL_VIEWS'   => num_format($total_views),
-
-			'U_DELETE'  => ilink($this->get_handler_url('delete_images')),
-			'U_LINKS'   => ilink($this->get_handler_url('links')),
-			'U_REFRESH' => ilink($this->get_handler_url('index'))
 		));
 	}
 

@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h3>MySQL сервер работает {{ UPTIME }}</h3>
+<h3>MySQL сервер работает {{ duration(UPTIME, true) }}</h3>
 <p><img src="//ivacuum.org/i/_/traffic_light.png" alt=""> <b>Трафик:</b> эти таблицы показывают статистику по сетевому трафику MySQL сервера со времени его запуска.</p>
 
 <div class="row">

@@ -63,7 +63,7 @@ class memcache extends page
 				'CACHE_USED'  => $stats_single[$server]['STAT']['bytes'],
 				'SERVER'      => $server,
 				'START_TIME'  => $this->user->create_date($stats_single[$server]['STAT']['time'] - $stats_single[$server]['STAT']['uptime']),
-				'UPTIME'      => create_time($this->user->ctime - ($stats_single[$server]['STAT']['time'] - $stats_single[$server]['STAT']['uptime']), true),
+				'UPTIME'      => $this->user->ctime - ($stats_single[$server]['STAT']['time'] - $stats_single[$server]['STAT']['uptime']),
 				'VERSION'     => $stats_single[$server]['STAT']['version'],
 			]);
 		}

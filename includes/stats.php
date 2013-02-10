@@ -65,7 +65,7 @@ class stats extends page
 			'QUERIES_PER_HOUR'          => sprintf('%.2f', (($info['Questions'] * 3600) / $info['Uptime'])),
 			'QUERIES_PER_MINUTE'        => sprintf('%.2f', (($info['Questions'] * 60) / $info['Uptime'])),
 			'QUERIES_PER_SECOND'        => sprintf('%.2f', ($info['Questions'] / $info['Uptime'])),
-			'UPTIME'                    => create_time($info['Uptime'])
+			'UPTIME'                    => $info['Uptime'],
 		]);
 	}
 }

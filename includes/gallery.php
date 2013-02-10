@@ -74,7 +74,7 @@ class gallery extends page
 			$this->template->append('images', [
 				'DATE'    => $row['image_date'],
 				'ID'      => $row['image_id'],
-				'OUTDATE' => $outdate > $this->config['images_purge_interval'] ? create_time($outdate, true) : '',
+				'OUTDATE' => $outdate > $this->config['images_purge_interval'] ? $outdate : '',
 				'TIME'    => $this->user->create_date($row['image_time'], '|j F Y|, H:i', false, true),
 				'URL'     => $row['image_url'],
 				'VIEWS'   => num_format($row['image_views']),

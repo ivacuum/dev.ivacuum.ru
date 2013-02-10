@@ -52,7 +52,7 @@ class gallery extends page
 
 		$this->db->freeresult();
 
-		$this->template->vars([
+		$this->template->assign([
 			'TODAY_IMAGES'  => num_format($stats['today_images']),
 			'TOTAL_IMAGES'  => num_format($stats['total_images']),
 			'TOTAL_SIZE'    => $stats['total_size'],

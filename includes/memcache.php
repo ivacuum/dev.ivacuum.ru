@@ -116,7 +116,7 @@ class memcache extends page
 			}
 		}
 
-		$this->template->vars([
+		$this->template->assign([
 			'FLAG'  => $row['stat']['flag'],
 			'KEY'   => $key,
 			'SIZE'  => $row['stat']['size'],

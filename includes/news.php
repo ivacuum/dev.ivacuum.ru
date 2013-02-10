@@ -167,7 +167,7 @@ class news extends page
 			trigger_error('NEWS_NOT_FOUND');
 		}
 	
-		$this->template->vars([
+		$this->template->assign([
 			'AUTHOR'   => $this->user_profile_link('', $row['username'], $row['user_colour'], $row['user_url'], $row['news_author_id']),
 			'COMMENTS' => $row['news_comments'],
 			'TEXT'     => prepare_text_for_print($row['news_text']),

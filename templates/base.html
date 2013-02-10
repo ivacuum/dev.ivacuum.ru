@@ -58,7 +58,7 @@
 								<li><a href="https://lk.beeline.ru/">Личный Кабинет «Билайн»</a></li>
 								<li><a href="http://portal.klg.corbina.net/">Портал Корбины</a></li>
 								<li class="divider"></li>
-								<li><a href="//ivacuum.ru/ucp/logout.html?goto={{ U_THIS_PAGE }}">{{ lang.SIGNOUT }}</a></li>
+								<li><a href="{{ url_for('ucp::logout') }}?goto={{ U_THIS_PAGE }}">{{ lang.SIGNOUT }}</a></li>
 							</ul>
 						</li>
 						{% if languages %}
@@ -73,8 +73,8 @@
 					</ul>
 				{% else %}
 					<ul class="nav pull-right">
-						<li><a href="/ucp/login.html?goto={{ U_THIS_PAGE }}">{{ lang.LOGIN }}</a></li>
-						<li><a href="/ucp/register.html">{{ lang.REGISTER }}</a></li>
+						<li><a href="{{ url_for('ucp::login') }}?goto={{ U_THIS_PAGE }}">{{ lang.LOGIN }}</a></li>
+						<li><a href="{{ url_for('ucp::register') }}">{{ lang.REGISTER }}</a></li>
 					</ul>
 				{% endif %}
 			</div>

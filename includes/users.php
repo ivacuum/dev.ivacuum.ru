@@ -53,7 +53,7 @@ class users extends page
 				FROM
 					' . USERS_TABLE . '
 				WHERE
-					' . (($u) ? 'user_url = ' . $this->db->check_value($u) : 'user_id = ' . $this->db->check_value($uid));
+					' . ($u ? 'user_url = ' . $this->db->check_value($u) : 'user_id = ' . $this->db->check_value($uid));
 			$this->db->query($sql);
 			$row = $this->db->fetchrow();
 			$this->db->freeresult();

@@ -352,7 +352,7 @@ class memopu3 extends page
 			WHERE
 				quote_id = ' . $this->db->check_value($quote_id) . '
 			AND
-				' . (($this->user->is_registered) ? '(user_id = ' . $this->db->check_value($this->user['user_id']) . ' OR user_ip = ' . $this->db->check_value($this->user->ip) . ')' : 'user_ip = ' . $this->db->check_value($this->user->ip));
+				' . ($this->user->is_registered ? '(user_id = ' . $this->db->check_value($this->user['user_id']) . ' OR user_ip = ' . $this->db->check_value($this->user->ip) . ')' : 'user_ip = ' . $this->db->check_value($this->user->ip));
 		$this->db->query($sql);
 		$row = $this->db->fetchrow();
 		$this->db->freeresult();
@@ -388,7 +388,7 @@ class memopu3 extends page
 			UPDATE
 				' . QUOTES_TABLE . '
 			SET
-				quote_votes = quote_votes ' . (($mode == '+') ? '+ 1' : '- 1') . '
+				quote_votes = quote_votes ' . ($mode == '+' ? '+ 1' : '- 1') . '
 			WHERE
 				quote_id = ' . $this->db->check_value($quote_id);
 		$this->db->query($sql);
@@ -450,7 +450,7 @@ class memopu3 extends page
 			UPDATE
 				' . QUOTES_TABLE . '
 			SET
-				quote_votes = quote_votes ' . (($vote['vote_option']) ? '- 1' : '+ 1') . '
+				quote_votes = quote_votes ' . ($vote['vote_option'] ? '- 1' : '+ 1') . '
 			WHERE
 				quote_id = ' . $this->db->check_value($row['quote_id']);
 		$this->db->query($sql);

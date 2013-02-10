@@ -69,7 +69,7 @@
 								<li><a href="https://lk.beeline.ru/">Личный Кабинет «Билайн»</a></li>
 								<li><a href="http://portal.klg.corbina.net/">Портал Корбины</a></li>
 								<li class="divider"></li>
-								<li><a href="{{ url_for('ucp::logout') }}?goto={{ U_THIS_PAGE }}">{{ lang.SIGNOUT }}</a></li>
+								<li><a href="{{ url_for('ucp::logout') }}?goto={{ U_THIS_PAGE }}">{{ lang('SIGNOUT') }}</a></li>
 							</ul>
 						</li>
 						{% if languages %}
@@ -84,8 +84,8 @@
 					</ul>
 				{% else %}
 					<ul class="nav pull-right">
-						<li><a href="{{ url_for('ucp::login') }}?goto={{ U_THIS_PAGE }}">{{ lang.LOGIN }}</a></li>
-						<li><a href="{{ url_for('ucp\\register::index') }}">{{ lang.REGISTER }}</a></li>
+						<li><a href="{{ url_for('ucp::login') }}?goto={{ U_THIS_PAGE }}">{{ lang('LOGIN') }}</a></li>
+						<li><a href="{{ url_for('ucp\\register::index') }}">{{ lang('REGISTER') }}</a></li>
 					</ul>
 				{% endif %}
 			</div>
@@ -95,7 +95,7 @@
 <div class="container">
 	{% block breadcrumbs %}
 		<ul class="breadcrumb">
-			<li><a href="{{ U_INDEX }}">{{ lang.INDEX_PAGE }}</a></li>
+			<li><a href="{{ U_INDEX }}">{{ lang('INDEX_PAGE') }}</a></li>
 			{% for row in nav_links %}
 				{% if not loop.last %}
 					<li><span class="divider">&rarr;</span><a href="{{ row.URL }}">{{ row.TEXT }}</a></li>
@@ -112,7 +112,7 @@
 	{% block content_footer %}{% endblock %}
 	{% spaceless %}
 	<footer>
-		<p class="pull-right"><a href="mailto:{{ cfg.email_support }}">{{ lang.FEEDBACK }}</a></p>
+		<p class="pull-right"><a href="mailto:{{ cfg.email_support }}">{{ lang('FEEDBACK') }}</a></p>
 		<p>&copy; {{ S_YEAR }} vacuum</p>
 	</footer>
 </div>

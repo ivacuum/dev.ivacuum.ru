@@ -2,8 +2,8 @@
 <form method="post">
 <textarea class="shadow-light quickedit" id="comment_{{ COMMENT_ID }}_textarea">{{ COMMENT_TEXT }}</textarea><br />
 <div align="center">
-	<input class="btn btn-primary" type="button" onclick="submit_changes({{ COMMENT_ID }});" style="width: 100px;" value="{{ lang.SAVE }}" /> &nbsp;
-	<input class="btn btn-negative" type="button" onclick="cancel_changes({{ COMMENT_ID }});" style="width: 100px;" value="{{ lang.CANCEL }}" />
+	<input class="btn btn-primary" type="button" onclick="submit_changes({{ COMMENT_ID }});" style="width: 100px;" value="{{ lang('SAVE') }}" /> &nbsp;
+	<input class="btn btn-negative" type="button" onclick="cancel_changes({{ COMMENT_ID }});" style="width: 100px;" value="{{ lang('CANCEL') }}" />
 </div>
 </form>
 {% elseif SEND_TEXT %}
@@ -13,7 +13,7 @@
 // <![CDATA[
 {% if S_DELETE %}
 function quick_delete(id) {
-  if (confirm('{{ lang.DELETE_CONFIRM }}')) {
+  if (confirm('{{ lang('DELETE_CONFIRM') }}')) {
     window.location = '{{ U_DELETE }}';
   }
 }

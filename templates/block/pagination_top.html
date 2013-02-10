@@ -1,10 +1,10 @@
 {% if pagination and pagination.PAGES > 1 %}
 <form action="{{ pagination.URL }}" method="post" style="margin: 0;">
 	<div class="pull-right">
-		{{ lang.GO_TO_PAGE }}
+		{{ lang('GO_TO_PAGE') }}
 		{% if pagination.PREV %}<a class="btn btn-mini" href="{{ pagination.PREV }}" id="prev_page"><i class="icon-arrow-left"></i></a>{% endif %}
 		<input type="text" name="{{ pagination.VAR }}" value="{{ pagination.PAGE }}" style="display: inline-block; margin-bottom: 0; width: 2em;" onclick="highlight(this);">
-		{{ lang.OF }} {{ pagination.PAGES }}
+		{{ lang('OF') }} {{ pagination.PAGES }}
 		{% if pagination.NEXT %}<a class="btn btn-mini" href="{{ pagination.NEXT }}" id="next_page"><i class="icon-arrow-right"></i></a>{% endif %}
 	</div>
 </form>

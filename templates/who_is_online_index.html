@@ -8,9 +8,9 @@
 	{% if S_ACP %}
 		<thead>
 		<tr>
-			<th class="block" width="55%">{{ lang.USERNAME }}</th>
-			<th>{{ lang.TIME }}</th>
-			<th>{{ lang.PAGE }}</th>
+			<th class="block" width="55%">{{ lang('USERNAME') }}</th>
+			<th>{{ lang('TIME') }}</th>
+			<th>{{ lang('PAGE') }}</th>
 		</tr>
 		</thead>
 		{% for row in users %}
@@ -30,8 +30,8 @@
 		{% endfor %}
 	{% else %}
 		<tr>
-			<th width="50%">{{ lang.USERNAME }}</th>
-			<th>{{ lang.TIME }}</td>
+			<th width="50%">{{ lang('USERNAME') }}</th>
+			<th>{{ lang('TIME') }}</td>
 		</tr>
 		{% for row in users %}
 		<tr>

@@ -22,23 +22,23 @@
 				</div>
 			{% endif %}
 			<div class="clearfix">
-				<input name="username" id="username" type="text" value="{{ USERNAME }}" placeholder="{{ lang.USERNAME }}">
-				<span class="help-block">3-30 {{ lang.SYMBOLS }}</span>
+				<input name="username" id="username" type="text" value="{{ USERNAME }}" placeholder="{{ lang('USERNAME') }}">
+				<span class="help-block">3-30 {{ lang('SYMBOLS') }}</span>
 			</div>
 			<div class="clearfix">
-				<input name="email" id="email" type="text" value="{{ EMAIL }}" placeholder="{{ lang.EMAIL }}">
-				<span class="help-block">6-60 {{ lang.SYMBOLS }}</span>
+				<input name="email" id="email" type="text" value="{{ EMAIL }}" placeholder="{{ lang('EMAIL') }}">
+				<span class="help-block">6-60 {{ lang('SYMBOLS') }}</span>
 			</div>
 			<div class="clearfix">
-				<input name="password" id="password" type="password" value="{{ PASSWORD }}" placeholder="{{ lang.PASSWORD }}">
-				<span class="help-block">3-30 {{ lang.SYMBOLS }}</span>
+				<input name="password" id="password" type="password" value="{{ PASSWORD }}" placeholder="{{ lang('PASSWORD') }}">
+				<span class="help-block">3-30 {{ lang('SYMBOLS') }}</span>
 			</div>
 			<!-- <dl>
 				<dt><b id="captcha_code_tip_title">{L_CAPTCHA_CODE}</b>:<span class="ui-helper-hidden" id="captcha_code_tip_length">Введите код, изображенный на рисунке</span></dt>
 				<dd><input class="post shadow-extralight" name="captcha_code" id="captcha_code" type="text" style="width: 6em;" /><br /><br /><img alt="captcha_code" title="captcha_code" src="{U_CAPTCHA}" /></dd>
 			</dl> -->
 			<div class="clearfix">
-				<input class="btn primary large" type="submit" name="submit" value="{{ lang.REGISTER }}">
+				<input class="btn primary large" type="submit" name="submit" value="{{ lang('REGISTER') }}">
 			</div>
 		</form>
 	</div>

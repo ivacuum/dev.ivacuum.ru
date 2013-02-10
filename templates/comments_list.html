@@ -1,15 +1,15 @@
 {% include "block/pagination_top.html" %}
 
 <fieldset class="comments ui-corner-all w200">
-	<legend>{{ lang.COMMENTS }}</legend>
+	<legend>{{ lang('COMMENTS') }}</legend>
 	{% for row in comments %}
 		<dl>
 			<dt>
 				<div class="bubble-bg imgpad shadow-light ui-corner-all">
 					{% if row.ONLINE %}
-						<img src="//ivacuum.org/i/_/status_online.png" alt="{{ lang.ONLINE }}" title="{{ lang.ONLINE }}" />
+						<img src="//ivacuum.org/i/_/status_online.png" alt="{{ lang('ONLINE') }}" title="{{ lang('ONLINE') }}" />
 					{% else %}
-						<img src="//ivacuum.org/i/_/status_offline.png" alt="{{ lang.OFFLINE }}" title="{{ lang.OFFLINE }}" />
+						<img src="//ivacuum.org/i/_/status_offline.png" alt="{{ lang('OFFLINE') }}" title="{{ lang('OFFLINE') }}" />
 					{% endif %}
 					{{ row.USERNAME }}
 				</div>
@@ -18,10 +18,10 @@
 				<div class="bubble-gray-bg imgpad shadow-light ui-corner-all" style="width: 97%;">
 					<img class="icons" src="//ivacuum.org/i/_/calendar_day.png" alt="" />{{ row.TIME }}
 					{% if S_EDIT %}
-						<a href="#" id="quick_edit{{ row.ID }}" onclick="quick_edit({{ row.ID }}); return false;" title="{{ lang.EDIT }}"><img class="icons" src="//ivacuum.org/i/_/pencil.png" alt="" /></a>
+						<a href="#" id="quick_edit{{ row.ID }}" onclick="quick_edit({{ row.ID }}); return false;" title="{{ lang('EDIT') }}"><img class="icons" src="//ivacuum.org/i/_/pencil.png" alt="" /></a>
 					{% endif %}
 					{% if S_DELETE %}
-						<a href="#" onclick="quick_delete({{ row.ID }}); return false;" title="{{ lang.DELETE }}"><img class="icons" src="//ivacuum.org/i/_/cross_script.png" alt="" /></a>
+						<a href="#" onclick="quick_delete({{ row.ID }}); return false;" title="{{ lang('DELETE') }}"><img class="icons" src="//ivacuum.org/i/_/cross_script.png" alt="" /></a>
 					{% endif %}
 				</div>
 			</dd>
@@ -40,7 +40,7 @@
 			</dd>
 		</dl>
 	{% else %}
-		<p>{{ lang.NO_COMMENTS }}.</p>
+		<p>{{ lang('NO_COMMENTS') }}.</p>
 	{% endfor %}
 </fieldset>
 

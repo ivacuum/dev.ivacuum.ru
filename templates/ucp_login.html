@@ -10,7 +10,7 @@
 	</div> -->
 	<div class="span5 offset4">
 		<div class="page-header">
-			<h3>{{ lang.LOGIN }}</h3>
+			<h3>{{ lang('LOGIN') }}</h3>
 		</div>
 		<!-- <br> -->
 		{% if LOGIN_ERROR %}
@@ -29,15 +29,15 @@
 			</div>
 		{% endif %}
 		<form action="{{ U_ACTION }}" method="post">
-			<input type="text" name="username" value="{{ USERNAME }}" tabindex="1" placeholder="{{ lang.USERNAME }}"><br>
-			<input type="password" name="password" tabindex="2" placeholder="{{ lang.PASSWORD }}"><br>
+			<input type="text" name="username" value="{{ USERNAME }}" tabindex="1" placeholder="{{ lang('USERNAME') }}"><br>
+			<input type="password" name="password" tabindex="2" placeholder="{{ lang('PASSWORD') }}"><br>
 			<label class="checkbox">
-				<input name="autologin" type="checkbox" tabindex="3" checked="checked"> {{ lang.AUTOLOGIN }}
+				<input name="autologin" type="checkbox" tabindex="3" checked="checked"> {{ lang('AUTOLOGIN') }}
 			</label>
 			<!-- <label class="checkbox">
-				<input name="hideme" type="checkbox" tabindex="4" disabled="disabled"> {{ lang.HIDEME }}
+				<input name="hideme" type="checkbox" tabindex="4" disabled="disabled"> {{ lang('HIDEME') }}
 			</label> -->
-			<input class="btn btn-primary" type="submit" name="submit" value="{{ lang.LOGIN }}" tabindex="4">
+			<input class="btn btn-primary" type="submit" name="submit" value="{{ lang('LOGIN') }}" tabindex="4">
 			{{ S_HIDDEN_FIELDS }}
 		</form>
 	</div>

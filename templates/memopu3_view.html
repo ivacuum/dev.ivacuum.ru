@@ -25,7 +25,7 @@
 		{% endfor %}
 		<hr class="dashed" />
 		{% for row in votes_guest %}
-			<p id="vote{{ row.ID }}"><img class="icons" src="//ivacuum.org/i/_/balloon_left_minus.png" alt="" rel="vote_remove" id="{{ row.ID }}" /> <span class="icons icon-{{ row.TYPE }}"></span> &nbsp; <img class="icons" src="//ivacuum.org/i/_/user_guest.png" alt="" /></span>{{ lang.GUEST }} ({{ row.IP }}) <img class="icons" src="//ivacuum.org/i/_/calendar_day.png" alt="" />{{ row.TIME }}</p>
+			<p id="vote{{ row.ID }}"><img class="icons" src="//ivacuum.org/i/_/balloon_left_minus.png" alt="" rel="vote_remove" id="{{ row.ID }}" /> <span class="icons icon-{{ row.TYPE }}"></span> &nbsp; <img class="icons" src="//ivacuum.org/i/_/user_guest.png" alt="" /></span>{{ lang('GUEST') }} ({{ row.IP }}) <img class="icons" src="//ivacuum.org/i/_/calendar_day.png" alt="" />{{ row.TIME }}</p>
 		{% endfor %}
 	{% endif %}
 	</div>

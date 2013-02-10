@@ -74,7 +74,7 @@
 				{% else %}
 					<ul class="nav pull-right">
 						<li><a href="{{ url_for('ucp::login') }}?goto={{ U_THIS_PAGE }}">{{ lang.LOGIN }}</a></li>
-						<li><a href="{{ url_for('ucp::register') }}">{{ lang.REGISTER }}</a></li>
+						<li><a href="{{ url_for('ucp\register::index') }}">{{ lang.REGISTER }}</a></li>
 					</ul>
 				{% endif %}
 			</div>

@@ -255,7 +255,7 @@ class memopu3 extends page
 			$this->vote($quote_id, $mode);
 		}
 		
-		navigation_link(ilink(sprintf('%s%d', $this->urls['view'], $quote_id)), 'Цитата #' . $quote_id);
+		$this->breadcrumbs(ilink(sprintf('%s%d', $this->urls['view'], $quote_id)), 'Цитата #' . $quote_id);
 		
 		/* TODO */
 		/* коменты */

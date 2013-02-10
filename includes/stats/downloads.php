@@ -159,7 +159,7 @@ class downloads extends page
 
 		$this->db->freeresult();
 
-		navigation_link(ilink(sprintf('%s/%d', $this->url, $file['file_id'])), $file['file_name'], 'document_text');
+		$this->breadcrumbs(ilink(sprintf('%s/%d', $this->url, $file['file_id'])), $file['file_name'], 'document_text');
 
 		$this->template->assign([
 			'DL_DATA'   => substr($dl_data, 0, -1),

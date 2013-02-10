@@ -5,7 +5,7 @@
 <div class="row">
 	<div class="span3">
 		<h4>Всего файлов</h4>
-		<p><img src="//ivacuum.org/i/_/documents.png" alt=""> {{ TOTAL_FILES }}</p>
+		<p><img src="//ivacuum.org/i/_/documents.png" alt=""> {{ num_format(TOTAL_FILES) }}</p>
 	</div>
 	<div class="span3">
 		<h4>Занимаемый объём</h4>
@@ -13,7 +13,7 @@
 	</div>
 	<div class="span3">
 		<h4>Всего закачек</h4>
-		<p><img src="//ivacuum.org/i/_/counter.png" alt=""> {{ TOTAL_DLC }}{% if TOTAL_TODAY_DLC > 0 %} <span style="color: green;">(+{{ TOTAL_TODAY_DLC }})</span>{% endif %}</p>
+		<p><img src="//ivacuum.org/i/_/counter.png" alt=""> {{ num_format(TOTAL_DLC) }}{% if TOTAL_TODAY_DLC > 0 %} <span style="color: green;">(+{{ num_format(TOTAL_TODAY_DLC) }})</span>{% endif %}</p>
 	</div>
 	<div class="span3">
 		<h4>Общий трафик</h4>
@@ -38,7 +38,7 @@
 		<td class="number">{{ loop.index }}</td>
 		<td><a href="//dl.ivacuum.ru/{{ row.ID }}/"><img src="//ivacuum.org/i/_/drive_download.png" alt="" /></a> <a href="{{ row.U_DETAILS }}"><b>{{ row.NAME }}</b></a></td>
 		<td class="number">{{ humn_size(row.SIZE) }}</td>
-		<td class="number">{{ row.DLC }}</td>
+		<td class="number">{{ num_format(row.DLC) }}</td>
 		<td class="number" style="color: green; font-weight: bold;">{{ row.TODAY_DLC }}</td>
 	</tr>
 	{% endfor %}

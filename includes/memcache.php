@@ -36,8 +36,8 @@ class memcache extends page
 		$total_uptime = array_sum($stats['uptime']);
 
 		$this->template->assign([
-			'CURR_ITEMS'          => num_format($stats['curr_items']),
-			'HITS'                => num_format($stats['get_hits']),
+			'CURR_ITEMS'          => $stats['curr_items'],
+			'HITS'                => $stats['get_hits'],
 			'HITS_PERCENT'        => sprintf('%.2f', ($stats['get_hits'] / ($stats['get_hits'] + $stats['get_misses'])) * 100),
 			'LIMIT_MAXBYTES'      => $stats['limit_maxbytes'],
 			'MEMCACHE_SERVER'     => $this->servers[0],
@@ -45,10 +45,10 @@ class memcache extends page
 			'MEMORY_FREE_PERCENT' => sprintf('%.2f', (($stats['limit_maxbytes'] - $stats['bytes']) / $stats['limit_maxbytes']) * 100),
 			'MEMORY_USED'         => $stats['bytes'],
 			'MEMORY_USED_PERCENT' => sprintf('%.2f', ($stats['bytes'] / $stats['limit_maxbytes']) * 100),
-			'MISSES'              => num_format($stats['get_misses']),
+			'MISSES'              => $stats['get_misses'],
 			'MISSES_PERCENT'      => sprintf('%.2f', ($stats['get_misses'] / ($stats['get_hits'] + $stats['get_misses'])) * 100),
 			'PHP_VERSION'         => phpversion(),
-			'TOTAL_ITEMS'         => num_format($stats['total_items']),
+			'TOTAL_ITEMS'         => $stats['total_items'],
 
 			'HIT_RATE'  => sprintf('%.2f', $stats['get_hits'] / $total_uptime),
 			'MISS_RATE' => sprintf('%.2f', $stats['get_misses'] / $total_uptime),

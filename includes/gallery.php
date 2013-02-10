@@ -77,17 +77,17 @@ class gallery extends page
 				'OUTDATE' => $outdate > $this->config['images_purge_interval'] ? $outdate : '',
 				'TIME'    => $this->user->create_date($row['image_time'], '|j F Y|, H:i', false, true),
 				'URL'     => $row['image_url'],
-				'VIEWS'   => num_format($row['image_views']),
+				'VIEWS'   => $row['image_views'],
 			]);
 		}
 
 		$this->db->freeresult();
 
 		$this->template->assign([
-			'TOTAL_IMAGES'  => num_format($total_images),
+			'TOTAL_IMAGES'  => $total_images,
 			'TOTAL_SIZE'    => $total_size,
 			'TOTAL_TRAFFIC' => $total_traffic,
-			'TOTAL_VIEWS'   => num_format($total_views),
+			'TOTAL_VIEWS'   => $total_views,
 		]);
 	}
 

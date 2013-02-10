@@ -96,15 +96,15 @@
 			<tbody>
 			<tr>
 				<td>Current Items (total)</td>
-				<td>{{ CURR_ITEMS }} ({{ TOTAL_ITEMS }})</td>
+				<td>{{ num_format(CURR_ITEMS) }} ({{ num_format(TOTAL_ITEMS) }})</td>
 			</tr>
 			<tr>
 				<td>Hits</td>
-				<td>{{ HITS }}</td>
+				<td>{{ num_format(HITS) }}</td>
 			</tr>
 			<tr>
 				<td>Misses</td>
-				<td>{{ MISSES }}</td>
+				<td>{{ num_format(MISSES) }}</td>
 			</tr>
 			<tr>
 				<td>Request Rate (hits, misses)</td>

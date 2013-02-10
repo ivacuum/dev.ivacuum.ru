@@ -4,8 +4,8 @@
 <fieldset class="ui-corner-all">
 	<legend>Просмотров</legend>
 	<p>
-		В локальной сети: <img class="icons" src="//ivacuum.org/i/_/network_ethernet.png" alt="" /><b>{{ LOCAL_VIEWS }}</b> |
-		В сети интернет: <img class="icons" src="//ivacuum.org/i/_/globe_green.png" alt="" /><b>{{ INTERNET_VIEWS }}</b>.
+		В локальной сети: <img class="icons" src="//ivacuum.org/i/_/network_ethernet.png" alt="" /><b>{{ num_format(LOCAL_VIEWS) }}</b> |
+		В сети интернет: <img class="icons" src="//ivacuum.org/i/_/globe_green.png" alt="" /><b>{{ num_format(INTERNET_VIEWS) }}</b>.
 	</p>
 </fieldset>
 
@@ -23,7 +23,7 @@
 	<tr>
 		<td class="number">{{ loop.index }}</td>
 		<td><a href="//{{ row.DOMAIN }}"><b>{{ row.DOMAIN }}</b></a></td>
-		<td class="number">{{ row.VIEWS }}</td>
+		<td class="number">{{ num_format(row.VIEWS) }}</td>
 	</tr>
 	{% endfor %}
 </table>

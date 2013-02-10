@@ -43,21 +43,21 @@ class gallery extends page
 		while( $row = $this->db->fetchrow() )
 		{
 			$this->template->append('users', [
-				'IMAGES'  => num_format($row['total_images']),
+				'IMAGES'  => $row['total_images'],
 				'PROFILE' => $this->user_profile_link('', $row['username'], $row['user_colour'], $row['user_url'], $row['user_id']),
 				'SIZE'    => $row['total_size'],
-				'VIEWS'   => num_format($row['total_views'])
+				'VIEWS'   => $row['total_views'],
 			]);
 		}
 
 		$this->db->freeresult();
 
 		$this->template->assign([
-			'TODAY_IMAGES'  => num_format($stats['today_images']),
-			'TOTAL_IMAGES'  => num_format($stats['total_images']),
+			'TODAY_IMAGES'  => $stats['today_images'],
+			'TOTAL_IMAGES'  => $stats['total_images'],
 			'TOTAL_SIZE'    => $stats['total_size'],
 			'TOTAL_TRAFFIC' => $stats['total_traffic'],
-			'TOTAL_VIEWS'   => num_format($stats['total_views'])
+			'TOTAL_VIEWS'   => $stats['total_views'],
 		]);
 	}
 	
@@ -77,7 +77,7 @@ class gallery extends page
 
 		while( $row = $this->db->fetchrow() )
 		{
-			$this->template->assign(mb_strtoupper($row['views_from']) . '_VIEWS', num_format($row['views_count']));
+			$this->template->assign(mb_strtoupper($row['views_from']) . '_VIEWS', $row['views_count']);
 		}
 
 		$this->db->freeresult();
@@ -96,7 +96,7 @@ class gallery extends page
 		{
 			$this->template->append('ref', [
 				'DOMAIN' => $row['ref_domain'],
-				'VIEWS'  => num_format($row['ref_views'])
+				'VIEWS'  => $row['ref_views'],
 			]);
 
 			$i++;

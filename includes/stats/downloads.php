@@ -57,7 +57,7 @@ class downloads extends page
 		while( $row = $this->db->fetchrow() )
 		{
 			$this->template->append('files', [
-				'DLC'       => num_format($row['download_count']),
+				'DLC'       => $row['download_count'],
 				'ID'        => $row['file_id'],
 				'NAME'      => $row['file_name'],
 				'SIZE'      => $row['file_size'],
@@ -77,10 +77,10 @@ class downloads extends page
 
 		$this->template->assign([
 			'TODAY_TRAFFIC'   => $today_traffic,
-			'TOTAL_DLC'       => num_format($total_dlc),
-			'TOTAL_FILES'     => num_format($total_files),
+			'TOTAL_DLC'       => $total_dlc,
+			'TOTAL_FILES'     => $total_files,
 			'TOTAL_SIZE'      => $total_size,
-			'TOTAL_TODAY_DLC' => num_format($total_today_dlc),
+			'TOTAL_TODAY_DLC' => $total_today_dlc,
 			'TOTAL_TRAFFIC'   => $total_traffic,
 		]);
 	}

@@ -54,7 +54,7 @@ class memopu3 extends page
 			$row['quote_text'] = preg_replace('#\[url=([^\]]+)\]\[img\]([^\[]+)\[\/img\]\[\/url\]#', '<a href="\1"><img src="\2" alt="" /></a>', $row['quote_text']);
 
 			$this->template->append('quotes', [
-				'COMMENTS' => plural($row['quote_comments'], $this->user->lang['plural']['COMMENTS']),
+				'COMMENTS' => $row['quote_comments'],
 				'ID'       => $row['quote_id'],
 				'TEXT'     => nl2br($row['quote_text']),
 				'TIME'     => $this->user->create_date($row['quote_approver_time']),
@@ -132,7 +132,7 @@ class memopu3 extends page
 			$row['quote_text'] = preg_replace('#\[url=([^\]]+)\]\[img\]([^\[]+)\[\/img\]\[\/url\]#', '<a href="\1"><img src="\2" alt="" /></a>', $row['quote_text']);
 
 			$this->template->append('quotes', [
-				'COMMENTS' => plural($row['quote_comments'], $this->user->lang['plural']['COMMENTS']),
+				'COMMENTS' => $row['quote_comments'],
 				'ID'       => $row['quote_id'],
 				'TEXT'     => nl2br($row['quote_text']),
 				'TIME'     => $this->user->create_date($row['quote_approver_time']),
@@ -206,7 +206,7 @@ class memopu3 extends page
 			$row['quote_text'] = preg_replace('#\[url=([^\]]+)\]\[img\]([^\[]+)\[\/img\]\[\/url\]#', '<a href="\1"><img src="\2" alt="" /></a>', $row['quote_text']);
 
 			$this->template->append('quotes', [
-				'COMMENTS' => plural($row['quote_comments'], $this->user->lang['plural']['COMMENTS']),
+				'COMMENTS' => $row['quote_comments'],
 				'ID'       => $row['quote_id'],
 				'TEXT'     => nl2br($row['quote_text']),
 				'TIME'     => $this->user->create_date($row['quote_approver_time']),
@@ -321,7 +321,7 @@ class memopu3 extends page
 		$row['quote_text'] = preg_replace('#\[url=([^\]]+)\]\[img\]([^\[]+)\[\/img\]\[\/url\]#', '<a href="\1"><img src="\2" alt="" /></a>', $row['quote_text']);
 
 		$this->template->assign([
-			'COMMENTS' => plural($row['quote_comments'], $this->user->lang['plural']['COMMENTS']),
+			'COMMENTS' => $row['quote_comments'],
 			'ID'       => $row['quote_id'],
 			'TEXT'     => nl2br($row['quote_text']),
 			'TIME'     => $this->user->create_date($row['quote_approver_time']),

@@ -51,11 +51,11 @@ class news extends page
 			
 			$this->template->append('news', [
 				'AUTHOR'   => $this->user_profile_link('', $row['username'], $row['user_colour'], $row['user_url'], $row['user_id']),
-				'COMMENTS' => plural($row['news_comments'], $this->user->lang['plural']['COMMENTS']),
+				'COMMENTS' => $row['news_comments'],
 				'TEXT'     => prepare_text_for_print($row['news_text']),
 				'TIME'     => $this->user->create_date($row['news_time']),
 				'TITLE'    => $row['news_subject'],
-				'VIEWS'    => plural($row['news_views'], $this->user->lang['plural']['VIEWS']),
+				'VIEWS'    => $row['news_views'],
 	
 				'U_COMMENTS' => ilink($this->get_handler_url('display_single', $params))
 			]);
@@ -169,12 +169,12 @@ class news extends page
 	
 		$this->template->vars([
 			'AUTHOR'   => $this->user_profile_link('', $row['username'], $row['user_colour'], $row['user_url'], $row['news_author_id']),
-			'COMMENTS' => plural($row['news_comments'], $this->user->lang['plural']['COMMENTS']),
+			'COMMENTS' => $row['news_comments'],
 			'TEXT'     => prepare_text_for_print($row['news_text']),
 			'TITLE'    => $row['news_subject'],
 			'TIME'     => $this->user->create_date($row['news_time']),
 			'USERNAME' => $this->user->is_registered ? $this->user_profile_link('plain', $this->user['username'], $this->user['user_colour']) : '',
-			'VIEWS'    => plural($row['news_views'] + 1, $this->user->lang['plural']['VIEWS']),
+			'VIEWS'    => $row['news_views'] + 1,
 		]);
 		
 		$this->template->file = 'news_detail.html';

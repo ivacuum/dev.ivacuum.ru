@@ -11,7 +11,7 @@
 			<p><img class="icons" src="//ivacuum.org/i/_/receipt_text.png" alt="" />
 			<a href="{{ row.U_DETAILS }}"><b>{{ row.ID }}</b></a>
 			[ &nbsp;<a href="{{ row.U_PLUS }}" id="{{ row.ID }}" rel="quote_vote_up"><img class="icons" src="//ivacuum.org/i/_/plus.png" alt="" /></a> &nbsp;<span id="q{{ row.ID }}">{{ row.VOTES }}</span>&nbsp; <a href="{{ row.U_MINUS }}" id="{{ row.ID }}" rel="quote_vote_down"><img class="icons" src="//ivacuum.org/i/_/minus.png" alt="" /></a>&nbsp; ]
-			опубликована {{ row.TIME }}, <a href="{{ row.U_DETAILS }}">{{ row.COMMENTS }}</a></p>
+			опубликована {{ row.TIME }}, <a href="{{ row.U_DETAILS }}">{{ plural(row.COMMENTS, 'COMMENTS') }}</a></p>
 		</div>
 		<blockquote>
 			<p>{{ row.TEXT }}</p>

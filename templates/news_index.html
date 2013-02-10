@@ -15,8 +15,8 @@
 				<div class="span4">
 					<div class="well">
 						<p><img src="//ivacuum.org/i/_/calendar_day.png" alt=""> {{ row.TIME }}</p>
-						<p><img src="//ivacuum.org/i/_/eye.png" alt=""> {{ row.VIEWS }}</p>
-						<p><img src="//ivacuum.org/i/_/balloons.png" alt=""> <a href="{{ row.U_COMMENTS }}">{{ row.COMMENTS }}</a></p>
+						<p><img src="//ivacuum.org/i/_/eye.png" alt=""> {{ plural(row.VIEWS, 'VIEWS') }}</p>
+						<p><img src="//ivacuum.org/i/_/balloons.png" alt=""> <a href="{{ row.U_COMMENTS }}">{{ plural(row.COMMENTS, 'COMMENTS') }}</a></p>
 						<p><img src="//ivacuum.org/i/_/user_black.png" alt=""> {{ row.AUTHOR }}</p>
 					</div>
 				</div>

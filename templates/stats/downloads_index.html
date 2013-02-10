@@ -5,19 +5,19 @@
 <div class="row">
 	<div class="span3">
 		<h4>Всего файлов</h4>
-		<p><img src="{{ hostname() }}/i/_/documents.png" alt=""> {{ TOTAL_FILES }}</p>
+		<p><img src="//ivacuum.org/i/_/documents.png" alt=""> {{ TOTAL_FILES }}</p>
 	</div>
 	<div class="span3">
 		<h4>Занимаемый объём</h4>
-		<p><img src="{{ hostname() }}/i/_/chart_pie.png" alt=""> {{ TOTAL_SIZE }}</p>
+		<p><img src="//ivacuum.org/i/_/chart_pie.png" alt=""> {{ TOTAL_SIZE }}</p>
 	</div>
 	<div class="span3">
 		<h4>Всего закачек</h4>
-		<p><img src="{{ hostname() }}/i/_/counter.png" alt=""> {{ TOTAL_DLC }}{% if TOTAL_TODAY_DLC > 0 %} <span style="color: green;">(+{{ TOTAL_TODAY_DLC }})</span>{% endif %}</p>
+		<p><img src="//ivacuum.org/i/_/counter.png" alt=""> {{ TOTAL_DLC }}{% if TOTAL_TODAY_DLC > 0 %} <span style="color: green;">(+{{ TOTAL_TODAY_DLC }})</span>{% endif %}</p>
 	</div>
 	<div class="span3">
 		<h4>Общий трафик</h4>
-		<p><img src="{{ hostname() }}/i/_/traffic_light.png" alt=""> {{ TOTAL_TRAFFIC }}{% if TODAY_TRAFFIC > 0 %} <span style="color: green;">(+{{ TODAY_TRAFFIC }})</span>{% endif %}</p>
+		<p><img src="//ivacuum.org/i/_/traffic_light.png" alt=""> {{ TOTAL_TRAFFIC }}{% if TODAY_TRAFFIC > 0 %} <span style="color: green;">(+{{ TODAY_TRAFFIC }})</span>{% endif %}</p>
 	</div>
 </div>
 
@@ -29,14 +29,14 @@
 		<th class="number">#</th>
 		<th class="block">Название</th>
 		<th class="number">Размер</th>
-		<th class="number">Закачек <img src="{{ hostname() }}/i/_/arrow_270.png" alt="" /></th>
+		<th class="number">Закачек <img src="//ivacuum.org/i/_/arrow_270.png" alt="" /></th>
 		<th class="number">+</th>
 	</tr>
 	</thead>
 	{% for row in files %}
 	<tr>
 		<td class="number">{{ loop.index }}</td>
-		<td><a href="//dl.ivacuum.ru/{{ row.ID }}/"><img src="{{ hostname() }}/i/_/drive_download.png" alt="" /></a> <a href="{{ row.U_DETAILS }}"><b>{{ row.NAME }}</b></a></td>
+		<td><a href="//dl.ivacuum.ru/{{ row.ID }}/"><img src="//ivacuum.org/i/_/drive_download.png" alt="" /></a> <a href="{{ row.U_DETAILS }}"><b>{{ row.NAME }}</b></a></td>
 		<td class="number">{{ row.SIZE }}</td>
 		<td class="number">{{ row.DLC }}</td>
 		<td class="number" style="color: green; font-weight: bold;">{{ row.TODAY_DLC }}</td>

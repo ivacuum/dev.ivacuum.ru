@@ -1,5 +1,5 @@
 <ul class="nav nav-tabs">
 	{% for row in submenu %}
-		<li{% if row.ACTIVE %} class="active"{% endif %}><a href="{{ row.U_VIEW }}">{% if row.IMAGE %}<img src="{{ hostname() }}/i/_/{{ row.IMAGE }}.png" alt=""> {% endif %}{{ row.TITLE }}</a></li>
+		<li{% if row.ACTIVE %} class="active"{% endif %}><a href="{{ row.U_VIEW }}">{% if row.IMAGE %}<img src="//ivacuum.org/i/_/{{ row.IMAGE }}.png" alt=""> {% endif %}{{ row.TITLE }}</a></li>
 	{% endfor %}
 </ul>

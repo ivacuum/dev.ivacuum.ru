@@ -2,28 +2,40 @@
 <!DOCTYPE html>
 <html dir="{{ S_LANGUAGE_DIRECTION }}" lang="{{ S_LANGUAGE }}">
 <head>
-<meta charset="utf-8">
-<title>{% for row in nav_links %}{{ row.TEXT }}{% if not loop.last %} &raquo; {% else %}. {% endif %}{% endfor %}{{ cfg.sitename }}</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="copyright" content="{{ S_YEAR }} vacuum">
-{% if page.page_noindex %}
-	<meta name="robots" content="noindex, nofollow">
-{% endif %}
-<meta name="keywords" content="{{ page.page_keywords }}">
-<meta name="description" content="{{ page.page_description }}">
-{{ META }}
-{% for row in rss %}
-	<link rel="alternate" type="application/rss+xml" title="{{ row.TITLE }}" href="{{ row.URL }}">
-{% endfor %}
-<link rel="shortcut icon" href="{{ hostname() }}/i/_/home.png">
-<link rel="stylesheet" href="{{ hostname() }}/i/bootstrap/2.3.0/style.css">
-<link rel="stylesheet" href="{{ hostname() }}/i/bootstrap/2.3.0/expansion.css">
+	<meta charset="utf-8">
+	<title>{% for row in nav_links %}{{ row.TEXT }}{% if not loop.last %} &raquo; {% else %}. {% endif %}{% endfor %}{{ cfg.sitename }}</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="copyright" content="{{ S_YEAR }} vacuum">
+	{% if page.page_noindex %}
+		<meta name="robots" content="noindex, nofollow">
+	{% endif %}
+	<meta name="keywords" content="{{ page.page_keywords }}">
+	<meta name="description" content="{{ page.page_description }}">
+	{{ META }}
+	{% for row in rss %}
+		<link rel="alternate" type="application/rss+xml" title="{{ row.TITLE }}" href="{{ row.URL }}">
+	{% endfor %}
+	{% if S_ISP == 'local' %}
+		<link rel="shortcut icon" href="//0.ivacuum.org/i/_/home.png">
+		<link rel="stylesheet" href="//0.ivacuum.org/i/bootstrap/2.3.0/css/bootstrap.min.css">
+		<link rel="stylesheet" href="//0.ivacuum.org/i/bootstrap/2.3.0/css/bootstrap-responsive.min.css">
+		<link rel="stylesheet" href="//0.ivacuum.org/i/bootstrap/2.3.0/expansion.css">
 
-<script>var g_local = {% if S_ISP == 'local' %}true{% else %}false{% endif %};</script>
-<script src="{{ hostname() }}/js/jquery/1.7.1/jquery.min.js"></script>
-<script src="{{ hostname() }}/js/hs.min.js"></script>
-<script src="{{ hostname() }}/i/bootstrap/2.3.0/plugins.js"></script>
-<script src="{{ hostname() }}/js/base.js"></script>
+		<script>var g_local = true;</script>
+		<script src="//0.ivacuum.org/js/jquery/1.9.1/jquery.min.js"></script>
+		<script src="//0.ivacuum.org/i/bootstrap/2.3.0/js/bootstrap.min.js"></script>
+		<script src="//0.ivacuum.org/js/base.js"></script>
+	{% else %}
+		<link rel="shortcut icon" href="//ivacuum.org/i/_/home.png">
+		<link rel="stylesheet" href="//yandex.st/bootstrap/2.3.0/css/bootstrap.min.css">
+		<link rel="stylesheet" href="//yandex.st/bootstrap/2.3.0/css/bootstrap-responsive.min.css">
+		<link rel="stylesheet" href="//ivacuum.org/i/bootstrap/2.3.0/expansion.css">
+
+		<script>var g_local = false;</script>
+		<script src="//yandex.st/jquery/1.9.1/jquery.min.js"></script>
+		<script src="//yandex.st/bootstrap/2.3.0/js/bootstrap.min.js"></script>
+		<script src="//ivacuum.org/js/base.js"></script>
+	{% endif %}
 </head>
 <body class="{{ S_LANGUAGE_DIRECTION }}">
 <div class="navbar navbar-fixed-top">
@@ -62,10 +74,10 @@
 							</ul>
 						</li>
 						{% if languages %}
-							<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="{{ hostname() }}/i/flags/16/{{ S_LANGUAGE }}.png" alt="">&nbsp;<b class="caret"></b></a>
+							<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="//ivacuum.org/i/flags/16/{{ S_LANGUAGE }}.png" alt="">&nbsp;<b class="caret"></b></a>
 								<ul class="dropdown-menu">
 									{% for row in languages %}
-										<li><a href="{{ row.URL }}"><img src="{{ hostname() }}/i/flags/16/{{ row.IMG }}.png" alt=""> &nbsp;{{ row.NAME }}</a></li>
+										<li><a href="{{ row.URL }}"><img src="//ivacuum.org/i/flags/16/{{ row.IMG }}.png" alt=""> &nbsp;{{ row.NAME }}</a></li>
 									{% endfor %}
 								</ul>
 							</li>

@@ -17,10 +17,10 @@
 		<tr>
 			<td>
 				<p>
-					<img src="{{ hostname() }}/i/_/{{ row.NAME == 'Гость' ? 'user_guest' : 'user_black' }}.png" alt=""> {{ row.NAME }} <span style="margin-left: 35px;">(IP: {{ row.IP }})</span><br>
-					<img src="{{ hostname() }}/i/_/application_browser.png" alt=""> {{ row.BROWSER }}
+					<img src="//ivacuum.org/i/_/{{ row.NAME == 'Гость' ? 'user_guest' : 'user_black' }}.png" alt=""> {{ row.NAME }} <span style="margin-left: 35px;">(IP: {{ row.IP }})</span><br>
+					<img src="//ivacuum.org/i/_/application_browser.png" alt=""> {{ row.BROWSER }}
 					{% if row.REFERER %}
-						<img src="{{ hostname() }}/i/_/document_search_result.png" alt=""> <a href="{{ row.REFERER }}">{{ row.REFERER|truncate(100, '', true) }}</a>
+						<img src="//ivacuum.org/i/_/document_search_result.png" alt=""> <a href="{{ row.REFERER }}">{{ row.REFERER|truncate(100, '', true) }}</a>
 					{% endif %}
 				</p>
 			</td>
@@ -35,7 +35,7 @@
 		</tr>
 		{% for row in users %}
 		<tr>
-			<td><img src="{{ hostname() }}/i/_/{{ row.NAME == 'Гость' ? 'user_guest' : 'user_black' }}.png"> {{ row.NAME }}</td>
+			<td><img src="//ivacuum.org/i/_/{{ row.NAME == 'Гость' ? 'user_guest' : 'user_black' }}.png"> {{ row.NAME }}</td>
 			<td align="center">{{ row.TIME }}</td>
 		</tr>
 		{% endfor %}

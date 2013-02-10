@@ -4,7 +4,7 @@
 <h2>{{ lang.STATS }}</h2>
 <ol>
 	{% for row in pages %}
-		<li><img src="{{ hostname() }}/i/_/{{ row.IMAGE }}.png" alt=""> <a href="{{ row.U_VIEW }}">{{ row.TITLE }}</a></li>
+		<li><img src="//ivacuum.org/i/_/{{ row.IMAGE }}.png" alt=""> <a href="{{ row.U_VIEW }}">{{ row.TITLE }}</a></li>
 	{% endfor %}
 </ol>
 {% endblock %}

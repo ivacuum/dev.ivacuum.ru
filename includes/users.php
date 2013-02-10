@@ -74,7 +74,7 @@ class users extends page
 		/* Загрузка званий */
 		$ranks = $this->cache->obtain_ranks();
 		
-		$this->template->assign(array(
+		$this->template->assign([
 			'COMMENTS'   => $row['user_posts'],
 			'FROM'       => $row['user_from'],
 			'INTERESTS'  => $row['user_interests'],
@@ -89,6 +89,6 @@ class users extends page
 			'RANK_TITLE' => isset($ranks[$row['user_rank']]['rank_title']) ? $ranks[$row['user_rank']]['rank_title'] : '',
 			'REGDATE'    => $this->user->create_date($row['user_regdate']),
 			'USERNAME'   => $this->user_profile_link('plain', $row['username'], $row['user_colour'])
-		));
+		]);
 	}
 }

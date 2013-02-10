@@ -18,7 +18,7 @@ class downloads extends page
 	*/
 	public function index()
 	{
-		$today_dlc = array();
+		$today_dlc = [];
 		$today_traffic = $total_dlc = $total_files = $total_size = $total_today_dlc = $total_traffic = 0;
 
 		/**
@@ -56,7 +56,7 @@ class downloads extends page
 
 		while( $row = $this->db->fetchrow() )
 		{
-			$this->template->append('files', array(
+			$this->template->append('files', [
 				'DLC'       => num_format($row['download_count']),
 				'ID'        => $row['file_id'],
 				'NAME'      => $row['file_name'],
@@ -65,7 +65,7 @@ class downloads extends page
 				'TRAFFIC'   => humn_size($row['traffic']),
 
 				'U_DETAILS'  => ilink(sprintf('%s%d', $this->urls['history'], $row['file_id'])),
-			));
+			]);
 
 			$today_traffic += isset($today_dlc[$row['file_id']]) ? $today_dlc[$row['file_id']] * $row['file_size'] : 0;
 			$total_dlc     += $row['download_count'];
@@ -76,14 +76,14 @@ class downloads extends page
 
 		$this->db->freeresult();
 
-		$this->template->assign(array(
+		$this->template->assign([
 			'TODAY_TRAFFIC'   => humn_size($today_traffic),
 			'TOTAL_DLC'       => num_format($total_dlc),
 			'TOTAL_FILES'     => num_format($total_files),
 			'TOTAL_SIZE'      => humn_size($total_size),
 			'TOTAL_TODAY_DLC' => num_format($total_today_dlc),
-			'TOTAL_TRAFFIC'   => humn_size($total_traffic)
-		));
+			'TOTAL_TRAFFIC'   => humn_size($total_traffic),
+		]);
 	}
 	
 	/**
@@ -162,10 +162,10 @@ class downloads extends page
 
 		navigation_link(ilink(sprintf('%s/%d', $this->url, $file['file_id'])), $file['file_name'], 'document_text');
 
-		$this->template->assign(array(
+		$this->template->assign([
 			'DL_DATA'   => substr($dl_data, 0, -1),
 			'MAX_VALUE' => max(25, $max_value)
-		));
+		]);
 	}
 
 	/**
@@ -217,7 +217,7 @@ class downloads extends page
 
 		while( $row = $this->db->fetchrow() )
 		{
-			$this->template->append('dls', array(
+			$this->template->append('dls', [
 				'ID'   => $row['file_id'],
 				'IP'   => $row['dl_ip'],
 				'NAME' => $row['file_name'],
@@ -225,7 +225,7 @@ class downloads extends page
 				'TIME' => $this->user->create_date($row['dl_time']),
 
 				'U_DETAILS'  => ilink(sprintf('%s%d', $this->urls['history'], $row['file_id'])),
-			));
+			]);
 		}
 
 		$this->db->freeresult();
@@ -241,10 +241,10 @@ class downloads extends page
 			// page_footer();
 		}
 
-		$this->template->assign(array(
+		$this->template->assign([
 			'TIMESTAMP' => $this->user->ctime,
 
 			'U_REALTIME' => ilink($this->url)
-		));
+		]);
 	}
 }

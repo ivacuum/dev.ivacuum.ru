@@ -15,8 +15,8 @@ class who_is_online extends page
 		$groups_list   = '';
 		$guests_online = 0;
 		$online_list   = '';
-		$prev_id       = array();
-		$prev_ip       = array();
+		$prev_id       = [];
+		$prev_ip       = [];
 		$users_online  = 0;
 
 		/**
@@ -58,15 +58,15 @@ class who_is_online extends page
 				$patterns[5] = '/ trident\/\d\.\d;?/i';
 				$row['session_browser'] = preg_replace($patterns, '', $row['session_browser']) . '<br />';
 
-				$this->template->append('users', array(
+				$this->template->append('users', [
 					'BROWSER' => $row['session_browser'],
 					'DOMAIN'  => $row['session_domain'],
 					'IP'      => $row['session_ip'],
 					'NAME'    => $this->user_profile_link('', $row['username'], $row['user_colour'], $row['user_url'], $row['user_id']),
 					'PAGE'    => $row['session_page'],
 					'REFERER' => urldecode($row['session_referer']),
-					'TIME'    => $this->user->create_date($row['session_time']))
-				);
+					'TIME'    => $this->user->create_date($row['session_time']),
+				]);
 
 				$prev_id[$row['user_id']] = 1;
 				$users_online++;
@@ -105,15 +105,15 @@ class who_is_online extends page
 				$patterns[5] = '/ trident\/\d\.\d;?/i';
 				$row['session_browser'] = preg_replace($patterns, '', $row['session_browser']) . '<br />';
 
-				$this->template->append('users', array(
+				$this->template->append('users', [
 					'BROWSER' => $row['session_browser'],
 					'DOMAIN'  => $row['session_domain'],
 					'IP'      => $row['session_ip'],
 					'NAME'    => $this->user->lang('GUEST'),
 					'PAGE'    => $row['session_page'],
 					'REFERER' => urldecode($row['session_referer']),
-					'TIME'    => $this->user->create_date($row['session_time']))
-				);
+					'TIME'    => $this->user->create_date($row['session_time']),
+				]);
 
 				$prev_ip[$row['session_ip']] = 1;
 				$guests_online++;
@@ -146,10 +146,10 @@ class who_is_online extends page
 			$groups_list .= $groups_list ? ', ' . $groups_link : $groups_link;
 		}
 
-		$this->template->assign(array(
+		$this->template->assign([
 			'GROUPS_LIST' => !empty($groups_list) ? $groups_list : '',
 			'ONLINE_LIST' => $online_list,
 			'ONLINE_TIME' => sprintf($this->user->lang['ONLINE_TIME'], $this->config['load_online_time'] / 60)
-		));
+		]);
 	}
 }

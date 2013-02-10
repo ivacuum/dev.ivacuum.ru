@@ -22,12 +22,12 @@ class games extends page
 		
 		foreach ($rows as $row)
 		{
-			$this->template->append('games', array(
+			$this->template->append('games', [
 				'COVER' => $row['page_url'],
 				'TITLE' => $row['page_name'],
 		
 				'U_DETAIL' => $this->descendant_link($row)
-			));
+			]);
 		}
 	}
 }

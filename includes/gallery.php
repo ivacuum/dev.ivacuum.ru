@@ -71,24 +71,24 @@ class gallery extends page
 		{
 			$outdate = $row['image_touch'] ? time() - $row['image_touch'] : time() - $row['image_time'];
 
-			$this->template->append('images', array(
+			$this->template->append('images', [
 				'DATE'    => $row['image_date'],
 				'ID'      => $row['image_id'],
 				'OUTDATE' => $outdate > $this->config['images_purge_interval'] ? create_time($outdate, true) : '',
 				'TIME'    => $this->user->create_date($row['image_time'], '|j F Y|, H:i', false, true),
 				'URL'     => $row['image_url'],
 				'VIEWS'   => num_format($row['image_views']),
-			));
+			]);
 		}
 
 		$this->db->freeresult();
 
-		$this->template->assign(array(
+		$this->template->assign([
 			'TOTAL_IMAGES'  => num_format($total_images),
 			'TOTAL_SIZE'    => humn_size($total_size),
 			'TOTAL_TRAFFIC' => humn_size($total_traffic),
 			'TOTAL_VIEWS'   => num_format($total_views),
-		));
+		]);
 	}
 
 	/**
@@ -231,22 +231,22 @@ class gallery extends page
 			$thumb = file_exists($this->config['images_upload_dir'] . implode('/', str_split($row['image_date'], 2)) . '/s/' . $row['image_url']);
 			$files_thumb += $thumb ? 1 : 0;
 
-			$this->template->append('files', array(
+			$this->template->append('files', [
 				'DATE'  => $row['image_date'],
 				'ID'    => $row['image_id'],
 				'SIZE'  => humn_size($row['image_size']),
 				'THUMB' => $thumb,
 				'TIME'  => $this->user->create_date($row['image_time']),
 				'URL'   => $row['image_url']
-			));
+			]);
 		}
 
 		$this->db->freeresult();
 
-		$this->template->assign(array(
+		$this->template->assign([
 			'FILES'       => $files,
 			'FILES_THUMB' => $files_thumb
-		));
+		]);
 	}
 
 	/**
@@ -288,9 +288,9 @@ class gallery extends page
 
 		$thumb_exist = file_exists($this->config['images_upload_dir'] . implode('/', str_split($row['image_date'], 2)) . '/s/' . $row['image_url']);
 
-		navigation_link(ilink($this->get_handler_url('preview', array($image_id))), 'Изображение #' . $image_id);
+		navigation_link(ilink($this->get_handler_url('preview', [$image_id])), 'Изображение #' . $image_id);
 
-		$this->template->assign(array(
+		$this->template->assign([
 			'AUTHOR' => $this->user_profile_link('', $row['username'], $row['user_colour'], $row['user_url'], $row['user_id']),
 			'DATE'   => $row['image_date'],
 			'ID'     => $row['image_id'],
@@ -301,8 +301,8 @@ class gallery extends page
 
 			'S_IMAGE_OWNER' => $this->user['user_id'] == $row['user_id'],
 			
-			'U_VIEW' => ilink($this->get_handler_url('view', array($row['image_id'])))
-		));
+			'U_VIEW' => ilink($this->get_handler_url('view', [$row['image_id']]))
+		]);
 	}
 
 	/**
@@ -338,13 +338,13 @@ class gallery extends page
 
 		$thumb_exist = file_exists($this->config['images_upload_dir'] . implode('/', str_split($row['image_date'], 2)) . '/s/' . $row['image_url']);
 
-		navigation_link(ilink($this->get_handler_url('view', array($image_id))), 'Изображение #' . $image_id);
+		navigation_link(ilink($this->get_handler_url('view', [$image_id])), 'Изображение #' . $image_id);
 
-		$this->template->assign(array(
+		$this->template->assign([
 			'DATE'  => $row['image_date'],
 			'ID'    => $row['image_id'],
 			'THUMB' => $thumb_exist,
 			'URL'   => $row['image_url']
-		));
+		]);
 	}
 }

@@ -41,11 +41,11 @@ class ucp extends page
 		
 		$goto = $this->request->variable('goto', '');
 		
-		$this->template->assign(array(
+		$this->template->assign([
 			'GOTO' => $goto,
 			
 			'U_ACTION' => ilink($this->url)
-		));
+		]);
 		
 		$login_explain = '';
 		

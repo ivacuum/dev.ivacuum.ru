@@ -22,12 +22,12 @@ class soft extends page
 		
 		foreach ($rows as $row)
 		{
-			$this->template->append('soft', array(
+			$this->template->append('soft', [
 				'COVER' => $row['page_url'],
 				'TITLE' => $row['page_name'],
 
 				'U_DETAIL' => $this->descendant_link($row)
-			));
+			]);
 		}
 	}
 }

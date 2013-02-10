@@ -13,7 +13,7 @@ use app\models\page;
 */
 class memcache extends page
 {
-	private $servers = array(0 => 'unix:///var/run/memcached/memcached.lock');
+	private $servers = [0 => 'unix:///var/run/memcached/memcached.lock'];
 	
 	public function _setup()
 	{
@@ -35,7 +35,7 @@ class memcache extends page
 
 		$total_uptime = array_sum($stats['uptime']);
 
-		$this->template->assign(array(
+		$this->template->assign([
 			'CURR_ITEMS'          => num_format($stats['curr_items']),
 			'HITS'                => num_format($stats['get_hits']),
 			'HITS_PERCENT'        => sprintf('%.2f', ($stats['get_hits'] / ($stats['get_hits'] + $stats['get_misses'])) * 100),
@@ -53,19 +53,19 @@ class memcache extends page
 			'HIT_RATE'  => sprintf('%.2f', $stats['get_hits'] / $total_uptime),
 			'MISS_RATE' => sprintf('%.2f', $stats['get_misses'] / $total_uptime),
 			'REQ_RATE'  => sprintf('%.2f', $stats['cmd_get'] / $total_uptime),
-			'SET_RATE'  => sprintf('%.2f', $stats['cmd_set'] / $total_uptime))
-		);
+			'SET_RATE'  => sprintf('%.2f', $stats['cmd_set'] / $total_uptime),
+		]);
 
 		foreach ($this->servers as $server)
 		{
-			$this->template->append('servers', array(
+			$this->template->append('servers', [
 				'CACHE_TOTAL' => humn_size($stats_single[$server]['STAT']['limit_maxbytes']),
 				'CACHE_USED'  => humn_size($stats_single[$server]['STAT']['bytes']),
 				'SERVER'      => $server,
 				'START_TIME'  => $this->user->create_date($stats_single[$server]['STAT']['time'] - $stats_single[$server]['STAT']['uptime']),
 				'UPTIME'      => create_time($this->user->ctime - ($stats_single[$server]['STAT']['time'] - $stats_single[$server]['STAT']['uptime']), true),
-				'VERSION'     => $stats_single[$server]['STAT']['version'])
-			);
+				'VERSION'     => $stats_single[$server]['STAT']['version'],
+			]);
 		}
 	}
 	
@@ -116,12 +116,12 @@ class memcache extends page
 			}
 		}
 
-		$this->template->vars(array(
+		$this->template->vars([
 			'FLAG'  => $row['stat']['flag'],
 			'KEY'   => $key,
 			'SIZE'  => humn_size($row['stat']['size']),
 			'VALUE' => wordwrap(print_r($value, true), 80, "\n", true)
-		));
+		]);
 	}
 	
 	/**
@@ -130,7 +130,7 @@ class memcache extends page
 	public function variables()
 	{
 		$cache_items = $this->get_cache_items();
-		$vars = array();
+		$vars = [];
 
 		foreach ($cache_items['items'] as $server => $entries)
 		{
@@ -142,10 +142,10 @@ class memcache extends page
 				{
 					preg_match('#^\[(\d+) b\; (\d+) s\]$#', $info, $match);
 
-					$vars[$key] = array(
+					$vars[$key] = [
 						'EXPIRE' => $this->user->ctime > $match[2] ? 'expired' : $this->user->create_date($match[2]),
 						'SIZE'   => humn_size($match[1])
-					);
+					];
 				}
 			}
 		}
@@ -165,12 +165,12 @@ class memcache extends page
 	private function get_cache_items()
 	{
 		$items        = $this->send_memcache_commands('stats items');
-		$server_items = array();
-		$total_items  = array();
+		$server_items = [];
+		$total_items  = [];
 
 		foreach ($items as $server => $itemlist)
 		{
-			$server_items[$server] = array();
+			$server_items[$server] = [];
 			$total_items[$server]  = 0;
 
 			if (!isset($itemlist['STAT']))
@@ -194,7 +194,7 @@ class memcache extends page
 			}
 		}
 
-		return array('items' => $server_items, 'counts' => $total_items);
+		return ['items' => $server_items, 'counts' => $total_items];
 	}
 	
 	private function get_memcache_stats($total = true)
@@ -206,7 +206,7 @@ class memcache extends page
 			return $resp;
 		}
 
-		$res = array();
+		$res = [];
 
 		foreach ($resp as $server => $r)
 		{
@@ -250,7 +250,7 @@ class memcache extends page
 	
 	private function get_server_host_port($server)
 	{
-		return false !== strpos($server, 'unix://') ? array($server, 0) : explode(':', $server);
+		return false !== strpos($server, 'unix://') ? [$server, 0] : explode(':', $server);
 	}
 	
 	private function flush_server($server)
@@ -262,7 +262,7 @@ class memcache extends page
 	
 	private function parse_memcache_results($str)
 	{
-		$res   = array();
+		$res   = [];
 		$lines = explode("\r\n", $str);
 
 		for ($i = 0, $len = sizeof($lines); $i < $len; $i++)
@@ -277,9 +277,9 @@ class memcache extends page
 				if ($l[0] == 'VALUE')
 				{
 					/* next line is the value */
-					$res[$l[0]][$l[1]] = array();
+					$res[$l[0]][$l[1]] = [];
 					list($flag, $size) = explode(' ', $l[2]);
-					$res[$l[0]][$l[1]]['stat'] = array('flag' => $flag, 'size' => $size);
+					$res[$l[0]][$l[1]]['stat'] = ['flag' => $flag, 'size' => $size];
 					$res[$l[0]][$l[1]]['value'] = $lines[++$i];
 				}
 			}
@@ -333,7 +333,7 @@ class memcache extends page
 
 	private function send_memcache_commands($command)
 	{
-		$result = array();
+		$result = [];
 
 		foreach ($this->servers as $server)
 		{

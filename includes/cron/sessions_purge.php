@@ -45,15 +45,15 @@ class sessions_purge extends task
 				user_id,
 				session_page';
 		$result = $this->db->query($sql);
-		$del_users_id = array();
+		$del_users_id = [];
 
 		while ($row = $this->db->fetchrow($result))
 		{
-			$sql_ary = array(
+			$sql_ary = [
 				'user_session_page' => (string) $row['session_page'],
 				'user_last_visit'   => (int) $row['recent_time'],
 				'user_ip'           => (string) $row['session_ip']
-			);
+			];
 
 			$sql = '
 				UPDATE

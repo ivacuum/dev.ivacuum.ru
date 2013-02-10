@@ -44,7 +44,7 @@ class register extends page
 		$username    = $this->request->post('username', '');
 		
 		$captcha = new \fw\captcha\validator();
-		$error_ary = array();
+		$error_ary = [];
 		
 		if (!$username)
 		{
@@ -93,7 +93,7 @@ class register extends page
 			}
 		}
 		
-		$this->template->assign(array(
+		$this->template->assign([
 			'EMAIL'       => $email,
 			// 'OPENID'      => $openid,
 			// 'SKIP_OPENID' => true,
@@ -102,7 +102,7 @@ class register extends page
 			// 'S_HIDDEN_FIELDS' => $s_hidden_fields,
 			
 			'U_ACTION' => ilink($this->url)
-		));
+		]);
 
 		if (sizeof($error_ary))
 		{
@@ -112,7 +112,7 @@ class register extends page
 		
 		$salt = make_random_string(5);
 		
-		$sql_ary = array(
+		$sql_ary = [
 			'username'       => $username,
 			'username_clean' => $username_clean,
 			'user_password'  => md5($password . $salt),
@@ -120,7 +120,7 @@ class register extends page
 			'user_regdate'   => $this->user->ctime,
 			'user_email'     => $email,
 			'user_language'  => $this->user->lang['.']
-		);
+		];
 		
 		$sql = 'INSERT INTO ' . USERS_TABLE . ' ' . $this->db->build_array('INSERT', $sql_ary);
 		$this->db->query($sql);
@@ -147,11 +147,11 @@ class register extends page
 			trigger_error('PAGE_NOT_FOUND');
 		}
 		
-		$url = 'http://loginza.ru/api/authinfo?' . http_build_query(array(
+		$url = 'http://loginza.ru/api/authinfo?' . http_build_query([
 			'token' => $token,
 			'id'    => $this->config['loginza_id'],
 			'sig'   => md5($token . $this->config['loginza_secret'])
-		));
+		]);
 
 		$this->openid_response = json_decode(file_get_contents($url), true);
 		
@@ -186,7 +186,7 @@ class register extends page
 			/* Новые OpenID данные */
 			$user_id = 0;
 			
-			$sql_ary = array(
+			$sql_ary = [
 				'user_id'           => $user_id,
 				'openid_time'       => $this->user->ctime,
 				'openid_provider'   => $provider,
@@ -200,7 +200,7 @@ class register extends page
 				'openid_email'      => $email,
 				'openid_website'    => $website,
 				'openid_photo'      => isset($this->openid_response['photo']) ? $this->openid_response['photo'] : ''
-			);
+			];
 			
 			$sql = 'INSERT INTO ' . OPENID_IDENTITIES_TABLE . ' ' . $this->db->build_array('INSERT', $sql_ary);
 			$this->db->query($sql);
@@ -214,7 +214,7 @@ class register extends page
 			$this->request->redirect(ilink(''));
 		}
 		
-		$s_hidden_fields = build_hidden_fields(array(
+		$s_hidden_fields = build_hidden_fields([
 			'birth_day'   => $birth_day,
 			'birth_month' => $birth_month,
 			'birth_year'  => $birth_year,
@@ -223,7 +223,7 @@ class register extends page
 			'identity'    => $identity,
 			'last_name'   => $last_name,
 			'provider'    => $provider,
-		));
+		]);
 
 		// $this->template->file = 'ucp/register_index.html';
 	}
@@ -241,44 +241,17 @@ class register extends page
 		}
 		
 		/* Список провайдеров */
-		$providers = array(
-			0 => array(
-				'needle' => 'google.com',
-				'return' => 'google'
-			),
-			1 => array(
-				'needle' => 'yandex.ru',
-				'return' => 'yandex'
-			),
-			2 => array(
-				'needle' => 'rambler.ru',
-				'return' => 'rambler'
-			),
-			3 => array(
-				'needle' => 'vkontakte.ru',
-				'return' => 'vk'
-			),
-			4 => array(
-				'needle' => 'facebook.com',
-				'return' => 'facebook'
-			),
-			5 => array(
-				'needle' => 'odnoklassniki.ru',
-				'return' => 'odnoklassniki'
-			),
-			6 => array(
-				'needle' => 'twitter.com',
-				'return' => 'twitter'
-			),
-			7 => array(
-				'needle' => 'mail.ru',
-				'return' => 'mailru',
-			),
-			8 => array(
-				'needle' => 'livejournal.com',
-				'return' => 'livejournal'
-			)
-		);
+		$providers = [
+			0 => ['needle' => 'google.com',       'return' => 'google'],
+			1 => ['needle' => 'yandex.ru',        'return' => 'yandex'],
+			2 => ['needle' => 'rambler.ru',       'return' => 'rambler'],
+			3 => ['needle' => 'vkontakte.ru',     'return' => 'vk'],
+			4 => ['needle' => 'facebook.com',     'return' => 'facebook'],
+			5 => ['needle' => 'odnoklassniki.ru', 'return' => 'odnoklassniki'],
+			6 => ['needle' => 'twitter.com',      'return' => 'twitter'],
+			7 => ['needle' => 'mail.ru',          'return' => 'mailru'],
+			8 => ['needle' => 'livejournal.com',  'return' => 'livejournal'],
+		];
 		
 		foreach ($providers as $key => $row)
 		{
@@ -312,12 +285,12 @@ class register extends page
 		}
 		
 		/* Шаблоны, по которым выцепляем ник из identity */
-		$patterns = array(
+		$patterns = [
 			'([^\.]+)\.ya\.ru',
 			'openid\.mail\.ru\/[^\/]+\/([^\/?]+)',
 			'openid\.yandex\.ru\/([^\/?]+)',
 			'([^\.]+)\.myopenid\.com'
-		);
+		];
 		
 		foreach ($patterns as $pattern)
 		{

@@ -22,12 +22,12 @@ class stats extends page
 		
 		foreach ($rows as $row)
 		{
-			$this->template->append('pages', array(
+			$this->template->append('pages', [
 				'IMAGE' => $row['page_image'],
 				'TITLE' => $row['page_name'],
 				
 				'U_VIEW' => $this->descendant_link($row)
-			));
+			]);
 		}
 	}
 	
@@ -46,7 +46,7 @@ class stats extends page
 
 		$this->db->freeresult();
 
-		$this->template->assign(array(
+		$this->template->assign([
 			'ABORTED_CLIENTS'           => $info['Aborted_clients'],
 			'ABORTED_CLIENTS_PER_HOUR'  => sprintf('%.2f', (($info['Aborted_clients'] * 3600) / $info['Uptime'])),
 			'ABORTED_CLIENTS_PERCENT'   => sprintf('%.2f', (($info['Aborted_clients'] * 100) / $info['Connections'])),
@@ -66,6 +66,6 @@ class stats extends page
 			'QUERIES_PER_MINUTE'        => sprintf('%.2f', (($info['Questions'] * 60) / $info['Uptime'])),
 			'QUERIES_PER_SECOND'        => sprintf('%.2f', ($info['Questions'] / $info['Uptime'])),
 			'UPTIME'                    => create_time($info['Uptime'])
-		));
+		]);
 	}
 }

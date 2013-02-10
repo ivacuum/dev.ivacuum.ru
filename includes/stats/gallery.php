@@ -42,23 +42,23 @@ class gallery extends page
 
 		while( $row = $this->db->fetchrow() )
 		{
-			$this->template->append('users', array(
+			$this->template->append('users', [
 				'IMAGES'  => num_format($row['total_images']),
 				'PROFILE' => $this->user_profile_link('', $row['username'], $row['user_colour'], $row['user_url'], $row['user_id']),
 				'SIZE'    => humn_size($row['total_size']),
 				'VIEWS'   => num_format($row['total_views'])
-			));
+			]);
 		}
 
 		$this->db->freeresult();
 
-		$this->template->vars(array(
+		$this->template->vars([
 			'TODAY_IMAGES'  => num_format($stats['today_images']),
 			'TOTAL_IMAGES'  => num_format($stats['total_images']),
 			'TOTAL_SIZE'    => humn_size($stats['total_size']),
 			'TOTAL_TRAFFIC' => humn_size($stats['total_traffic']),
 			'TOTAL_VIEWS'   => num_format($stats['total_views'])
-		));
+		]);
 	}
 	
 	/**
@@ -94,10 +94,10 @@ class gallery extends page
 
 		while( $row = $this->db->fetchrow() )
 		{
-			$this->template->append('ref', array(
+			$this->template->append('ref', [
 				'DOMAIN' => $row['ref_domain'],
 				'VIEWS'  => num_format($row['ref_views'])
-			));
+			]);
 
 			$i++;
 		}

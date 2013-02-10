@@ -20,9 +20,9 @@ class memopu3 extends page
 	{
 		// rss_add('rss/memopu3.xml', true);
 
-		$this->template->assign(array(
+		$this->template->assign([
 			'U_MEMOPU3' => ilink($this->urls['index'])
-		));
+		]);
 		
 		$this->set_site_submenu();
 	}
@@ -53,7 +53,7 @@ class memopu3 extends page
 			/* Поддержка изображений */
 			$row['quote_text'] = preg_replace('#\[url=([^\]]+)\]\[img\]([^\[]+)\[\/img\]\[\/url\]#', '<a href="\1"><img src="\2" alt="" /></a>', $row['quote_text']);
 
-			$this->template->append('quotes', array(
+			$this->template->append('quotes', [
 				'COMMENTS' => plural($row['quote_comments'], $this->user->lang['plural']['COMMENTS']),
 				'ID'       => $row['quote_id'],
 				'TEXT'     => nl2br($row['quote_text']),
@@ -63,7 +63,7 @@ class memopu3 extends page
 				'U_DETAILS' => ilink(sprintf('%s%d', $this->urls['view'], $row['quote_id'])),
 				'U_MINUS'   => ilink(sprintf('%s%d/-', $this->urls['view'], $row['quote_id'])),
 				'U_PLUS'    => ilink(sprintf('%s%d/+', $this->urls['view'], $row['quote_id']))
-			));
+			]);
 		}
 
 		$this->db->freeresult();
@@ -88,12 +88,12 @@ class memopu3 extends page
 			}
 			
 			$sql = 'INSERT INTO ' . QUOTES_TABLE . ' ' .
-				$this->db->build_array('INSERT', array(
+				$this->db->build_array('INSERT', [
 					'quote_sender_id'	=> $this->user['user_id'],
 					'quote_sender_name'	=> $this->user['username'],
 					'quote_sender_time'	=> $this->user->ctime,
 					'quote_text'		=> $text
-				));
+				]);
 			$this->db->query($sql);
 
 			/* На рассмотрении +1 */
@@ -131,7 +131,7 @@ class memopu3 extends page
 			/* Поддержка изображений */
 			$row['quote_text'] = preg_replace('#\[url=([^\]]+)\]\[img\]([^\[]+)\[\/img\]\[\/url\]#', '<a href="\1"><img src="\2" alt="" /></a>', $row['quote_text']);
 
-			$this->template->append('quotes', array(
+			$this->template->append('quotes', [
 				'COMMENTS' => plural($row['quote_comments'], $this->user->lang['plural']['COMMENTS']),
 				'ID'       => $row['quote_id'],
 				'TEXT'     => nl2br($row['quote_text']),
@@ -141,7 +141,7 @@ class memopu3 extends page
 				'U_DETAILS' => ilink(sprintf('%s%d', $this->urls['view'], $row['quote_id'])),
 				'U_MINUS'   => ilink(sprintf('%s%d/-', $this->urls['view'], $row['quote_id'])),
 				'U_PLUS'    => ilink(sprintf('%s%d/+', $this->urls['view'], $row['quote_id']))
-			));
+			]);
 		}
 
 		$this->db->freeresult();
@@ -152,7 +152,7 @@ class memopu3 extends page
 	*/
 	public function random()
 	{
-		$offset = array();
+		$offset = [];
 		$find = true;
 
 		for ($i = 0; $i < 10; $i++)
@@ -205,7 +205,7 @@ class memopu3 extends page
 			/* Поддержка изображений */
 			$row['quote_text'] = preg_replace('#\[url=([^\]]+)\]\[img\]([^\[]+)\[\/img\]\[\/url\]#', '<a href="\1"><img src="\2" alt="" /></a>', $row['quote_text']);
 
-			$this->template->append('quotes', array(
+			$this->template->append('quotes', [
 				'COMMENTS' => plural($row['quote_comments'], $this->user->lang['plural']['COMMENTS']),
 				'ID'       => $row['quote_id'],
 				'TEXT'     => nl2br($row['quote_text']),
@@ -215,7 +215,7 @@ class memopu3 extends page
 				'U_DETAILS' => ilink(sprintf('%s%d', $this->urls['view'], $row['quote_id'])),
 				'U_MINUS'   => ilink(sprintf('%s%d/-', $this->urls['view'], $row['quote_id'])),
 				'U_PLUS'    => ilink(sprintf('%s%d/+', $this->urls['view'], $row['quote_id']))
-			));
+			]);
 		}
 	}
 	
@@ -281,13 +281,13 @@ class memopu3 extends page
 
 		while ($votes = $this->db->fetchrow())
 		{
-			$this->template->append('votes', array(
+			$this->template->append('votes', [
 				'ID'   => $votes['vote_id'],
 				'IP'   => $votes['user_ip'],
 				'TIME' => $this->user->create_date($votes['vote_time'], 'd F Y'),
 				'TYPE' => $votes['vote_option'] ? 'plus' : 'minus',
 				'USER' => $this->user_profile_link('', $votes['username'], $votes['user_colour'], $votes['user_url'], $votes['user_id'])
-			));
+			]);
 		}
 
 		$this->db->freeresult();
@@ -307,12 +307,12 @@ class memopu3 extends page
 
 		while ($votes = $this->db->fetchrow())
 		{
-			$this->template->append('votes_guest', array(
+			$this->template->append('votes_guest', [
 				'ID'   => $votes['vote_id'],
 				'IP'   => $votes['user_ip'],
 				'TIME' => $this->user->create_date($votes['vote_time'], 'd F Y'),
 				'TYPE' => $votes['vote_option'] ? 'plus' : 'minus'
-			));
+			]);
 		}
 
 		$this->db->freeresult();
@@ -320,7 +320,7 @@ class memopu3 extends page
 		/* Поддержка изображений */
 		$row['quote_text'] = preg_replace('#\[url=([^\]]+)\]\[img\]([^\[]+)\[\/img\]\[\/url\]#', '<a href="\1"><img src="\2" alt="" /></a>', $row['quote_text']);
 
-		$this->template->assign(array(
+		$this->template->assign([
 			'COMMENTS' => plural($row['quote_comments'], $this->user->lang['plural']['COMMENTS']),
 			'ID'       => $row['quote_id'],
 			'TEXT'     => nl2br($row['quote_text']),
@@ -330,7 +330,7 @@ class memopu3 extends page
 			'U_DETAILS' => ilink(sprintf('%s%d', $this->urls['view'], $quote_id)),
 			'U_MINUS'   => ilink(sprintf('%s%d/-', $this->urls['view'], $quote_id)),
 			'U_PLUS'    => ilink(sprintf('%s%d/+', $this->urls['view'], $quote_id))
-		));
+		]);
 	}
 	
 	/**
@@ -368,22 +368,20 @@ class memopu3 extends page
 				trigger_error('С вашего айпи уже оценили эту цитату. <a href="' . $redirect . '">Вернуться</a>.');
 			}
 			
-			json_output(array(
-				'votes' => '(Голос уже учтён)'
-			));
+			json_output(['votes' => '(Голос уже учтён)']);
 		}
 		
 		/**
 		* Голосуем
 		*/
 		$sql = 'INSERT INTO ' . QUOTES_VOTES_TABLE . ' ' .
-			$this->db->build_array('INSERT', array(
+			$this->db->build_array('INSERT', [
 				'user_id'     => $this->user['user_id'],
 				'user_ip'     => $this->user->ip,
 				'quote_id'    => $quote_id,
 				'vote_option' => $mode == '+' ? 1 : 0,
 				'vote_time'   => $this->user->ctime
-			));
+			]);
 		$this->db->query($sql);
 
 		$sql = '
@@ -400,9 +398,7 @@ class memopu3 extends page
 			$this->request->redirect(ilink(sprintf('%s%d', $this->urls['view'], $quote_id)));
 		}
 		
-		json_output(array(
-			'votes' => '(Голос учтён)'
-		));
+		json_output(['votes' => '(Голос учтён)']);
 	}
 	
 	/**
@@ -460,10 +456,10 @@ class memopu3 extends page
 		$this->db->query($sql);
 		$this->db->transaction('commit');
 
-		json_output(array(
+		json_output([
 			'success'  => 1,
 			'quote_id' => $row['quote_id'],
 			'votes'    => $vote['vote_option'] ? $row['quote_votes'] - 1 : $row['quote_votes'] + 1
-		));
+		]);
 	}
 }

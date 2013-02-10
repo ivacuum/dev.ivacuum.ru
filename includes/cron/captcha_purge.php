@@ -25,7 +25,7 @@ class captcha_purge extends task
 			WHERE
 				s.session_id IS NULL';
 		$result = $this->db->query($sql);
-		$sql_in = array();
+		$sql_in = [];
 		
 		while ($row = $this->db->fetchrow($result))
 		{

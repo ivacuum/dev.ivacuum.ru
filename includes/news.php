@@ -23,13 +23,13 @@ class news extends page
 		$on_page    = $this->config['news_on_page'];
 		$pagination = pagination($on_page, $this->get_news_count($year, $month, $day), ilink($this->full_url));
 		
-		$sql_array = array(
+		$sql_array = [
 			'SELECT'    => 'n.*, u.username, u.user_url, u.user_colour',
 			'FROM'      => NEWS_TABLE . ' n',
 			'LEFT_JOIN' => USERS_TABLE . ' u ON (u.user_id = n.user_id)',
-			'WHERE'     => array('n.site_id = ' . $this->db->check_value($this->data['site_id'])),
+			'WHERE'     => ['n.site_id = ' . $this->db->check_value($this->data['site_id'])],
 			'ORDER_BY'  => 'n.news_time DESC'
-		);
+		];
 		
 		/* Новости за определенный интервал времени */
 		if (false !== $interval = $this->calculate_interval($year, $month, $day))
@@ -42,14 +42,14 @@ class news extends page
 		while ($row = $this->db->fetchrow())
 		{
 			/* /новости/2010/12/25/новость.html */
-			$params = array(
+			$params = [
 				date('Y', $row['news_time']),
 				date('m', $row['news_time']),
 				date('d', $row['news_time']),
 				$row['news_url']
-			);
+			];
 			
-			$this->template->append('news', array(
+			$this->template->append('news', [
 				'AUTHOR'   => $this->user_profile_link('', $row['username'], $row['user_colour'], $row['user_url'], $row['user_id']),
 				'COMMENTS' => plural($row['news_comments'], $this->user->lang['plural']['COMMENTS']),
 				'TEXT'     => prepare_text_for_print($row['news_text']),
@@ -58,7 +58,7 @@ class news extends page
 				'VIEWS'    => plural($row['news_views'], $this->user->lang['plural']['VIEWS']),
 	
 				'U_COMMENTS' => ilink($this->get_handler_url('display_single', $params))
-			));
+			]);
 		}
 	
 		$this->db->freeresult();
@@ -108,12 +108,12 @@ class news extends page
 			trigger_error('PAGE_NOT_FOUND');
 		}
 		
-		$params = array(
+		$params = [
 			date('Y', $row['news_time']),
 			date('m', $row['news_time']),
 			date('d', $row['news_time']),
 			$row['news_url']
-		);
+		];
 		
 		$this->request->redirect($this->get_handler_url('display_single', $params), 301);
 	}
@@ -167,15 +167,15 @@ class news extends page
 			trigger_error('NEWS_NOT_FOUND');
 		}
 	
-		$this->template->vars(array(
+		$this->template->vars([
 			'AUTHOR'   => $this->user_profile_link('', $row['username'], $row['user_colour'], $row['user_url'], $row['news_author_id']),
 			'COMMENTS' => plural($row['news_comments'], $this->user->lang['plural']['COMMENTS']),
 			'TEXT'     => prepare_text_for_print($row['news_text']),
 			'TITLE'    => $row['news_subject'],
 			'TIME'     => $this->user->create_date($row['news_time']),
 			'USERNAME' => $this->user->is_registered ? $this->user_profile_link('plain', $this->user['username'], $this->user['user_colour']) : '',
-			'VIEWS'    => plural($row['news_views'] + 1, $this->user->lang['plural']['VIEWS']))
-		);
+			'VIEWS'    => plural($row['news_views'] + 1, $this->user->lang['plural']['VIEWS']),
+		]);
 		
 		$this->template->file = 'news_detail.html';
 	}
@@ -209,28 +209,28 @@ class news extends page
 		/* Новости за день */
 		if ($year && $month && $day)
 		{
-			return array(
+			return [
 				'start' => mktime(0, 0, 0, $month, $day, $year),
 				'end'   => mktime(0, 0, 0, $month, $day + 1, $year) - 1
-			);
+			];
 		}
 		
 		/* Новости за месяц */
 		if ($year && $month)
 		{
-			return array(
+			return [
 				'start' => mktime(0, 0, 0, $month, 1, $year),
 				'end'   => mktime(0, 0, 0, $month + 1, 1, $year) - 1
-			);
+			];
 		}
 		
 		/* Новости за год */
 		if ($year)
 		{
-			return array(
+			return [
 				'start' => mktime(0, 0, 0, 1, 1, $year),
 				'end'   => mktime(0, 0, 0, 1, 1, $year + 1) - 1
-			);
+			];
 		}
 	}
 
@@ -275,11 +275,11 @@ class news extends page
 			return $this->config['num_news'];
 		}
 		
-		$sql_array = array(
+		$sql_array = [
 			'SELECT' => 'COUNT(*) AS total',
 			'FROM'   => NEWS_TABLE,
-			'WHERE'  => array('site_id = ' . $this->data['site_id']),
-		);
+			'WHERE'  => ['site_id = ' . $this->data['site_id']],
+		];
 		
 		$interval = $this->calculate_interval($year, $month, $day);
 		$sql_array['WHERE'][] = sprintf('news_time BETWEEN %d AND %d', $interval['start'], $interval['end']);

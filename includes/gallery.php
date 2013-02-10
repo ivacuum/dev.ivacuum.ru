@@ -85,8 +85,8 @@ class gallery extends page
 
 		$this->template->assign([
 			'TOTAL_IMAGES'  => num_format($total_images),
-			'TOTAL_SIZE'    => humn_size($total_size),
-			'TOTAL_TRAFFIC' => humn_size($total_traffic),
+			'TOTAL_SIZE'    => $total_size,
+			'TOTAL_TRAFFIC' => $total_traffic,
 			'TOTAL_VIEWS'   => num_format($total_views),
 		]);
 	}
@@ -234,7 +234,6 @@ class gallery extends page
 			$this->template->append('files', [
 				'DATE'  => $row['image_date'],
 				'ID'    => $row['image_id'],
-				'SIZE'  => humn_size($row['image_size']),
 				'THUMB' => $thumb,
 				'TIME'  => $this->user->create_date($row['image_time']),
 				'URL'   => $row['image_url']
@@ -291,17 +290,10 @@ class gallery extends page
 		navigation_link(ilink($this->get_handler_url('preview', [$image_id])), 'Изображение #' . $image_id);
 
 		$this->template->assign([
-			'AUTHOR' => $this->user_profile_link('', $row['username'], $row['user_colour'], $row['user_url'], $row['user_id']),
 			'DATE'   => $row['image_date'],
 			'ID'     => $row['image_id'],
-			'SIZE'   => humn_size($row['image_size']),
 			'THUMB'  => $thumb_exist,
-			'TIME'   => $this->user->create_date($row['image_time']),
 			'URL'    => $row['image_url'],
-
-			'S_IMAGE_OWNER' => $this->user['user_id'] == $row['user_id'],
-			
-			'U_VIEW' => ilink($this->get_handler_url('view', [$row['image_id']]))
 		]);
 	}
 

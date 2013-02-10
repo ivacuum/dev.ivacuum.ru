@@ -14,7 +14,7 @@
 	{% for key, row in vars %}
 		<tr>
 			<td><a href="/memcache/item.html?key={{ key }}">{{ key }}</a></td>
-			<td>{{ row.SIZE }}</td>
+			<td>{{ humn_size(row.SIZE) }}</td>
 			<td>{{ row.EXPIRE }}</td>
 			<td class="t-center"><a href="/memcache/delete.html?key={{ key }}"><img src="//ivacuum.org/i/_/cross.png" alt=""></a></td>
 		</tr>

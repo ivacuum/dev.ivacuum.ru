@@ -16,18 +16,18 @@
 			<tbody>
 				<tr>
 					<td><b>Принято:</b></td>
-					<td>{{ BYTES_RECEIVED }}</td>
-					<td>{{ BYTES_RECEIVED_PER_HOUR }}</td>
+					<td>{{ humn_size(BYTES_RECEIVED) }}</td>
+					<td>{{ humn_size(BYTES_RECEIVED_PER_HOUR) }}</td>
 				</tr>
 				<tr>
 					<td><b>Послано:</b></td>
-					<td>{{ BYTES_SENT }}</td>
-					<td>{{ BYTES_SENT_PER_HOUR }}</td>
+					<td>{{ humn_size(BYTES_SENT) }}</td>
+					<td>{{ humn_size(BYTES_SENT_PER_HOUR) }}</td>
 				</tr>
 				<tr>
 					<td><b>Всего:</b></td>
-					<td>{{ BYTES_OVERALL }}</td>
-					<td>{{ BYTES_OVERALL_PER_HOUR }}</td>
+					<td>{{ humn_size(BYTES_OVERALL) }}</td>
+					<td>{{ humn_size(BYTES_OVERALL_PER_HOUR) }}</td>
 				</tr>
 			</tbody>
 		</table>

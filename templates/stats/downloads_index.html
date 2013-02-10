@@ -9,7 +9,7 @@
 	</div>
 	<div class="span3">
 		<h4>Занимаемый объём</h4>
-		<p><img src="//ivacuum.org/i/_/chart_pie.png" alt=""> {{ TOTAL_SIZE }}</p>
+		<p><img src="//ivacuum.org/i/_/chart_pie.png" alt=""> {{ humn_size(TOTAL_SIZE) }}</p>
 	</div>
 	<div class="span3">
 		<h4>Всего закачек</h4>
@@ -17,7 +17,7 @@
 	</div>
 	<div class="span3">
 		<h4>Общий трафик</h4>
-		<p><img src="//ivacuum.org/i/_/traffic_light.png" alt=""> {{ TOTAL_TRAFFIC }}{% if TODAY_TRAFFIC > 0 %} <span style="color: green;">(+{{ TODAY_TRAFFIC }})</span>{% endif %}</p>
+		<p><img src="//ivacuum.org/i/_/traffic_light.png" alt=""> {{ humn_size(TOTAL_TRAFFIC) }}{% if TODAY_TRAFFIC > 0 %} <span style="color: green;">(+{{ humn_size(TODAY_TRAFFIC) }})</span>{% endif %}</p>
 	</div>
 </div>
 
@@ -37,7 +37,7 @@
 	<tr>
 		<td class="number">{{ loop.index }}</td>
 		<td><a href="//dl.ivacuum.ru/{{ row.ID }}/"><img src="//ivacuum.org/i/_/drive_download.png" alt="" /></a> <a href="{{ row.U_DETAILS }}"><b>{{ row.NAME }}</b></a></td>
-		<td class="number">{{ row.SIZE }}</td>
+		<td class="number">{{ humn_size(row.SIZE) }}</td>
 		<td class="number">{{ row.DLC }}</td>
 		<td class="number" style="color: green; font-weight: bold;">{{ row.TODAY_DLC }}</td>
 	</tr>

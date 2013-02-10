@@ -14,7 +14,7 @@
 	<tr>
 		<td><a href="//dl.ivacuum.ru/{{ row.ID }}/"><img src="//ivacuum.org/i/_/drive_download.png" alt="" /></a> <a href="{{ row.U_DETAILS }}"><b>{{ row.NAME }}</b></a></td>
 		<td>{{ row.TIME }}</td>
-		<td class="number">{{ row.SIZE }}</td>
+		<td class="number">{{ humn_size(row.SIZE) }}</td>
 		<td>{{ row.IP }}</td>
 	</tr>
 	{% endfor %}

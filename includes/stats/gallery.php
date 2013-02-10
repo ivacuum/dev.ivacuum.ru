@@ -45,7 +45,7 @@ class gallery extends page
 			$this->template->append('users', [
 				'IMAGES'  => num_format($row['total_images']),
 				'PROFILE' => $this->user_profile_link('', $row['username'], $row['user_colour'], $row['user_url'], $row['user_id']),
-				'SIZE'    => humn_size($row['total_size']),
+				'SIZE'    => $row['total_size'],
 				'VIEWS'   => num_format($row['total_views'])
 			]);
 		}
@@ -55,8 +55,8 @@ class gallery extends page
 		$this->template->vars([
 			'TODAY_IMAGES'  => num_format($stats['today_images']),
 			'TOTAL_IMAGES'  => num_format($stats['total_images']),
-			'TOTAL_SIZE'    => humn_size($stats['total_size']),
-			'TOTAL_TRAFFIC' => humn_size($stats['total_traffic']),
+			'TOTAL_SIZE'    => $stats['total_size'],
+			'TOTAL_TRAFFIC' => $stats['total_traffic'],
 			'TOTAL_VIEWS'   => num_format($stats['total_views'])
 		]);
 	}

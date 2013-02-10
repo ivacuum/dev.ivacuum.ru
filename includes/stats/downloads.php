@@ -60,9 +60,8 @@ class downloads extends page
 				'DLC'       => num_format($row['download_count']),
 				'ID'        => $row['file_id'],
 				'NAME'      => $row['file_name'],
-				'SIZE'      => humn_size($row['file_size']),
+				'SIZE'      => $row['file_size'],
 				'TODAY_DLC' => isset($today_dlc[$row['file_id']]) ? $today_dlc[$row['file_id']] : '',
-				'TRAFFIC'   => humn_size($row['traffic']),
 
 				'U_DETAILS'  => ilink(sprintf('%s%d', $this->urls['history'], $row['file_id'])),
 			]);
@@ -77,12 +76,12 @@ class downloads extends page
 		$this->db->freeresult();
 
 		$this->template->assign([
-			'TODAY_TRAFFIC'   => humn_size($today_traffic),
+			'TODAY_TRAFFIC'   => $today_traffic,
 			'TOTAL_DLC'       => num_format($total_dlc),
 			'TOTAL_FILES'     => num_format($total_files),
-			'TOTAL_SIZE'      => humn_size($total_size),
+			'TOTAL_SIZE'      => $total_size,
 			'TOTAL_TODAY_DLC' => num_format($total_today_dlc),
-			'TOTAL_TRAFFIC'   => humn_size($total_traffic),
+			'TOTAL_TRAFFIC'   => $total_traffic,
 		]);
 	}
 	
@@ -221,7 +220,7 @@ class downloads extends page
 				'ID'   => $row['file_id'],
 				'IP'   => $row['dl_ip'],
 				'NAME' => $row['file_name'],
-				'SIZE' => humn_size($row['file_size']),
+				'SIZE' => $row['file_size'],
 				'TIME' => $this->user->create_date($row['dl_time']),
 
 				'U_DETAILS'  => ilink(sprintf('%s%d', $this->urls['history'], $row['file_id'])),

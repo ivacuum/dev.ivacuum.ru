@@ -39,11 +39,11 @@ class memcache extends page
 			'CURR_ITEMS'          => num_format($stats['curr_items']),
 			'HITS'                => num_format($stats['get_hits']),
 			'HITS_PERCENT'        => sprintf('%.2f', ($stats['get_hits'] / ($stats['get_hits'] + $stats['get_misses'])) * 100),
-			'LIMIT_MAXBYTES'      => humn_size($stats['limit_maxbytes']),
+			'LIMIT_MAXBYTES'      => $stats['limit_maxbytes'],
 			'MEMCACHE_SERVER'     => $this->servers[0],
-			'MEMORY_FREE'         => humn_size($stats['limit_maxbytes'] - $stats['bytes']),
+			'MEMORY_FREE'         => $stats['limit_maxbytes'] - $stats['bytes'],
 			'MEMORY_FREE_PERCENT' => sprintf('%.2f', (($stats['limit_maxbytes'] - $stats['bytes']) / $stats['limit_maxbytes']) * 100),
-			'MEMORY_USED'         => humn_size($stats['bytes']),
+			'MEMORY_USED'         => $stats['bytes'],
 			'MEMORY_USED_PERCENT' => sprintf('%.2f', ($stats['bytes'] / $stats['limit_maxbytes']) * 100),
 			'MISSES'              => num_format($stats['get_misses']),
 			'MISSES_PERCENT'      => sprintf('%.2f', ($stats['get_misses'] / ($stats['get_hits'] + $stats['get_misses'])) * 100),
@@ -59,8 +59,8 @@ class memcache extends page
 		foreach ($this->servers as $server)
 		{
 			$this->template->append('servers', [
-				'CACHE_TOTAL' => humn_size($stats_single[$server]['STAT']['limit_maxbytes']),
-				'CACHE_USED'  => humn_size($stats_single[$server]['STAT']['bytes']),
+				'CACHE_TOTAL' => $stats_single[$server]['STAT']['limit_maxbytes'],
+				'CACHE_USED'  => $stats_single[$server]['STAT']['bytes'],
 				'SERVER'      => $server,
 				'START_TIME'  => $this->user->create_date($stats_single[$server]['STAT']['time'] - $stats_single[$server]['STAT']['uptime']),
 				'UPTIME'      => create_time($this->user->ctime - ($stats_single[$server]['STAT']['time'] - $stats_single[$server]['STAT']['uptime']), true),
@@ -119,7 +119,7 @@ class memcache extends page
 		$this->template->vars([
 			'FLAG'  => $row['stat']['flag'],
 			'KEY'   => $key,
-			'SIZE'  => humn_size($row['stat']['size']),
+			'SIZE'  => $row['stat']['size'],
 			'VALUE' => wordwrap(print_r($value, true), 80, "\n", true)
 		]);
 	}
@@ -144,7 +144,7 @@ class memcache extends page
 
 					$vars[$key] = [
 						'EXPIRE' => $this->user->ctime > $match[2] ? 'expired' : $this->user->create_date($match[2]),
-						'SIZE'   => humn_size($match[1])
+						'SIZE'   => $match[1],
 					];
 				}
 			}

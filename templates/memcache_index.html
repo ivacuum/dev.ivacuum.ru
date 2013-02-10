@@ -11,7 +11,7 @@
 			</tr>
 			<tr>
 				<td>Total Memcache Cache</td>
-				<td>{{ LIMIT_MAXBYTES }}</td>
+				<td>{{ humn_size(LIMIT_MAXBYTES) }}</td>
 			</tr>
 		</table>
 
@@ -37,11 +37,11 @@
 				</tr>
 				<tr>
 					<td>Used Cache Size</td>
-					<td>{{ row.CACHE_USED }}</td>
+					<td>{{ humn_size(row.CACHE_USED) }}</td>
 				</tr>
 				<tr>
 					<td>Total Cache Size</td>
-					<td>{{ row.CACHE_TOTAL }}</td>
+					<td>{{ humn_size(row.CACHE_TOTAL) }}</td>
 				</tr>
 			</table>
 		{% endfor %}

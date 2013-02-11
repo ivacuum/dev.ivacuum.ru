@@ -5,7 +5,7 @@
 	<meta charset="utf-8">
 	<title>{% for row in nav_links %}{{ row.TEXT }}{% if not loop.last %} &raquo; {% else %}. {% endif %}{% endfor %}{{ cfg.sitename }}</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="copyright" content="{{ S_YEAR }} vacuum">
+	<meta name="copyright" content="{{ 'now'|date('Y') }} vacuum">
 	{% if page.page_noindex %}
 		<meta name="robots" content="noindex, nofollow">
 	{% endif %}
@@ -113,7 +113,7 @@
 	{% spaceless %}
 	<footer>
 		<p class="pull-right"><a href="mailto:{{ cfg.email_support }}">{{ lang('FEEDBACK') }}</a></p>
-		<p>&copy; {{ S_YEAR }} vacuum</p>
+		<p>&copy; {{ 'now'|date('Y') }} vacuum</p>
 	</footer>
 </div>
 

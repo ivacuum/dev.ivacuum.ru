@@ -4,7 +4,7 @@
 <div class="row">
 	<div class="span3">
 		<h4>Изображений</h4>
-		<p><img src="//ivacuum.org/i/_/images.png" alt=""> {{ num_format(TOTAL_IMAGES) }}</p>
+		<p><img src="//ivacuum.org/i/_/images.png" alt=""> {{ TOTAL_IMAGES|number_format }}</p>
 	</div>
 	<div class="span3">
 		<h4>Общий размер</h4>
@@ -12,7 +12,7 @@
 	</div>
 	<div class="span3">
 		<h4>Просмотров</h4>
-		<p><img src="//ivacuum.org/i/_/eye.png" alt=""> {{ num_format(TOTAL_VIEWS) }}</p>
+		<p><img src="//ivacuum.org/i/_/eye.png" alt=""> {{ TOTAL_VIEWS|number_format }}</p>
 	</div>
 	<div class="span3">
 		<h4>Общий трафик</h4>
@@ -46,7 +46,7 @@
 		<td data-id="{{ row.ID }}" id="image{{ row.ID }}" style="text-align: center; vertical-align: bottom;">
 			<p><a href="{{ url_for('preview', [row.ID]) }}"><img class="ui-shadow-med" src="{{ cfg.gallery_path }}/{{ row.DATE }}/t/{{ row.URL }}" alt=""></a></p>
 			<div>
-				<img src="//ivacuum.org/i/_/eye.png" alt=""> {{ num_format(row.VIEWS) }}
+				<img src="//ivacuum.org/i/_/eye.png" alt=""> {{ row.VIEWS|number_format }}
 				<br><img src="//ivacuum.org/i/_/calendar_day.png" alt=""> {{ row.TIME }}
 				{% if row.OUTDATE %}
 					<br><img src="//ivacuum.org/i/_/exclamation_button.png" alt=""> {{ duration(row.OUTDATE, null, true) }}

@@ -56,7 +56,7 @@
 				</tr>
 				<tr>
 					<td><b>Всего:</b></td>
-					<td>{{ num_format(CONNECTIONS) }}</td>
+					<td>{{ CONNECTIONS|number_format }}</td>
 					<td>{{ CONNECTIONS_PER_HOUR }}</td>
 					<td>100.00 %</td>
 				</tr>
@@ -66,7 +66,7 @@
 </div>
 
 <br>
-<h3>С момента запуска сервера было послано запросов: {{ num_format(QUERIES) }}</h3>
+<h3>С момента запуска сервера было послано запросов: {{ QUERIES|number_format }}</h3>
 <p><img src="//ivacuum.org/i/_/sql.png" alt=""> <b>Статистика запросов:</b> эта таблица показывает статистику по запросам, произведенным в базе данных.</p>
 
 <table class="table-stats ui-shadow-light">
@@ -80,7 +80,7 @@
 	</thead>
 	<tbody>
 		<tr>
-			<td>{{ num_format(QUERIES) }}</td>
+			<td>{{ QUERIES|number_format }}</td>
 			<td>{{ QUERIES_PER_HOUR }}</td>
 			<td>{{ QUERIES_PER_MINUTE }}</td>
 			<td>{{ QUERIES_PER_SECOND }}</td>

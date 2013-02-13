@@ -1,17 +1,17 @@
 <?php
 /**
 * @package ivacuum.ru
-* @copyright (c) 2012
+* @copyright (c) 2013
 */
 
-namespace app\cron;
+namespace app\cron\captcha;
 
 use fw\cron\task;
 
 /**
 * Чистка неактуальных капч
 */
-class captcha_purge extends task
+class purge extends task
 {
 	public function run()
 	{

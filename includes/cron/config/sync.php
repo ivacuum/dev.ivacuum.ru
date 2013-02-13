@@ -1,17 +1,17 @@
 <?php
 /**
 * @package ivacuum.ru
-* @copyright (c) 2012
+* @copyright (c) 2013
 */
 
-namespace app\cron;
+namespace app\cron\config;
 
 use fw\cron\task;
 
 /**
 * Пересчет значений динамических переменных
 */
-class config_sync extends task
+class sync extends task
 {
 	public function run()
 	{

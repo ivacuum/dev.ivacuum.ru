@@ -1,17 +1,17 @@
 <?php
 /**
 * @package ivacuum.ru
-* @copyright (c) 2012
+* @copyright (c) 2013
 */
 
-namespace app\cron;
+namespace app\cron\sessions;
 
 use fw\cron\task;
 
 /**
 * Чистка устаревших сессий
 */
-class sessions_purge extends task
+class purge extends task
 {
 	public function run()
 	{

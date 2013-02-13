@@ -16,5 +16,5 @@ $_SERVER['SERVER_NAME'] = basename(__DIR__);
 require('../_/fw/master/bootstrap.php');
 
 /* Выполнение задач */
-$cron = new manager();
+$cron = new manager($app['dir.logs'], $app['file.cron.allowed'], $app['file.cron.running'], $app['db']);
 $cron->run();

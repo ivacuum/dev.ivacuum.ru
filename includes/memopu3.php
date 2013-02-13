@@ -408,13 +408,11 @@ class memopu3 extends page
 	{
 		if (!$this->request->is_ajax)
 		{
-			garbage_collection();
 			exit;
 		}
 		
 		if (!$this->auth->acl_get('a_'))
 		{
-			garbage_collection();
 			exit;
 		}
 
@@ -433,7 +431,6 @@ class memopu3 extends page
 
 		if (!$vote)
 		{
-			garbage_collection();
 			exit;
 		}
 

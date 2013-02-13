@@ -192,7 +192,6 @@ class gallery extends page
 		}
 
 		$this->db->freeresult($result);
-		garbage_collection(false);
 		exit;
 	}
 

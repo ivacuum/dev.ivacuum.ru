@@ -119,7 +119,7 @@ class register extends page
 			'user_salt'      => $salt,
 			'user_regdate'   => $this->user->ctime,
 			'user_email'     => $email,
-			'user_language'  => $this->user->lang['.']
+			'user_language'  => $this->request->language,
 		];
 		
 		$sql = 'INSERT INTO ' . USERS_TABLE . ' ' . $this->db->build_array('INSERT', $sql_ary);

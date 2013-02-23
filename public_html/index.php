@@ -8,11 +8,6 @@ namespace app;
 
 require('../../_/fw/master/bootstrap.php');
 
-/**
-* Создание сессии
-* Инициализация привилегий
-*/
-$app['user']->session_begin();
 $app['auth']->init($app['user']->data);
 $app['user']->setup();
 

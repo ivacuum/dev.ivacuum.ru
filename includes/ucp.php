@@ -13,10 +13,8 @@ use app\models\page;
 */
 class ucp extends page
 {
-	function __construct()
+	public function _setup()
 	{
-		parent::__construct();
-
 		/* Поисковым роботам панель недоступна */
 		if ($this->user->is_bot)
 		{

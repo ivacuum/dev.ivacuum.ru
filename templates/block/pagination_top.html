@@ -1,12 +1,32 @@
-{% if pagination and pagination.PAGES > 1 %}
-<form action="{{ pagination.URL }}" method="post" style="margin: 0;">
+{% if pagination and pagination.PAGES > 1 and pagination.PAGES < 10 %}
 	<div class="pull-right">
 		{{ lang('GO_TO_PAGE') }}
-		{% if pagination.PREV %}<a class="btn btn-mini" href="{{ pagination.PREV }}" id="prev_page"><i class="icon-arrow-left"></i></a>{% endif %}
-		<input type="text" name="{{ pagination.VAR }}" value="{{ pagination.PAGE }}" style="display: inline-block; margin-bottom: 0; width: 2em;" onclick="highlight(this);">
-		{{ lang('OF') }} {{ pagination.PAGES }}
-		{% if pagination.NEXT %}<a class="btn btn-mini" href="{{ pagination.NEXT }}" id="next_page"><i class="icon-arrow-right"></i></a>{% endif %}
+		<div class="btn-group">
+			{% if pagination.PREV %}
+				<a href="{{ pagination.PREV }}" class="btn page-previous">&larr;</a>
+			{% endif %}
+			{% for i in 1..pagination.PAGES %}
+				<a href="{{ pagination.URL }}?p={{ i }}" class="btn {% if i == pagination.PAGE %}active{% endif %}">{{ i }}</a>
+			{% endfor %}
+			{% if pagination.NEXT %}
+				<a href="{{ pagination.NEXT }}" class="btn page-next">&rarr;</a>
+			{% endif %}
+		</div>
 	</div>
-</form>
-<div class="clearfix"></div>
+	<div class="clearfix"></div>
+{% elseif pagination and pagination.PAGES >= 10 %}
+	<form action="{{ pagination.URL }}" method="post" style="margin: 0;">
+		<div class="pull-right">
+			{{ lang('GO_TO_PAGE') }}
+			{% if pagination.PREV %}
+				<a class="btn btn-mini" href="{{ pagination.PREV }}" id="prev_page"><i class="icon-arrow-left"></i></a>
+			{% endif %}
+			<input type="text" name="{{ pagination.VAR }}" value="{{ pagination.PAGE }}" style="display: inline-block; margin-bottom: 0; width: 2em;" onclick="highlight(this);">
+			{{ lang('OF') }} {{ pagination.PAGES }}
+			{% if pagination.NEXT %}
+				<a class="btn btn-mini" href="{{ pagination.NEXT }}" id="next_page"><i class="icon-arrow-right"></i></a>
+			{% endif %}
+		</div>
+	</form>
+	<div class="clearfix"></div>
 {% endif %}

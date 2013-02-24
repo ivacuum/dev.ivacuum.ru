@@ -2,21 +2,17 @@
 
 {% block content %}
 <div class="row">
-	<div class="span12">
-		<h2>{{ TITLE }}</h2>
-		<div class="row">
-			<div class="span8">
-				{{ TEXT }}
-			</div>
-			<div class="span4">
-				<div class="well">
-					<p><img src="//ivacuum.org/i/_/calendar_day.png" alt=""> {{ TIME }}</p>
-					<p><img src="//ivacuum.org/i/_/eye.png" alt=""> {{ plural(VIEWS, 'VIEWS') }}</p>
-					<p><img src="//ivacuum.org/i/_/balloons.png" alt=""> {{ plural(COMMENTS, 'COMMENTS') }}</p>
-					<p><img src="//ivacuum.org/i/_/user_black.png" alt=""> {{ AUTHOR }}</p>
-				</div>
-			</div>
-		</div>
+	<div class="span8">
+		{% for row in news %}
+			<h2>{{ row.TITLE }}</h2>
+			<ul class="inline">
+				<li class="muted"><img src="//ivacuum.org/i/_/calendar_day.png" alt=""> {{ row.DATE }}</li>
+				<li class="muted"><img src="//ivacuum.org/i/_/user_black.png" alt=""> <a href="{{ url_for('users::profile', [row.USER_ID]) }}">{{ row.USERNAME }}</a></li>
+				<li class="muted"><img src="//ivacuum.org/i/_/eye.png" alt=""> {{ plural(row.VIEWS, 'VIEWS') }}</li>
+				<li class="muted"><img src="//ivacuum.org/i/_/balloons.png" alt=""> {{ plural(row.COMMENTS, 'COMMENTS') }}</li>
+			</ul>
+			<div>{{ row.TEXT }}</div>
+		{% endfor %}
 	</div>
 </div>
 

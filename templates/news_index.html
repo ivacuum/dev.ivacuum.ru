@@ -3,30 +3,49 @@
 {% block content %}
 {% include "block/pagination_top.html" %}
 
-{% for row in news %}
-	<div class="row">
-		<div class="span12">
-			<h2>{{ row.TITLE }}</h2>
-			<div class="row">
-				<div class="span8">
-					<div>{{ row.TEXT }}</div>
-					<p><a href="{{ row.U_COMMENTS }}">{{ lang('GO_TO_COMMENTS') }} &rarr;</a></p>
-				</div>
-				<div class="span4">
-					<div class="well">
-						<p><img src="//ivacuum.org/i/_/calendar_day.png" alt=""> {{ row.TIME }}</p>
-						<p><img src="//ivacuum.org/i/_/eye.png" alt=""> {{ plural(row.VIEWS, 'VIEWS') }}</p>
-						<p><img src="//ivacuum.org/i/_/balloons.png" alt=""> <a href="{{ row.U_COMMENTS }}">{{ plural(row.COMMENTS, 'COMMENTS') }}</a></p>
-						<p><img src="//ivacuum.org/i/_/user_black.png" alt=""> {{ row.AUTHOR }}</p>
-					</div>
-				</div>
-			</div>
-		</div>
+<div class="row">
+	<div class="span8">
+		{% for row in news %}
+			<h2><a href="{{ url_for('news::single', [row.TIME|date('Y'), row.TIME|date('m'), row.TIME|date('d'), row.URL]) }}">{{ row.TITLE }}</a></h2>
+			<ul class="inline">
+				<li class="muted"><img src="//ivacuum.org/i/_/calendar_day.png" alt=""> {{ row.DATE }}</li>
+				<li class="muted"><img src="//ivacuum.org/i/_/user_black.png" alt=""> <a href="{{ url_for('users::profile', [row.USER_ID]) }}">{{ row.USERNAME }}</a></li>
+				<!--
+				<li class="muted"><img src="//ivacuum.org/i/_/eye.png" alt=""> {{ plural(row.VIEWS, 'VIEWS') }}</li>
+				<li class="muted"><img src="//ivacuum.org/i/_/balloons.png" alt=""> {{ plural(row.COMMENTS, 'COMMENTS') }}</li>
+				-->
+			</ul>
+			<div>{{ row.TEXT }}</div>
+			<br>
+		{% else %}
+			<h3>Новостей за выбранный период нет.</h3>
+		{% endfor %}
 	</div>
-	<br>
-{% else %}
-	<h3>Новостей за выбранный период нет.</h3>
-{% endfor %}
+	<div class="span4">
+		<div class="page-header">
+			<h3>Самые интересные</h3>
+		</div>
+		<ol class="list-indent">
+			{% for row in most_viewed_news %}
+				<li>
+					<a href="{{ url_for('news::single', [row.TIME|date('Y'), row.TIME|date('m'), row.TIME|date('d'), row.URL]) }}">{{ row.TITLE }}</a> <span class="badge badge-info">{{ row.VIEWS|number_format }}</span><br>
+					<small class="muted">{{ row.DATE }}</small>
+				</li>
+			{% endfor %}
+		</ol>
+		<div class="page-header">
+			<h3>Самые обсуждаемые</h3>
+		</div>
+		<ol class="list-indent">
+			{% for row in most_discussed_news %}
+				<li>
+					<a href="{{ url_for('news::single', [row.TIME|date('Y'), row.TIME|date('m'), row.TIME|date('d'), row.URL]) }}">{{ row.TITLE }}</a> <span class="badge badge-warning">{{ row.COMMENTS|number_format }}</span><br>
+					<small class="muted">{{ row.DATE }}</small>
+				</li>
+			{% endfor %}
+		</ol>
+	</div>
+</div>
 
 {% include "block/pagination_bottom.html" %}
 {% endblock %}

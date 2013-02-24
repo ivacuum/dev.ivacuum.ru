@@ -24,7 +24,7 @@ class news extends page
 		$pagination = pagination($on_page, $this->get_news_count($year, $month, $day), ilink($this->full_url));
 		
 		$sql_array = [
-			'SELECT'    => 'n.*, u.username, u.user_url, u.user_colour',
+			'SELECT'    => 'n.*, u.username',
 			'FROM'      => NEWS_TABLE . ' n',
 			'LEFT_JOIN' => USERS_TABLE . ' u ON (u.user_id = n.user_id)',
 			'WHERE'     => ['n.site_id = ' . $this->db->check_value($this->data['site_id'])],
@@ -41,28 +41,15 @@ class news extends page
 		
 		while ($row = $this->db->fetchrow())
 		{
-			/* /новости/2010/12/25/новость.html */
-			$params = [
-				date('Y', $row['news_time']),
-				date('m', $row['news_time']),
-				date('d', $row['news_time']),
-				$row['news_url']
-			];
-			
-			$this->template->append('news', [
-				'AUTHOR'   => $this->user_profile_link('', $row['username'], $row['user_colour'], $row['user_url'], $row['user_id']),
-				'COMMENTS' => $row['news_comments'],
-				'TEXT'     => prepare_text_for_print($row['news_text']),
-				'TIME'     => $this->user->create_date($row['news_time']),
-				'TITLE'    => $row['news_subject'],
-				'VIEWS'    => $row['news_views'],
-	
-				'U_COMMENTS' => ilink($this->get_handler_url('display_single', $params))
-			]);
+			$this->append_news('news', $row);
 		}
-	
+		
 		$this->db->freeresult();
 		
+		$this->append_most_discussed();
+		$this->append_most_viewed();
+
+		/* Другие методы вызывают index, всем надо установить один шаблон */
 		$this->template->file = 'news_index.html';
 	}
 	
@@ -115,7 +102,7 @@ class news extends page
 			$row['news_url']
 		];
 		
-		$this->request->redirect($this->get_handler_url('display_single', $params), 301);
+		$this->request->redirect($this->get_handler_url('single', $params), 301);
 	}
 	
 	/**
@@ -125,11 +112,19 @@ class news extends page
 	{
 		return $this->index($year, $month, $day);
 	}
-
+	
+	/**
+	* Просмотр новостей за месяц
+	*/
+	public function month($year = false, $month = false)
+	{
+		return $this->index($year, $month);
+	}
+	
 	/**
 	* Вывод одной новости
 	*/
-	public function display_single($year = false, $month = false, $day = false)
+	public function single($year = false, $month = false, $day = false)
 	{
 		/* Границы дня, в который была опубликована новости */
 		if (false === checkdate($month, $day, $year))
@@ -147,9 +142,7 @@ class news extends page
 		$sql = '
 			SELECT
 				n.*,
-				u.username,
-				u.user_url,
-				u.user_colour
+				u.username
 			FROM
 				' . NEWS_TABLE . ' n
 			LEFT JOIN
@@ -166,26 +159,9 @@ class news extends page
 		{
 			trigger_error('NEWS_NOT_FOUND');
 		}
-	
-		$this->template->assign([
-			'AUTHOR'   => $this->user_profile_link('', $row['username'], $row['user_colour'], $row['user_url'], $row['news_author_id']),
-			'COMMENTS' => $row['news_comments'],
-			'TEXT'     => prepare_text_for_print($row['news_text']),
-			'TITLE'    => $row['news_subject'],
-			'TIME'     => $this->user->create_date($row['news_time']),
-			'USERNAME' => $this->user->is_registered ? $this->user_profile_link('plain', $this->user['username'], $this->user['user_colour']) : '',
-			'VIEWS'    => $row['news_views'] + 1,
-		]);
 		
-		$this->template->file = 'news_detail.html';
-	}
-	
-	/**
-	* Просмотр новостей за месяц
-	*/
-	public function month($year = false, $month = false)
-	{
-		return $this->index($year, $month);
+		$this->breadcrumbs($row['news_title']);
+		$this->append_news('news', $row);
 	}
 	
 	/**
@@ -196,6 +172,70 @@ class news extends page
 		return $this->index($year);
 	}
 	
+	/**
+	* Самые обсуждаемые новости
+	*/
+	protected function append_most_discussed()
+	{
+		$sql_array = [
+			'SELECT'    => 'n.*, u.username',
+			'FROM'      => NEWS_TABLE . ' n',
+			'LEFT_JOIN' => USERS_TABLE . ' u ON (u.user_id = n.user_id)',
+			'WHERE'     => ['n.site_id = ' . $this->db->check_value($this->data['site_id'])],
+			'ORDER_BY'  => 'n.news_comments DESC',
+		];
+		
+		$this->db->query_limit($this->db->build_query('SELECT', $sql_array), 10);
+		
+		while ($row = $this->db->fetchrow())
+		{
+			$this->append_news('most_discussed_news', $row);
+		}
+		
+		$this->db->freeresult();
+	}
+
+	/**
+	* Самые просматриваемые новости
+	*/
+	protected function append_most_viewed()
+	{
+		$sql_array = [
+			'SELECT'    => 'n.*, u.username',
+			'FROM'      => NEWS_TABLE . ' n',
+			'LEFT_JOIN' => USERS_TABLE . ' u ON (u.user_id = n.user_id)',
+			'WHERE'     => ['n.site_id = ' . $this->db->check_value($this->data['site_id'])],
+			'ORDER_BY'  => 'n.news_views DESC',
+		];
+		
+		$this->db->query_limit($this->db->build_query('SELECT', $sql_array), 10);
+		
+		while ($row = $this->db->fetchrow())
+		{
+			$this->append_news('most_viewed_news', $row);
+		}
+		
+		$this->db->freeresult();
+	}
+	
+	/**
+	* Передача новости шаблонизатору
+	*/
+	protected function append_news($loop_name, &$row)
+	{
+		$this->template->append($loop_name, [
+			'COMMENTS'  => $row['news_comments'],
+			'DATE'      => $this->user->create_date($row['news_time']),
+			'TEXT'      => prepare_text_for_print($row['news_text']),
+			'TIME'      => $row['news_time'],
+			'TITLE'     => $row['news_subject'],
+			'VIEWS'     => $row['news_views'],
+			'URL'       => $row['news_url'],
+			'USER_ID'   => $row['user_id'],
+			'USERNAME'  => $row['username'],
+		]);
+	}
+
 	/**
 	* Интервал времени для SQL-запроса
 	*/
@@ -211,7 +251,7 @@ class news extends page
 		{
 			return [
 				'start' => mktime(0, 0, 0, $month, $day, $year),
-				'end'   => mktime(0, 0, 0, $month, $day + 1, $year) - 1
+				'end'   => mktime(0, 0, 0, $month, $day + 1, $year) - 1,
 			];
 		}
 		
@@ -220,7 +260,7 @@ class news extends page
 		{
 			return [
 				'start' => mktime(0, 0, 0, $month, 1, $year),
-				'end'   => mktime(0, 0, 0, $month + 1, 1, $year) - 1
+				'end'   => mktime(0, 0, 0, $month + 1, 1, $year) - 1,
 			];
 		}
 		
@@ -229,7 +269,7 @@ class news extends page
 		{
 			return [
 				'start' => mktime(0, 0, 0, 1, 1, $year),
-				'end'   => mktime(0, 0, 0, 1, 1, $year + 1) - 1
+				'end'   => mktime(0, 0, 0, 1, 1, $year + 1) - 1,
 			];
 		}
 	}

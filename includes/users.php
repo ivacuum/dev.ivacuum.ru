@@ -69,7 +69,7 @@ class users extends page
 			trigger_error('PAGE_NOT_FOUND');
 		}
 		
-		$this->breadcrumbs($this->user_profile_link('raw', $row['username'], false, $row['user_url'], $row['user_id']), $row['username'], 'card_address');
+		$this->breadcrumbs($row['username'], $this->user_profile_link('raw', $row['username'], false, $row['user_url'], $row['user_id']), 'card_address');
 		
 		/* Загрузка званий */
 		$ranks = $this->cache->obtain_ranks();

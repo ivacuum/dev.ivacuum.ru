@@ -286,7 +286,7 @@ class gallery extends page
 
 		$thumb_exist = file_exists($this->config['images_upload_dir'] . implode('/', str_split($row['image_date'], 2)) . '/s/' . $row['image_url']);
 
-		$this->breadcrumbs(ilink($this->get_handler_url('preview', [$image_id])), 'Изображение #' . $image_id);
+		$this->breadcrumbs('Изображение #' . $image_id, ilink($this->get_handler_url('preview', [$image_id])));
 
 		$this->template->assign([
 			'DATE'   => $row['image_date'],
@@ -329,7 +329,7 @@ class gallery extends page
 
 		$thumb_exist = file_exists($this->config['images_upload_dir'] . implode('/', str_split($row['image_date'], 2)) . '/s/' . $row['image_url']);
 
-		$this->breadcrumbs(ilink($this->get_handler_url('view', [$image_id])), 'Изображение #' . $image_id);
+		$this->breadcrumbs('Изображение #' . $image_id, ilink($this->get_handler_url('view', [$image_id])));
 
 		$this->template->assign([
 			'DATE'  => $row['image_date'],

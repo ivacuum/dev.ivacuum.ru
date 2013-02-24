@@ -3,7 +3,7 @@
 <html dir="{{ S_LANGUAGE_DIRECTION }}" lang="{{ S_LANGUAGE }}">
 <head>
 	<meta charset="utf-8">
-	<title>{% for row in nav_links %}{{ row.TEXT }}{% if not loop.last %} &raquo; {% else %}. {% endif %}{% endfor %}{{ cfg.sitename }}</title>
+	<title>{% for row in breadcrumbs %}{{ row.TEXT }}{% if not loop.last %} &raquo; {% else %}. {% endif %}{% endfor %}{{ cfg.sitename }}</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="copyright" content="{{ 'now'|date('Y') }} vacuum">
 	{% if page.page_noindex %}
@@ -96,7 +96,7 @@
 	{% block breadcrumbs %}
 		<ul class="breadcrumb">
 			<li><a href="{{ U_INDEX }}">{{ lang('INDEX_PAGE') }}</a></li>
-			{% for row in nav_links %}
+			{% for row in breadcrumbs %}
 				{% if not loop.last %}
 					<li><span class="divider">&rarr;</span><a href="{{ row.URL }}">{{ row.TEXT }}</a></li>
 				{% else %}

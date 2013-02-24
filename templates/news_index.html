@@ -22,28 +22,32 @@
 		{% endfor %}
 	</div>
 	<div class="span4">
-		<div class="page-header">
-			<h3>Самые интересные</h3>
-		</div>
-		<ol class="list-indent">
-			{% for row in most_viewed_news %}
-				<li>
-					<a href="{{ url_for('news::single', [row.TIME|date('Y'), row.TIME|date('m'), row.TIME|date('d'), row.URL]) }}">{{ row.TITLE }}</a> <span class="badge badge-info">{{ row.VIEWS|number_format }}</span><br>
-					<small class="muted">{{ row.DATE }}</small>
-				</li>
-			{% endfor %}
-		</ol>
-		<div class="page-header">
-			<h3>Самые обсуждаемые</h3>
-		</div>
-		<ol class="list-indent">
-			{% for row in most_discussed_news %}
-				<li>
-					<a href="{{ url_for('news::single', [row.TIME|date('Y'), row.TIME|date('m'), row.TIME|date('d'), row.URL]) }}">{{ row.TITLE }}</a> <span class="badge badge-warning">{{ row.COMMENTS|number_format }}</span><br>
-					<small class="muted">{{ row.DATE }}</small>
-				</li>
-			{% endfor %}
-		</ol>
+		{% if most_viewed_news %}
+			<div class="page-header">
+				<h3>Самые интересные</h3>
+			</div>
+			<ol class="list-indent">
+				{% for row in most_viewed_news %}
+					<li>
+						<a href="{{ url_for('news::single', [row.TIME|date('Y'), row.TIME|date('m'), row.TIME|date('d'), row.URL]) }}">{{ row.TITLE }}</a> <span class="badge badge-info">{{ row.VIEWS|number_format }}</span><br>
+						<small class="muted">{{ row.DATE }}</small>
+					</li>
+				{% endfor %}
+			</ol>
+		{% endif %}
+		{% if most_discussed_news %}
+			<div class="page-header">
+				<h3>Самые обсуждаемые</h3>
+			</div>
+			<ol class="list-indent">
+				{% for row in most_discussed_news %}
+					<li>
+						<a href="{{ url_for('news::single', [row.TIME|date('Y'), row.TIME|date('m'), row.TIME|date('d'), row.URL]) }}">{{ row.TITLE }}</a> <span class="badge badge-warning">{{ row.COMMENTS|number_format }}</span><br>
+						<small class="muted">{{ row.DATE }}</small>
+					</li>
+				{% endfor %}
+			</ol>
+		{% endif %}
 	</div>
 </div>
 

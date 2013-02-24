@@ -12,9 +12,6 @@
 	<meta name="keywords" content="{{ page.page_keywords }}">
 	<meta name="description" content="{{ page.page_description }}">
 	{{ META }}
-	{% for row in rss %}
-		<link rel="alternate" type="application/rss+xml" title="{{ row.TITLE }}" href="{{ row.URL }}">
-	{% endfor %}
 	{% if S_ISP == 'local' %}
 		<link rel="shortcut icon" href="//0.ivacuum.org/i/_/home.png">
 		<link rel="stylesheet" href="//0.ivacuum.org/i/bootstrap/2.3.0/css/bootstrap.min.css">
@@ -64,7 +61,7 @@
 				</ul>
 				{% if S_USER_REGISTERED %}
 					<ul class="nav pull-right">
-						<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="{{ S_OPENID_PROVIDER ? '//ivacuum.org/i/openid/' ~ S_OPENID_PROVIDER ~ '.png' : '//ivacuum.org/i/_/user_guest_question.png' }}" alt=""> {{ S_USERNAME }} <b class="caret"></b></a>
+						<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="//ivacuum.org/i/{{ S_OPENID_PROVIDER ? 'openid/' ~ S_OPENID_PROVIDER : '_/user_guest_question' }}.png" alt=""> {{ S_USERNAME }} <b class="caret"></b></a>
 							<ul class="dropdown-menu">
 								<li><a href="https://lk.beeline.ru/">Личный Кабинет «Билайн»</a></li>
 								<li><a href="http://portal.klg.corbina.net/">Портал Корбины</a></li>

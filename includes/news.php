@@ -160,7 +160,7 @@ class news extends page
 			trigger_error('NEWS_NOT_FOUND');
 		}
 		
-		$this->breadcrumbs($row['news_title']);
+		$this->breadcrumbs($row['news_subject']);
 		$this->append_news('news', $row);
 	}
 	

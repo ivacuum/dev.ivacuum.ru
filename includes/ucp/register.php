@@ -132,7 +132,7 @@ class register extends page
 		$this->config->set('newest_username', $username, 0);
 		$this->config->increment('num_users', 1, 0);
 
-		trigger_error('Спасибо за регистрацию.<br><br>Теперь вы можете <a href="' . ilink($this->signin_url) . '">войти на сайт</a>.');
+		trigger_error('Спасибо за регистрацию.<br><br>Теперь вы можете <a href="' . ilink($this->urls['_signin']) . '">войти на сайт</a>.');
 	}
 	
 	/**

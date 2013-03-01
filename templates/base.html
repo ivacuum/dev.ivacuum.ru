@@ -66,7 +66,7 @@
 								<li><a href="https://lk.beeline.ru/">Личный Кабинет «Билайн»</a></li>
 								<li><a href="http://portal.klg.corbina.net/">Портал Корбины</a></li>
 								<li class="divider"></li>
-								<li><a href="{{ U_SIGNOUT_URL }}?goto={{ U_THIS_PAGE }}">{{ lang('SIGNOUT') }}</a></li>
+								<li><a href="{{ U_SIGNOUT }}?goto={{ U_THIS_PAGE }}">{{ lang('SIGNOUT') }}</a></li>
 							</ul>
 						</li>
 						{% if languages %}
@@ -81,8 +81,8 @@
 					</ul>
 				{% else %}
 					<ul class="nav pull-right">
-						<li><a href="{{ U_SIGNIN_URL }}?goto={{ U_THIS_PAGE }}">{{ lang('LOGIN') }}</a></li>
-						<li><a href="{{ url_for('ucp\\register::index') }}">{{ lang('REGISTER') }}</a></li>
+						<li><a href="{{ U_SIGNIN }}?goto={{ U_THIS_PAGE }}">{{ lang('LOGIN') }}</a></li>
+						<li><a href="{{ U_REGISTER }}">{{ lang('REGISTER') }}</a></li>
 					</ul>
 				{% endif %}
 			</div>

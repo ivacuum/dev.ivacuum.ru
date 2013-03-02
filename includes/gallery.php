@@ -48,7 +48,7 @@ class gallery extends page
 
 		if (!$total_images)
 		{
-			trigger_error('Вы еще не <a href="' . ilink('', 'http://up.ivacuum.ru') . '"><b>загрузили</b></a> ни одного изображения.');
+			trigger_error('Вы еще не <a href="http://up.ivacuum.ru/"><b>загрузили</b></a> ни одного изображения.');
 		}
 
 		$pagination = pagination($this->config['gallery_images_on_page'], $total_images, ilink($this->url));

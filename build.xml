@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="dev.ivacuum.ru" default="build">
+  <target name="build" depends="lint" />
+  
+  <target name="lint">
+    <apply executable="php" failonerror="true">
+      <arg value="-l" />
+      
+      <fileset dir="${basedir}">
+        <include name="**/*.php" />
+        <modified />
+      </fileset>
+    </apply>
+  </target>
+  
+  <!--
+  <target name="phpunit" description="Run unit tests with PHPUnit">
+    <exec executable="phpunit" failonerror="true" />
+  </target>
+  -->
+</project>

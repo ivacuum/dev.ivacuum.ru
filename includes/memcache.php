@@ -131,15 +131,20 @@ class memcache extends page
 	{
 		$cache_items = $this->get_cache_items();
 		$vars = [];
-
+		
 		foreach ($cache_items['items'] as $server => $entries)
 		{
 			foreach ($entries as $slab_id => $slab)
 			{
-				$items = $this->dump_cache_slab($server, $slab_id, $slab['number']);
-
-				foreach ($items['ITEM'] as $key => $info)
+				$items = $this->dump_cache_slab($server, $slab_id, $slab['number'])['ITEM'];
+				
+				foreach ($items as $key => $info)
 				{
+					if (0 === strpos($key, 't.ivacuum.ru'))
+					{
+						continue;
+					}
+					
 					preg_match('#^\[(\d+) b\; (\d+) s\]$#', $info, $match);
 
 					$vars[$key] = [

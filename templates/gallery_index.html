@@ -66,15 +66,18 @@
 
 <div id="images_links"></div>
 
-<script type="text/javascript">
+<script src="//ivacuum.org/js/jquery.scrollto.min.js"></script>
+<script src="//yandex.st/jquery-ui/1.10.1/jquery.ui.core.min.js"></script>
+<script src="//yandex.st/jquery-ui/1.10.1/jquery.ui.widget.min.js"></script>
+<script src="//yandex.st/jquery-ui/1.10.1/jquery.ui.mouse.min.js"></script>
+<script src="//yandex.st/jquery-ui/1.10.1/jquery.ui.selectable.min.js"></script>
+<script>
 var g_loading = false;
 var S_DISABLE_GALLERY = true;
 var images_id;
 
 $(document).ready(function() {
-  /**
-  * Выбор изображений
-  */
+  /* Выбор изображений */
   $('#gallery').selectable({
     cancel: ':input,option,a',
     filter: 'td',
@@ -85,76 +88,64 @@ $(document).ready(function() {
       });
     }
   });
-});
 
-/**
-* Удаление картинок
-*/
-$('#delete_images').bind('click', function() {
- 	$(this).blur();
+	/* Удаление картинок */
+	$('#delete_images').bind('click', function() {
+	 	$(this).blur();
 
-	if (images_id.length > 0) {
-		if (confirm('Вы действительно хотите удалить картинки?')) {
-			$.post(encodeURI('{{ url_for('delete_images') }}'), { images_id: images_id.join() }, function() {
-				window.location = '{{ url_for('index') }}';
-			});
+		if (images_id.length > 0) {
+			if (confirm('Вы действительно хотите удалить картинки?')) {
+				$.post(encodeURI('{{ url_for('delete_images') }}'), { images_id: images_id.join() }, function() {
+					window.location = '{{ url_for('index') }}';
+				});
+			}
+		} else {
+			alert('Вы не выбрали ни одного файла');
 		}
-	} else {
-		alert('Вы не выбрали ни одного файла');
-	}
-});
+	});
 
-/**
-* Получение ссылок
-*/
-$('#get_images_links').bind('click', function() {
-  $(this).blur();
-  g_loading = true;
+	/* Получение ссылок */
+	$('#get_images_links').bind('click', function() {
+	  $(this).blur();
+	  g_loading = true;
 
-  if (images_id.length > 0) {
-    $.post(encodeURI('{{ url_for('links') }}'), { images_id: images_id.join() }, function(data) { $('#images_links').empty().hide().html(data).fadeIn('slow'); $.scrollTo('#images_links', 800); });
-  }
-});
+	  if (images_id.length > 0) {
+	    $.post(encodeURI('{{ url_for('links') }}'), { images_id: images_id.join() }, function(data) { $('#images_links').empty().hide().html(data).fadeIn('slow'); $.scrollTo('#images_links', 800); });
+	  }
+	});
 
-/**
-* Дозагрузка изображений
-*/
-$(document).bind('get_more_images', function(e) {
-  var url =  $('#next_page').attr('href');
+	/* Дозагрузка изображений */
+	$(document).bind('get_more_images', function(e) {
+	  var url =  $('#next_page').attr('href');
 
-  if (!g_loading && url) {
-    $('#pagination').remove();
+	  if (!g_loading && url) {
+	    $('#pagination').remove();
 
-    g_loading = true;
-    $.get(encodeURI(url), function(data) { $('#gallery').append(data); g_loading = false; });
-  }
-});
+	    g_loading = true;
+	    $.get(encodeURI(url), function(data) { $('#gallery').append(data); g_loading = false; });
+	  }
+	});
 
-/**
-* Реагирование на прокрутку окна
-*/
-$(document).bind('on_scroll_gallery', function(e) {
-  var position = $(window).height() + $(window).scrollTop();
-  var bottom = parseInt($('#images_links').offset().top);
+	/* Реагирование на прокрутку окна */
+	$(document).bind('on_scroll_gallery', function(e) {
+	  var position = $(window).height() + $(window).scrollTop();
+	  var bottom = parseInt($('#images_links').offset().top);
 
-  if (!g_loading && position > (bottom - 50)) {
-    $(document).trigger('get_more_images');
-  }
-});
+	  if (!g_loading && position > (bottom - 50)) {
+	    $(document).trigger('get_more_images');
+	  }
+	});
 
-/**
-* Прокрутка окна
-*/
-$(window).bind('scroll', function(e) {
-  $(document).trigger('on_scroll_gallery');
-});
+	/* Прокрутка окна */
+	$(window).bind('scroll', function(e) {
+	  $(document).trigger('on_scroll_gallery');
+	});
 
-/**
-* Продолжение обзора галереи
-*/
-$('#close_images_links').live('click', function(e) {
-  g_loading = false;
-  $('#images_links').empty();
+	/* Продолжение обзора галереи */
+	$('#close_images_links').live('click', function(e) {
+	  g_loading = false;
+	  $('#images_links').empty();
+	});
 });
 </script>
 {% endblock %}

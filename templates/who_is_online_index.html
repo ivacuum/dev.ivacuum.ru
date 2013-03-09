@@ -5,40 +5,15 @@
 <p>{{ ONLINE_TIME }}</p>
 
 <table class="table-stats ui-shadow-light">
-	{% if S_ACP %}
-		<thead>
-		<tr>
-			<th class="block" width="55%">{{ lang('USERNAME') }}</th>
-			<th>{{ lang('TIME') }}</th>
-			<th>{{ lang('PAGE') }}</th>
-		</tr>
-		</thead>
-		{% for row in users %}
-		<tr>
-			<td>
-				<p>
-					<img src="//ivacuum.org/i/_/{{ row.NAME == 'Гость' ? 'user_guest' : 'user_black' }}.png" alt=""> {{ row.NAME }} <span style="margin-left: 35px;">(IP: {{ row.IP }})</span><br>
-					<img src="//ivacuum.org/i/_/application_browser.png" alt=""> {{ row.BROWSER }}
-					{% if row.REFERER %}
-						<img src="//ivacuum.org/i/_/document_search_result.png" alt=""> <a href="{{ row.REFERER }}">{{ row.REFERER|truncate(100, '', true) }}</a>
-					{% endif %}
-				</p>
-			</td>
-			<td nowrap="nowrap">{{ row.TIME }}</td>
-			<td><a href="{% if row.DOMAIN %}//{{ row.DOMAIN }}{% endif %}{{ row.PAGE }}"><b>{% if row.DOMAIN and row.DOMAIN != 'ivacuum.ru' %}{{ row.DOMAIN }}{% endif %}{{ row.PAGE|truncate(50, '', true) }}</b></a></td>
-		</tr>
-		{% endfor %}
-	{% else %}
-		<tr>
-			<th width="50%">{{ lang('USERNAME') }}</th>
-			<th>{{ lang('TIME') }}</td>
-		</tr>
-		{% for row in users %}
-		<tr>
-			<td><img src="//ivacuum.org/i/_/{{ row.NAME == 'Гость' ? 'user_guest' : 'user_black' }}.png"> {{ row.NAME }}</td>
-			<td align="center">{{ row.TIME }}</td>
-		</tr>
-		{% endfor %}
-	{% endif %}
+	<tr>
+		<th width="50%">{{ lang('USERNAME') }}</th>
+		<th>{{ lang('TIME') }}</td>
+	</tr>
+	{% for row in users %}
+	<tr>
+		<td><img src="//ivacuum.org/i/_/{{ row.NAME == 'Гость' ? 'user_guest' : 'user_black' }}.png"> {{ row.NAME }}</td>
+		<td align="center">{{ row.TIME }}</td>
+	</tr>
+	{% endfor %}
 </table>
 {% endblock %}

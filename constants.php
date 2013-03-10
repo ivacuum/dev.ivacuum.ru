@@ -6,10 +6,6 @@
 
 namespace app;
 
-/**
-* Константы
-* apc_delete($acm_prefix . '_constants');
-*/
 if (false === $app->load_constants($app['acm.prefix']))
 {
 	$app->set_constants($app['acm.prefix'], [

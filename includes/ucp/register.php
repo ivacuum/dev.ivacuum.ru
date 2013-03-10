@@ -43,7 +43,6 @@ class register extends page
 		$uid         = $this->request->post('uid', '');
 		$username    = $this->request->post('username', '');
 		
-		$captcha = new \fw\captcha\validator();
 		$error_ary = [];
 		
 		if (!$username)
@@ -66,7 +65,7 @@ class register extends page
 		{
 			$error_ary[] = 'Введите пароль от 6 до 60 символов';
 		}
-		if (!$captcha->is_solved())
+		if (!$this->captcha_validator->is_solved())
 		{
 			$error_ary[] = 'Неверно введен код подтверждения';
 		}

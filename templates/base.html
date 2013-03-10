@@ -109,8 +109,11 @@
 	{% block content_footer %}{% endblock %}
 	{% spaceless %}
 	<footer>
-		<p class="pull-right"><a href="mailto:{{ cfg.email_support }}">{{ lang('FEEDBACK') }}</a></p>
-		<p>&copy; {{ 'now'|date('Y') }} vacuum</p>
+		<ul class="inline">
+			<li class="muted">&copy; {{ 'now'|date('Y') }} vacuum</li>
+			<li class="muted">&middot;</li>
+			<li><a href="mailto:{{ cfg.email_support }}">{{ lang('FEEDBACK') }}</a></li>
+		</ul>
 	</footer>
 </div>
 

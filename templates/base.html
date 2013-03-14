@@ -1,18 +1,18 @@
-{% spaceless %}
+{strip}
 <!DOCTYPE html>
-<html dir="{{ S_LANGUAGE_DIRECTION }}" lang="{{ S_LANGUAGE }}">
+<html dir="{$S_LANGUAGE_DIRECTION}" lang="{$S_LANGUAGE}">
 <head>
 	<meta charset="utf-8">
-	<title>{% for row in breadcrumbs %}{{ row.TEXT }}{% if not loop.last %} &raquo; {% else %}. {% endif %}{% endfor %}{{ cfg.sitename }}</title>
+	<title>{foreach $breadcrumbs as $row}{$row.TEXT}{if not $row@last} &raquo; {else}. {/if}{/foreach}{$cfg.sitename}</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="copyright" content="{{ 'now'|date('Y') }} vacuum">
-	{% if page.page_noindex %}
+	<meta name="copyright" content="{$smarty.now|date_format:'%Y'} vacuum">
+	{if $page.page_noindex}
 		<meta name="robots" content="noindex, nofollow">
-	{% endif %}
-	<meta name="keywords" content="{{ page.page_keywords }}">
-	<meta name="description" content="{{ page.page_description }}">
-	{{ META }}
-	{% if S_ISP == 'local' %}
+	{/if}
+	<meta name="keywords" content="{$page.page_keywords}">
+	<meta name="description" content="{$page.page_description}">
+	{$META|default:''}
+	{if $S_ISP == 'local'}
 		<link rel="shortcut icon" href="//0.ivacuum.org/i/_/home.png">
 		<link rel="stylesheet" href="//0.ivacuum.org/i/bootstrap/2.3.1/css/bootstrap.min.css">
 		<link rel="stylesheet" href="//0.ivacuum.org/i/bootstrap/2.3.1/css/bootstrap-responsive.min.css">
@@ -22,7 +22,7 @@
 		<script src="//0.ivacuum.org/js/jquery/1.9.1/jquery.min.js"></script>
 		<script src="//0.ivacuum.org/i/bootstrap/2.3.1/js/bootstrap.min.js"></script>
 		<script src="//0.ivacuum.org/js/base-1.9.1.js"></script>
-	{% else %}
+	{else}
 		<link rel="shortcut icon" href="//ivacuum.org/i/_/home.png">
 		<link rel="stylesheet" href="//yandex.st/bootstrap/2.3.1/css/bootstrap.min.css">
 		<link rel="stylesheet" href="//yandex.st/bootstrap/2.3.1/css/bootstrap-responsive.min.css">
@@ -31,9 +31,9 @@
 		<script src="//yandex.st/jquery/1.9.1/jquery.min.js"></script>
 		<script src="//yandex.st/bootstrap/2.3.1/js/bootstrap.min.js"></script>
 		<script src="//ivacuum.org/js/base-1.9.1.js"></script>
-	{% endif %}
+	{/if}
 </head>
-<body class="{{ S_LANGUAGE_DIRECTION }}">
+<body class="{$S_LANGUAGE_DIRECTION}">
 <div class="navbar navbar-fixed-top">
 	<div class="navbar-inner">
 		<div class="container">
@@ -42,82 +42,83 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</a>
-			<a class="brand" href="{{ U_INDEX }}">{{ cfg.sitename }}{% if S_ISP == 'local' %} <sup>local</sup>{% endif %}</a>
+			<a class="brand" href="{$U_INDEX}">{$cfg.sitename}{if $S_ISP == 'local'} <sup>local</sup>{/if}</a>
 			<div class="nav-collapse">
 				<ul class="nav">
-				{% for row in menu %}
-					{% if row.children %}
-						<li class="dropdown{% if row.ACTIVE %} active{% endif %}"><a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ row.TITLE }} <b class="caret"></b></a>
+				{foreach $menu as $row}
+					{if $row.children}
+						<li class="dropdown{if isset($row.ACTIVE)} active{/if}"><a href="#" class="dropdown-toggle" data-toggle="dropdown">{$row.TITLE} <b class="caret"></b></a>
 							<ul class="dropdown-menu">
-							{% for row in row.children %}
-								<li><a href="{{ row.URL }}">{{ row.TITLE }}</a></li>
-							{% endfor %}
+								{foreach $row.children as $row2}
+									<li><a href="{$row2.URL}">{$row2.TITLE}</a></li>
+								{/foreach}
 							</ul>
 						</li>
-					{% else %}
-						<li{% if row.ACTIVE %} class="active"{% endif %}><a href="{{ row.URL }}">{{ row.TITLE }}</a></li>
-					{% endif %}
-				{% endfor %}
+					{else}
+						<li class="{if isset($row.ACTIVE)}active{/if}"><a href="{$row.URL}">{$row.TITLE}</a></li>
+					{/if}
+				{/foreach}
 				</ul>
-				{% if S_USER_REGISTERED %}
+				{if $S_USER_REGISTERED}
 					<ul class="nav pull-right">
-						<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="//ivacuum.org/i/{{ S_OPENID_PROVIDER ? 'openid/' ~ S_OPENID_PROVIDER : '_/user_guest_question' }}.png" alt=""> {{ S_USERNAME }} <b class="caret"></b></a>
+						<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="//ivacuum.org/i/{($S_OPENID_PROVIDER) ? 'openid/$S_OPENID_PROVIDER' : '_/user_guest_question'}.png" alt=""> {$S_USERNAME} <b class="caret"></b></a>
 							<ul class="dropdown-menu">
 								<li><a href="https://lk.beeline.ru/">Личный Кабинет «Билайн»</a></li>
 								<li><a href="http://portal.klg.corbina.net/">Портал Корбины</a></li>
 								<li class="divider"></li>
-								<li><a href="{{ U_SIGNOUT }}?goto={{ U_THIS_PAGE }}">{{ lang('SIGNOUT') }}</a></li>
+								<li><a href="{$U_SIGNOUT}?goto={$U_THIS_PAGE}">{'SIGNOUT'|i18n}</a></li>
 							</ul>
 						</li>
-						{% if languages %}
-							<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="//ivacuum.org/i/flags/16/{{ S_LANGUAGE }}.png" alt="">&nbsp;<b class="caret"></b></a>
+						{if not empty($languages)}
+							<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="//ivacuum.org/i/flags/16/{$S_LANGUAGE}.png" alt="">&nbsp;<b class="caret"></b></a>
 								<ul class="dropdown-menu">
-									{% for row in languages %}
-										<li><a href="{{ row.URL }}"><img src="//ivacuum.org/i/flags/16/{{ row.IMG }}.png" alt=""> &nbsp;{{ row.NAME }}</a></li>
-									{% endfor %}
+									{foreach $languages as $row}
+										<li><a href="{$row.URL}"><img src="//ivacuum.org/i/flags/16/{$row.IMG}.png" alt=""> &nbsp;{$row.NAME}</a></li>
+									{/foreach}
 								</ul>
 							</li>
-						{% endif %}
+						{/if}
 					</ul>
-				{% else %}
+				{else}
 					<ul class="nav pull-right">
-						<li><a href="{{ U_SIGNIN }}?goto={{ U_THIS_PAGE }}">{{ lang('LOGIN') }}</a></li>
-						<li><a href="{{ U_REGISTER }}">{{ lang('REGISTER') }}</a></li>
+						<li><a href="{$U_SIGNIN}?goto={$U_THIS_PAGE}">{'LOGIN'|i18n}</a></li>
+						<li><a href="{$U_REGISTER}">{'REGISTER'|i18n}</a></li>
 					</ul>
-				{% endif %}
+				{/if}
 			</div>
 		</div>
 	</div>
 </div>
 <div class="container">
-	{% block breadcrumbs %}
+	{block "breadcrumbs"}
 		<ul class="breadcrumb">
-			<li><a href="{{ U_INDEX }}">{{ lang('INDEX_PAGE') }}</a></li>
-			{% for row in breadcrumbs %}
-				{% if not loop.last %}
-					<li><span class="divider">&rarr;</span><a href="{{ row.URL }}">{{ row.TEXT }}</a></li>
-				{% else %}
-					<li class="active"><span class="divider">&rarr;</span>{{ row.TEXT }}</li>
-				{% endif %}
+			<li><a href="{$U_INDEX}">{'INDEX_PAGE'|i18n}</a></li>
+			{foreach $breadcrumbs as $row}
+				{if not $row@last}
+					<li><span class="divider">&rarr;</span><a href="{$row.URL}">{$row.TEXT}</a></li>
+				{else}
+					<li class="active"><span class="divider">&rarr;</span>{$row.TEXT}</li>
+				{/if}
 				</li>
-			{% endfor %}
+			{/foreach}
 		</ul>
-	{% endblock %}
-	{% endspaceless %}
-	{% block content_header %}{% endblock %}
-	{% block content %}{% endblock %}
-	{% block content_footer %}{% endblock %}
-	{% spaceless %}
+	{/block}
+	{/strip}
+	{block "content_header"}{/block}
+	{block "content"}{/block}
+	{block "content_footer"}{/block}
+	{strip}
 	<footer>
 		<ul class="inline">
-			<li class="muted">&copy; {{ 'now'|date('Y') }} vacuum</li>
+			<li class="muted">&copy; {$smarty.now|date_format:'%Y'} vacuum</li>
 			<li class="muted">&middot;</li>
-			<li><a href="mailto:{{ cfg.email_support }}">{{ lang('FEEDBACK') }}</a></li>
+			<li><a href="mailto:{$cfg.email_support}">{'FEEDBACK'|i18n}</a></li>
 		</ul>
 	</footer>
 </div>
 
-{% if S_ISP == 'internet' %}
+{if $S_ISP == 'internet'}
+{literal}
 <!--LiveInternet counter--><script type="text/javascript"><!--
 document.write("<img src='http://counter.yadro.ru/hit?r"+
 escape(document.referrer)+((typeof(screen)=="undefined")?"":
@@ -127,7 +128,8 @@ screen.colorDepth:screen.pixelDepth))+";u"+escape(document.URL)+
 "' width=1 height=1 alt=''>")//--></script><!--/LiveInternet-->
 
 <!-- Yandex.Metrika counter --><div style="display:none;"><script type="text/javascript">(function(w, c) { (w[c] = w[c] || []).push(function() { try { w.yaCounter5266444 = new Ya.Metrika({id:5266444, clickmap:true, accurateTrackBounce:true, webvisor:true}); } catch(e) { } }); })(window, "yandex_metrika_callbacks");</script></div><script src="//mc.yandex.ru/metrika/watch.js" type="text/javascript" defer="defer"></script><noscript><div><img src="//mc.yandex.ru/watch/5266444" style="position:absolute; left:-9999px;" alt="" /></div></noscript><!-- /Yandex.Metrika counter -->
-{% endif %}
+{/literal}
+{/if}
 </body>
 </html>
-{% endspaceless %}
+{/strip}

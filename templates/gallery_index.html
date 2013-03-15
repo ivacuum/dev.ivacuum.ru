@@ -39,13 +39,13 @@
 
 <table class="table table-bordered ui-shadow-light" id="gallery">
 	<tbody>
-	{foreach $images as $row}
+	{if not empty($images)}
 		{include "block/gallery_image.html"}
 	{else}
 		<tr>
 			<td class="t-center">Вы не загрузили ни одного изображения</td>
 		</tr>
-	{/foreach}
+	{/if}
 	</tbody>
 </table>
 

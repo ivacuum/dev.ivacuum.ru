@@ -1,5 +1,5 @@
 <ul class="nav nav-tabs">
 	{foreach $submenu as $row}
-		<li class="{if isset($row.ACTIVE)}active{/if}"><a href="{$row.U_VIEW}">{if $row.IMAGE}<img src="//ivacuum.org/i/_/{$row.IMAGE}.png" alt=""> {/if}{$row.TITLE}</a></li>
+		<li class="{if $row.ACTIVE}active{/if}"><a href="{$row.U_VIEW}">{if $row.IMAGE}<img src="//ivacuum.org/i/_/{$row.IMAGE}.png" alt=""> {/if}{$row.TITLE}</a></li>
 	{/foreach}
 </ul>

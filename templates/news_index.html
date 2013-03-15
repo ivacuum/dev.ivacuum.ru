@@ -5,21 +5,23 @@
 
 <div class="row">
 	<div class="span8">
-		{foreach $news as $row}
-			<h2><a href="{'news::single'|url_for:[$row.TIME|date_format:'%Y', $row.TIME|date_format:'%m', $row.TIME|date_format:'%d', row.URL]}">{$row.TITLE}</a></h2>
-			<ul class="inline">
-				<li class="muted"><img src="//ivacuum.org/i/_/calendar_day.png" alt=""> {$row.DATE}</li>
-				<li class="muted"><img src="//ivacuum.org/i/_/user_black.png" alt=""> <a href="{'users::profile'|url_for:[$row.USER_ID]}">{$row.USERNAME}</a></li>
-				<!--
-				<li class="muted"><img src="//ivacuum.org/i/_/eye.png" alt=""> {$row.VIEWS|declension:'VIEWS'}</li>
-				<li class="muted"><img src="//ivacuum.org/i/_/balloons.png" alt=""> {$row.COMMENTS|declension:'COMMENTS'}</li>
-				-->
-			</ul>
-			<div>{$row.TEXT}</div>
-			<br>
+		{if not empty($news)}
+			{foreach $news as $row}
+				<h2><a href="{'news::single'|url_for:[$row.TIME|date_format:'%Y', $row.TIME|date_format:'%m', $row.TIME|date_format:'%d', $row.URL]}">{$row.TITLE}</a></h2>
+				<ul class="inline">
+					<li class="muted"><img src="//ivacuum.org/i/_/calendar_day.png" alt=""> {$row.DATE}</li>
+					<li class="muted"><img src="//ivacuum.org/i/_/user_black.png" alt=""> <a href="{'users::profile'|url_for:[$row.USER_ID]}">{$row.USERNAME}</a></li>
+					<!--
+					<li class="muted"><img src="//ivacuum.org/i/_/eye.png" alt=""> {$row.VIEWS|declension:'VIEWS'}</li>
+					<li class="muted"><img src="//ivacuum.org/i/_/balloons.png" alt=""> {$row.COMMENTS|declension:'COMMENTS'}</li>
+					-->
+				</ul>
+				<div>{$row.TEXT}</div>
+				<br>
+			{/foreach}
 		{else}
 			<h3>Новостей за выбранный период нет.</h3>
-		{/foreach}
+			{/if}
 	</div>
 	<div class="span4">
 		{if not empty($most_viewed_news)}

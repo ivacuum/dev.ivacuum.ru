@@ -1,10 +1,10 @@
-{% extends "base.html" %}
+{extends "base.html"}
 
-{% block content %}
+{block "content"}
 </div>
 
 <div class="t-center">
-	<img class="ui-shadow-med" src="{{ cfg.gallery_path }}/{{ DATE }}/{{ URL }}" id="image_to_scale">
+	<img class="ui-shadow-med" src="{$cfg.gallery_path}/{$DATE}/{$URL}" id="image_to_scale">
 </div>
 
 <div class="container">
@@ -13,11 +13,11 @@
 
 <div class="row" id="images_links">
 	<div class="span6 offset3">
-		<label>Ссылка:<input type="text" class="span6" value="http://img.ivacuum.ru/g/{{ DATE }}/{{ URL }}"></label>
-		<label>Полная картинка:<input type="text" class="span6" value="[img]http://img.ivacuum.ru/g/{{ DATE }}/{{ URL }}[/img]"></label>
-		{% if THUMB %}
-			<label>Превью - увеличение по клику:<input type="text" class="span6" value="[url=http://ivacuum.ru/галерея/просмотр/{{ ID }}.html][img]http://img.ivacuum.ru/g/{{ DATE }}/s/{{ URL }}[/img][/url]"></label>
-		{% endif %}
+		<label>Ссылка:<input type="text" class="span6" value="http://img.ivacuum.ru/g/{$DATE}/{$URL}"></label>
+		<label>Полная картинка:<input type="text" class="span6" value="[img]http://img.ivacuum.ru/g/{$DATE}/{$URL}[/img]"></label>
+		{if $THUMB}
+			<label>Превью - увеличение по клику:<input type="text" class="span6" value="[url=http://ivacuum.ru/галерея/просмотр/{$ID}.html][img]http://img.ivacuum.ru/g/{$DATE}/s/{$URL}[/img][/url]"></label>
+		{/if}
 	</div>
 </div>
 
@@ -70,4 +70,4 @@ function scale_image(id) {
   });
 }
 </script>
-{% endblock %}
+{/block}

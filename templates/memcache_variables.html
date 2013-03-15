@@ -1,6 +1,6 @@
-{% extends "memcache_base.html" %}
+{extends "memcache_base.html"}
 
-{% block content %}
+{block "content"}
 <table class="table-stats b-center">
 	<thead>
 	<tr>
@@ -11,14 +11,14 @@
 	</tr>
 	</thead>
 	<tbody>
-	{% for key, row in vars %}
+	{foreach $vars as $key => $row}
 		<tr>
-			<td><a href="/memcache/item.html?key={{ key }}">{{ key }}</a></td>
-			<td>{{ humn_size(row.SIZE) }}</td>
-			<td>{{ row.EXPIRE }}</td>
-			<td class="t-center"><a href="/memcache/delete.html?key={{ key }}"><img src="//ivacuum.org/i/_/cross.png" alt=""></a></td>
+			<td><a href="/memcache/item.html?key={$key}">{$key}</a></td>
+			<td>{$row.SIZE|humn_size}</td>
+			<td>{$row.EXPIRE}</td>
+			<td class="t-center"><a href="/memcache/delete.html?key={$key}"><img src="//ivacuum.org/i/_/cross.png" alt=""></a></td>
 		</tr>
-	{% endfor %}
+	{/foreach}
 	</tbody>
 </table>
-{% endblock %}
+{/block}

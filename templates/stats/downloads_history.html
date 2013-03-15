@@ -1,7 +1,7 @@
-{% extends "base.html" %}
+{extends "base.html"}
 
-{% block content %}
-<style type="text/css">
+{block "content"}
+<style>
 /*rules for the plot target div.  These will be cascaded down to all plot elements according to css rules*/
 .jqplot-target {
     margin: 0 auto;
@@ -178,9 +178,9 @@ height:0.7em;
 
 <div id="chart"></div>
 
-<script type="text/javascript">
-var dl_data = [{{ DL_DATA }}];
-var max_value = {{ MAX_VALUE }};
+<script>
+var dl_data = [{$DL_DATA}];
+var max_value = {$MAX_VALUE};
 
 /**
 * Не показываем последний день
@@ -193,11 +193,11 @@ plot = $.jqplot('chart', [dl_data], {
 	legend: { show: true, location: 'nw', xoffset: 4, yoffset: 4 },
 	axes: {
 		xaxis: { pad: 0, renderer: $.jqplot.DateAxisRenderer, },
-		yaxis: { autoscale: true, min: 0, max: {{ MAX_VALUE }}, tickOptions: { formatString: '%d' } }
+		yaxis: { autoscale: true, min: 0, max: {$MAX_VALUE}, tickOptions: { formatString: '%d' } }
 	},
 	cursor: { intersectionThreshold: 6, showCursorLegend: true, showVerticalLine: true, showTooltip: false/*zoom: true*/ },
 	grid: { borderWidth: 0, gridLineColor: '#ddd', shadow: false, },
 	series: [ { label: 'Закачек', color: '#006600', fill: true, fillAlpha: .75, showMarker: false, lineWidth: 2, shadowAngle: 0, shadowOffset: 1, shadowAlpha: .08, shadowDepth: 3 } ]
 });
 </script>
-{% endblock %}
+{/block}

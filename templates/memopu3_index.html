@@ -1,25 +1,25 @@
-{% extends "memopu3_base.html" %}
+{extends "memopu3_base.html"}
 
-{% block content %}
-{% include "block/pagination_top.html" %}
+{block "content"}
+{include "block/pagination_top.html"}
 
 <div id="quotes">
-{% if page.handler_method == 'index' %}<p></p>{% endif %}
-{% for row in quotes %}
+{if $page.handler_method == 'index'}<p></p>{/if}
+{foreach $quotes as $row}
 	<div class="q">
 		<div class="vote">
-			<p><img class="icons" src="//ivacuum.org/i/_/receipt_text.png" alt="" />
-			<a href="{{ row.U_DETAILS }}"><b>{{ row.ID }}</b></a>
-			[ &nbsp;<a href="{{ row.U_PLUS }}" id="{{ row.ID }}" rel="quote_vote_up"><img class="icons" src="//ivacuum.org/i/_/plus.png" alt="" /></a> &nbsp;<span id="q{{ row.ID }}">{{ row.VOTES }}</span>&nbsp; <a href="{{ row.U_MINUS }}" id="{{ row.ID }}" rel="quote_vote_down"><img class="icons" src="//ivacuum.org/i/_/minus.png" alt="" /></a>&nbsp; ]
-			опубликована {{ row.TIME }}, <a href="{{ row.U_DETAILS }}">{{ plural(row.COMMENTS, 'COMMENTS') }}</a></p>
+			<p><img class="icons" src="//ivacuum.org/i/_/receipt_text.png" alt="">
+			<a href="{$row.U_DETAILS}"><b>{$row.ID}</b></a>
+			[ &nbsp;<a href="{$row.U_PLUS}" id="{$row.ID}" rel="quote_vote_up"><img class="icons" src="//ivacuum.org/i/_/plus.png" alt=""></a> &nbsp;<span id="q{$row.ID}">{$row.VOTES}</span>&nbsp; <a href="{$row.U_MINUS}" id="{$row.ID}" rel="quote_vote_down"><img class="icons" src="//ivacuum.org/i/_/minus.png" alt=""></a>&nbsp; ]
+			опубликована {$row.TIME}, <a href="{$row.U_DETAILS}">{$row.COMMENTS|declension:'COMMENTS'}</a></p>
 		</div>
 		<blockquote>
-			<p>{{ row.TEXT }}</p>
+			<p>{$row.TEXT}</p>
 		</blockquote>
 	</div>
 	<p></p>
-{% endfor %}
+{/foreach}
 </div>
 
-{% include "block/pagination_bottom.html" %}
-{% endblock %}
+{include "block/pagination_bottom.html"}
+{/block}

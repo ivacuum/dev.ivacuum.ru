@@ -1,10 +1,10 @@
-{% extends "base.html" %}
+{extends "base.html"}
 
-{% block content %}
-<h2>{{ lang('STATS') }}</h2>
+{block "content"}
+<h2>{'STATS'|i18n}</h2>
 <ol>
-	{% for row in pages %}
-		<li><img src="//ivacuum.org/i/_/{{ row.IMAGE }}.png" alt=""> <a href="{{ row.U_VIEW }}">{{ row.TITLE }}</a></li>
-	{% endfor %}
+	{foreach $pages as $row}
+		<li><img src="//ivacuum.org/i/_/{$row.IMAGE}.png" alt=""> <a href="{$row.U_VIEW}">{$row.TITLE}</a></li>
+	{/foreach}
 </ol>
-{% endblock %}
+{/block}

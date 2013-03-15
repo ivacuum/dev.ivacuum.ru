@@ -1,7 +1,7 @@
-{% extends "base.html" %}
+{extends "base.html"}
 
-{% block content %}
-<h3>MySQL сервер работает {{ duration(UPTIME, true) }}</h3>
+{block "content"}
+<h3>MySQL сервер работает {$UPTIME|duration:true}</h3>
 <p><img src="//ivacuum.org/i/_/traffic_light.png" alt=""> <b>Трафик:</b> эти таблицы показывают статистику по сетевому трафику MySQL сервера со времени его запуска.</p>
 
 <div class="row">
@@ -16,18 +16,18 @@
 			<tbody>
 				<tr>
 					<td><b>Принято:</b></td>
-					<td>{{ humn_size(BYTES_RECEIVED) }}</td>
-					<td>{{ humn_size(BYTES_RECEIVED_PER_HOUR) }}</td>
+					<td>{$BYTES_RECEIVED|humn_size}</td>
+					<td>{$BYTES_RECEIVED_PER_HOUR|humn_size}</td>
 				</tr>
 				<tr>
 					<td><b>Послано:</b></td>
-					<td>{{ humn_size(BYTES_SENT) }}</td>
-					<td>{{ humn_size(BYTES_SENT_PER_HOUR) }}</td>
+					<td>{$BYTES_SENT|humn_size}</td>
+					<td>{$BYTES_SENT_PER_HOUR|humn_size}</td>
 				</tr>
 				<tr>
 					<td><b>Всего:</b></td>
-					<td>{{ humn_size(BYTES_OVERALL) }}</td>
-					<td>{{ humn_size(BYTES_OVERALL_PER_HOUR) }}</td>
+					<td>{$BYTES_OVERALL|humn_size}</td>
+					<td>{$BYTES_OVERALL_PER_HOUR|humn_size}</td>
 				</tr>
 			</tbody>
 		</table>
@@ -44,20 +44,20 @@
 			<tbody>
 				<tr>
 					<td><b>Неудачные попытки:</b></td>
-					<td>{{ ABORTED_CONNECTS }}</td>
-					<td>{{ ABORTED_CONNECTS_PER_HOUR }}</td>
-					<td>{{ ABORTED_CONNECTS_PERCENT }} %</td>
+					<td>{$ABORTED_CONNECTS}</td>
+					<td>{$ABORTED_CONNECTS_PER_HOUR}</td>
+					<td>{$ABORTED_CONNECTS_PERCENT} %</td>
 				</tr>
 				<tr>
 					<td><b>Отменены:</b></td>
-					<td>{{ ABORTED_CLIENTS }}</td>
-					<td>{{ ABORTED_CLIENTS_PER_HOUR }}</td>
-					<td>{{ ABORTED_CLIENTS_PERCENT }} %</td>
+					<td>{$ABORTED_CLIENTS}</td>
+					<td>{$ABORTED_CLIENTS_PER_HOUR}</td>
+					<td>{$ABORTED_CLIENTS_PERCENT} %</td>
 				</tr>
 				<tr>
 					<td><b>Всего:</b></td>
-					<td>{{ CONNECTIONS|number_format }}</td>
-					<td>{{ CONNECTIONS_PER_HOUR }}</td>
+					<td>{$CONNECTIONS|number_format}</td>
+					<td>{$CONNECTIONS_PER_HOUR}</td>
 					<td>100.00 %</td>
 				</tr>
 			</tbody>
@@ -66,7 +66,7 @@
 </div>
 
 <br>
-<h3>С момента запуска сервера было послано запросов: {{ QUERIES|number_format }}</h3>
+<h3>С момента запуска сервера было послано запросов: {$QUERIES|number_format}</h3>
 <p><img src="//ivacuum.org/i/_/sql.png" alt=""> <b>Статистика запросов:</b> эта таблица показывает статистику по запросам, произведенным в базе данных.</p>
 
 <table class="table-stats ui-shadow-light">
@@ -80,13 +80,13 @@
 	</thead>
 	<tbody>
 		<tr>
-			<td>{{ QUERIES|number_format }}</td>
-			<td>{{ QUERIES_PER_HOUR }}</td>
-			<td>{{ QUERIES_PER_MINUTE }}</td>
-			<td>{{ QUERIES_PER_SECOND }}</td>
+			<td>{$QUERIES|number_format}</td>
+			<td>{$QUERIES_PER_HOUR}</td>
+			<td>{$QUERIES_PER_MINUTE}</td>
+			<td>{$QUERIES_PER_SECOND}</td>
 		</tr>
 	</tbody>
 </table>
 </li>
 </ul>
-{% endblock %}
+{/block}

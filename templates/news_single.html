@@ -1,20 +1,20 @@
-{% extends "base.html" %}
+{extends "base.html"}
 
-{% block content %}
+{block "content"}
 <div class="row">
 	<div class="span8">
-		{% for row in news %}
-			<h2>{{ row.TITLE }}</h2>
+		{foreach $news as $row}
+			<h2>{$row.TITLE}</h2>
 			<ul class="inline">
-				<li class="muted"><img src="//ivacuum.org/i/_/calendar_day.png" alt=""> {{ row.DATE }}</li>
-				<li class="muted"><img src="//ivacuum.org/i/_/user_black.png" alt=""> <a href="{{ url_for('users::profile', [row.USER_ID]) }}">{{ row.USERNAME }}</a></li>
-				<li class="muted"><img src="//ivacuum.org/i/_/eye.png" alt=""> {{ plural(row.VIEWS, 'VIEWS') }}</li>
-				<li class="muted"><img src="//ivacuum.org/i/_/balloons.png" alt=""> {{ plural(row.COMMENTS, 'COMMENTS') }}</li>
+				<li class="muted"><img src="//ivacuum.org/i/_/calendar_day.png" alt=""> {$row.DATE}</li>
+				<li class="muted"><img src="//ivacuum.org/i/_/user_black.png" alt=""> <a href="{'users::profile'|url_for:[row.USER_ID]}">{$row.USERNAME}</a></li>
+				<li class="muted"><img src="//ivacuum.org/i/_/eye.png" alt=""> {$row.VIEWS|declension:'VIEWS'}</li>
+				<li class="muted"><img src="//ivacuum.org/i/_/balloons.png" alt=""> {$row.COMMENTS|declension:'COMMENTS'}</li>
 			</ul>
-			<div>{{ row.TEXT }}</div>
-		{% endfor %}
+			<div>{$row.TEXT}</div>
+		{/foreach}
 	</div>
 </div>
 
-{#% include "comments.html" %#}
-{% endblock %}
+{*include "comments.html"*}
+{/block}

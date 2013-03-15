@@ -1,20 +1,20 @@
-{% extends "base.html" %}
+{extends "base.html"}
 
-{% block content %}
+{block "content"}
 <script>var S_DISABLE_GALLERY = true;</script>
 
 <div class="row" id="images_links">
 	<div class="span8 offset2">
 		<div class="row">
 			<div class="span2 t-center">
-				<p><a href="{{ url_for('view', [ID]) }}"><img class="ui-shadow-med" src="{{ cfg.gallery_path }}/{{ DATE }}/t/{{ URL }}" alt=""></a></p>
+				<p><a href="{'view'|url_for:[ID]}"><img class="ui-shadow-med" src="{$cfg.gallery_path}/{$DATE}/t/{$URL}" alt=""></a></p>
 			</div>
 			<div class="span6">
-				<label>Ссылка:<input type="text" class="span6" value="http://img.ivacuum.ru/g/{{ DATE }}/{{ URL }}"></label>
-				<label>Полная картинка:<input type="text" class="span6" value="[img]http://img.ivacuum.ru/g/{{ DATE }}/{{ URL }}[/img]"></label>
-				{% if THUMB %}
-					<label>Превью - увеличение по клику:<input type="text" class="span6" value="[url=http://ivacuum.ru/галерея/просмотр/{{ ID }}.html][img]http://img.ivacuum.ru/g/{{ DATE }}/s/{{ URL }}[/img][/url]"></label>
-				{% endif %}
+				<label>Ссылка:<input type="text" class="span6" value="http://img.ivacuum.ru/g/{$DATE}/{$URL}"></label>
+				<label>Полная картинка:<input type="text" class="span6" value="[img]http://img.ivacuum.ru/g/{$DATE}/{$URL}[/img]"></label>
+				{if $THUMB}
+					<label>Превью - увеличение по клику:<input type="text" class="span6" value="[url=http://ivacuum.ru/галерея/просмотр/{$ID}.html][img]http://img.ivacuum.ru/g/{$DATE}/s/{$URL}[/img][/url]"></label>
+				{/if}
 			</div>
 		</div>
 	</div>
@@ -27,4 +27,4 @@ $(document).ready(function() {
 	});
 });
 </script>
-{% endblock %}
+{/block}

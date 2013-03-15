@@ -1,52 +1,52 @@
-{% include "block/pagination_top.html" %}
+{include "block/pagination_top.html"}
 
 <fieldset class="comments ui-corner-all w200">
-	<legend>{{ lang('COMMENTS') }}</legend>
-	{% for row in comments %}
+	<legend>{'COMMENTS'|i18n}</legend>
+	{foreach $comments as $row}
 		<dl>
 			<dt>
 				<div class="bubble-bg imgpad shadow-light ui-corner-all">
-					{% if row.ONLINE %}
-						<img src="//ivacuum.org/i/_/status_online.png" alt="{{ lang('ONLINE') }}" title="{{ lang('ONLINE') }}" />
-					{% else %}
-						<img src="//ivacuum.org/i/_/status_offline.png" alt="{{ lang('OFFLINE') }}" title="{{ lang('OFFLINE') }}" />
-					{% endif %}
-					{{ row.USERNAME }}
+					{if $row.ONLINE}
+						<img src="//ivacuum.org/i/_/status_online.png" alt="" title="{'ONLINE'|i18n}">
+					{else}
+						<img src="//ivacuum.org/i/_/status_offline.png" alt="" title="{'OFFLINE'|i18n}">
+					{/if}
+					{$row.USERNAME}
 				</div>
 			</dt>
 			<dd>
 				<div class="bubble-gray-bg imgpad shadow-light ui-corner-all" style="width: 97%;">
-					<img class="icons" src="//ivacuum.org/i/_/calendar_day.png" alt="" />{{ row.TIME }}
-					{% if S_EDIT %}
-						<a href="#" id="quick_edit{{ row.ID }}" onclick="quick_edit({{ row.ID }}); return false;" title="{{ lang('EDIT') }}"><img class="icons" src="//ivacuum.org/i/_/pencil.png" alt="" /></a>
-					{% endif %}
-					{% if S_DELETE %}
-						<a href="#" onclick="quick_delete({{ row.ID }}); return false;" title="{{ lang('DELETE') }}"><img class="icons" src="//ivacuum.org/i/_/cross_script.png" alt="" /></a>
-					{% endif %}
+					<img class="icons" src="//ivacuum.org/i/_/calendar_day.png" alt="">{$row.TIME}
+					{if $S_EDIT}
+						<a href="#" id="quick_edit{$row.ID}" onclick="quick_edit({$row.ID}); return false;" title="{'EDIT'|i18n}"><img class="icons" src="//ivacuum.org/i/_/pencil.png" alt=""></a>
+					{/if}
+					{if $S_DELETE}
+						<a href="#" onclick="quick_delete({$row.ID}); return false;" title="{'DELETE'|i18n}"><img class="icons" src="//ivacuum.org/i/_/cross_script.png" alt=""></a>
+					{/if}
 				</div>
 			</dd>
 		</dl>
 		<dl>
 			<dt>
-				{% if row.RANK_IMG %}
-					<p><img src="{{ row.RANK_IMG }}" alt="{{ row.RANK_TITLE }}" title="{{ row.RANK_TITLE }}" /></p>
-				{% elseif row.RANK_TITLE %}
-					<p><b class="genmed">{{ row.RANK_TITLE }}</b></p>
-				{% endif %}
-				<p><img class="icons" src="//ivacuum.org/i/_/balloons.png" alt="" />{{ row.POSTS }}</p>
+				{if $row.RANK_IMG}
+					<p><img src="{$row.RANK_IMG}" alt="" title="{$row.RANK_TITLE}"></p>
+				{elseif $row.RANK_TITLE}
+					<p><b class="genmed">{$row.RANK_TITLE}</b></p>
+				{/if}
+				<p><img class="icons" src="//ivacuum.org/i/_/balloons.png" alt="">{$row.POSTS}</p>
 			</dt>
 			<dd>
-				<p id="comment_{{ row.ID }}">{{ row.TEXT }}</p>
+				<p id="comment_{$row.ID}">{$row.TEXT}</p>
 			</dd>
 		</dl>
-	{% else %}
-		<p>{{ lang('NO_COMMENTS') }}.</p>
-	{% endfor %}
+	{else}
+		<p>{'NO_COMMENTS'|i18n}.</p>
+	{/foreach}
 </fieldset>
 
-{% if PAGINATION %}
-<br clear="all" />
-{% endif %}
+{if $pagination}
+<br clear="all">
+{/if}
 
-{% include "block/pagination_bottom.html" %}
-{% include "comments_add.html" %}
+{include "block/pagination_bottom.html"}
+{include "comments_add.html"}

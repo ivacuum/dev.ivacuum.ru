@@ -4,31 +4,31 @@
 
 <div class="row">
 	<div class="span8 offset2">
-		{% if FILES >= 2 %}
+		{if $FILES >= 2}
 			<h3>Ссылки на все картинки</h3>
-			<label>Ссылка:<textarea class="span8" style="height: {{ FILES * 20 }}px;">{% for row in files %}http://img.ivacuum.ru/g/{{ row.DATE }}/{{ row.URL }}{% if not loop.last %}&#10;{% endif %}{% endfor %}</textarea></label>
-			<label>Полная картинка:<input type="text" class="span8" value="{% for row in files %}[img]http://img.ivacuum.ru/g/{{ row.DATE }}/{{ row.URL }}[/img] {% endfor %}"></label>
-			{% if FILES_THUMB > 0 %}
-				<label>Превью - увеличение по клику:<input type="text" class="span8" value="{% for row in files %}[url=http://ivacuum.ru/галерея/просмотр/{{ row.ID }}.html][img]http://img.ivacuum.ru/g/{{ row.DATE }}/s/{{ row.URL }}[/img][/url] {% endfor %}"></label>
-			{% endif %}
-		{% endif %}
+			<label>Ссылка:<textarea class="span8" style="height: {$FILES * 20}px;">{foreach $files as $row}http://img.ivacuum.ru/g/{$row.DATE}/{$row.URL}{if not $row@last}&#10;{/if}{/foreach}</textarea></label>
+			<label>Полная картинка:<input type="text" class="span8" value="{foreach $files as $row}[img]http://img.ivacuum.ru/g/{$row.DATE}/{$row.URL}[/img] {/foreach}"></label>
+			{if $FILES_THUMB > 0}
+				<label>Превью - увеличение по клику:<input type="text" class="span8" value="{foreach $files as $row}[url=http://ivacuum.ru/галерея/просмотр/{$row.ID}.html][img]http://img.ivacuum.ru/g/{$row.DATE}/s/{$row.URL}[/img][/url] {/foreach}"></label>
+			{/if}
+		{/if}
 
 		<h3>Индивидуальные ссылки</h3>
-		{% for row in files %}
+		{foreach $files as $row}
 			<div class="row">
 				<div class="span2 t-center">
-					<p><img class="ui-shadow-med" src="{{ cfg.gallery_path }}/{{ row.DATE }}/t/{{ row.URL }}" alt=""></p>
+					<p><img class="ui-shadow-med" src="{$cfg.gallery_path}/{$row.DATE}/t/{$row.URL}" alt=""></p>
 				</div>
 				<div class="span6">
-					<label>Ссылка:<input type="text" class="span6" value="http://img.ivacuum.ru/g/{{ row.DATE }}/{{ row.URL }}"></label>
-					<label>Полная картинка:<input type="text" class="span6" value="[img]http://img.ivacuum.ru/g/{{ row.DATE }}/{{ row.URL }}[/img]"></label>
-					{% if row.THUMB %}
-						<label>Превью - увеличение по клику:<input type="text" class="span6" value="[url=http://ivacuum.ru/галерея/просмотр/{{ row.ID }}.html][img]http://img.ivacuum.ru/g/{{ row.DATE }}/s/{{ row.URL }}[/img][/url]"></label>
-					{% endif %}
+					<label>Ссылка:<input type="text" class="span6" value="http://img.ivacuum.ru/g/{$row.DATE}/{$row.URL}"></label>
+					<label>Полная картинка:<input type="text" class="span6" value="[img]http://img.ivacuum.ru/g/{$row.DATE}/{$row.URL}[/img]"></label>
+					{if $row.THUMB}
+						<label>Превью - увеличение по клику:<input type="text" class="span6" value="[url=http://ivacuum.ru/галерея/просмотр/{$row.ID}.html][img]http://img.ivacuum.ru/g/{$row.DATE}/s/{$row.URL}[/img][/url]"></label>
+					{/if}
 				</div>
 			</div>
 			<hr>
-		{% endfor %}
+		{/foreach}
 	</div>
 </div>
 

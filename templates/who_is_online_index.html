@@ -1,19 +1,19 @@
-{% extends "base.html" %}
+{extends "base.html"}
 
-{% block content %}
-<p>{{ ONLINE_LIST }}</p>
-<p>{{ ONLINE_TIME }}</p>
+{block "content"}
+<p>{$ONLINE_LIST}</p>
+<p>{$ONLINE_TIME}</p>
 
 <table class="table-stats ui-shadow-light">
 	<tr>
-		<th width="50%">{{ lang('USERNAME') }}</th>
-		<th>{{ lang('TIME') }}</td>
+		<th width="50%">{'USERNAME'|i18n}</th>
+		<th>{'TIME'|i18n}</td>
 	</tr>
-	{% for row in users %}
+	{foreach $users as $row}
 	<tr>
-		<td><img src="//ivacuum.org/i/_/{{ row.NAME == 'Гость' ? 'user_guest' : 'user_black' }}.png"> {{ row.NAME }}</td>
-		<td align="center">{{ row.TIME }}</td>
+		<td><img src="//ivacuum.org/i/_/{($row.NAME == 'Гость') ? 'user_guest' : 'user_black'}.png"> {$row.NAME}</td>
+		<td align="center">{$row.TIME}</td>
 	</tr>
-	{% endfor %}
+	{/foreach}
 </table>
-{% endblock %}
+{/block}

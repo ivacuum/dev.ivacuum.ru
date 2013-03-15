@@ -1,0 +1,16 @@
+{if $row@index is div by 4}
+	<tr>
+{/if}
+<td data-id="{$row.ID}" id="image{$row.ID}" style="text-align: center; vertical-align: bottom;">
+	<p><a href="{'preview'|url_for:[row.ID]}"><img class="ui-shadow-med" src="{$cfg.gallery_path}/{$row.DATE}/t/{$row.URL}" alt=""></a></p>
+	<div>
+		<img src="//ivacuum.org/i/_/eye.png" alt=""> {$row.VIEWS|number_format}
+		<br><img src="//ivacuum.org/i/_/calendar_day.png" alt=""> {$row.TIME}
+		{if $row.OUTDATE}
+			<br><img src="//ivacuum.org/i/_/exclamation_button.png" alt=""> {$row.OUTDATE|duration:null:true}
+		{/if}
+	</div>
+</td>
+{if $row@iteration is div by 4 or $row@last}
+	</tr>
+{/if}

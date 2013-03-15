@@ -1,19 +1,19 @@
-{% extends "base.html" %}
+{extends "base.html"}
 
-{% block content_header %}
+{block "content_header"}
 <div class="row">
 	<div class="span4">
 		<p>Немного статистики</p>
 	</div>
 	<div class="span12">
-		{% include "block/submenu.html" %}
-{% endblock %}
+		{include "block/submenu.html"}
+{/block}
 
-{% block content_footer %}
+{block "content_footer"}
 	</div>
 </div>
 
-<script type="text/javascript">
+<script>
 $(function() {
   $('a[rel^="quote_vote"]').click(function() {
     $(this).blur();
@@ -23,4 +23,4 @@ $(function() {
   });
 });
 </script>
-{% endblock %}
+{/block}

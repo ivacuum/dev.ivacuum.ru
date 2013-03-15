@@ -1,6 +1,6 @@
-{% extends "soft/base.html" %}
+{extends "soft/base.html"}
 
-{% block soft_header %}
+{block "soft_header"}
 <p class="t-center"><img src="//ivacuum.org/i/soft/_covers/commfort.png" alt=""></p>
 
 <h3>Адрес сервера</h3>
@@ -12,8 +12,8 @@
 <ul>
 	<li><a href="//dl.ivacuum.ru/119/">Commfort 5.20</a></li>
 </ul>
-{% endblock %}
+{/block}
 
-{% block content %}
-<div>{{ page.page_text }}</div>
-{% endblock %}
+{block "content"}
+<div>{$page.page_text}</div>
+{/block}

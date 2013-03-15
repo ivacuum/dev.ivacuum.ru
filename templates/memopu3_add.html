@@ -1,13 +1,13 @@
-{% extends "memopu3_base.html" %}
+{extends "memopu3_base.html"}
 
-{% block content %}
+{block "content"}
 <div id="quotes">
 	<div id="addquote">
 		<div id="form">
 			<p style="margin: 0 0 10px 0; padding: 0;"></p>
-			<form action="{{ U_ACTION }}" id="quote_add_form" method="post">
+			<form action="{$U_ACTION}" id="quote_add_form" method="post">
 				<textarea cols="40" id="quote_text" name="text" rows="20"></textarea>
-				<input class="btn btn-primary" type="submit" name="submit" value="{{ lang('SEND') }}" />
+				<input class="btn btn-primary" type="submit" name="submit" value="{'SEND'|i18n}">
 			</form>
 		</div>
 
@@ -21,7 +21,7 @@
 	</ol>
 	</blockquote>
 
-	<br style="clear: both; "/>
+	<br style="clear: both;">
 	</div>
 </div>
-{% endblock %}
+{/block}

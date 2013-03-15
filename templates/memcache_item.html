@@ -1,6 +1,6 @@
-{% extends "memcache_base.html" %}
+{extends "memcache_base.html"}
 
-{% block content %}
+{block "content"}
 <table class="table-stats b-center">
 	<thead>
 	<tr>
@@ -11,19 +11,19 @@
 	<tbody>
 	<tr>
 		<td>Info</td>
-		<td>{{ KEY }}</td>
+		<td>{$KEY}</td>
 	</tr>
 	<tr>
 		<td>Flag</td>
-		<td>{{ FLAG }}</td>
+		<td>{$FLAG}</td>
 	</tr>
 	<tr>
 		<td>Size</td>
-		<td>{{ humn_size(SIZE) }}</td>
+		<td>{$SIZE|humn_size}</td>
 	</tr>
 	<tr>
-		<td colspan="2"><pre>{{ VALUE }}</pre></td>
+		<td colspan="2"><pre>{$VALUE}</pre></td>
 	</tr>
 	</tbody>
 </table>
-{% endblock %}
+{/block}

@@ -1,22 +1,7 @@
-{% for row in images %}
-	{% if loop.index0 is divisibleby(4) %}
-		<tr>
-	{% endif %}
-	<td data-id="{{ row.ID }}" id="image{{ row.ID }}" style="text-align: center; vertical-align: bottom;">
-		<p><a href="{{ row.U_PREVIEW }}"><img class="ui-shadow-med" src="{{ cfg.gallery_path }}/{{ row.DATE }}/t/{{ row.URL }}" alt="" title="" vspace="5" /></a></p>
-		<div>
-			<img src="//ivacuum.org/i/_/eye.png" alt=""> {{ row.VIEWS|number_format }}
-			<br><img src="//ivacuum.org/i/_/calendar_day.png" alt=""> {{ row.TIME }}
-			{% if row.OUTDATE %}
-				<br><img src="//ivacuum.org/i/_/exclamation_button.png" alt=""> {{ duration(row.OUTDATE, null, true) }}
-			{% endif %}
-		</div>
-	</td>
-	{% if loop.index is divisibleby(4) or loop.last %}
-		</tr>
-	{% endif %}
-{% endfor %}
+{foreach $images as $row}
+	{include "block/gallery_image.html"}
+{/foreach}
 
 <tr id="pagination" style="display: none;">
-	<td>{% include "block/pagination_top.html" %}</td>
+	<td>{include "block/pagination_top.html"}</td>
 </tr>

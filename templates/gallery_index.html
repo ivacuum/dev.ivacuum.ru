@@ -1,29 +1,29 @@
-{% extends "base.html" %}
+{extends "base.html"}
 
-{% block content %}
+{block "content"}
 <div class="row">
 	<div class="span3">
 		<h4>Изображений</h4>
-		<p><img src="//ivacuum.org/i/_/images.png" alt=""> {{ TOTAL_IMAGES|number_format }}</p>
+		<p><img src="//ivacuum.org/i/_/images.png" alt=""> {$TOTAL_IMAGES|number_format}</p>
 	</div>
 	<div class="span3">
 		<h4>Общий размер</h4>
-		<p><img src="//ivacuum.org/i/_/chart_pie.png" alt=""> {{ humn_size(TOTAL_SIZE) }}</p>
+		<p><img src="//ivacuum.org/i/_/chart_pie.png" alt=""> {$TOTAL_SIZE|humn_size}</p>
 	</div>
 	<div class="span3">
 		<h4>Просмотров</h4>
-		<p><img src="//ivacuum.org/i/_/eye.png" alt=""> {{ TOTAL_VIEWS|number_format }}</p>
+		<p><img src="//ivacuum.org/i/_/eye.png" alt=""> {$TOTAL_VIEWS|number_format}</p>
 	</div>
 	<div class="span3">
 		<h4>Общий трафик</h4>
-		<p><img src="//ivacuum.org/i/_/traffic_light.png" alt=""> {{ humn_size(TOTAL_TRAFFIC) }}</p>
+		<p><img src="//ivacuum.org/i/_/traffic_light.png" alt=""> {$TOTAL_TRAFFIC|humn_size}</p>
 	</div>
 </div>
 
 <br>
 
 <div id="pagination" style="display: none;">
-	{% include "block/pagination_top.html" %}
+	{include "block/pagination_top.html"}
 </div>
 
 <div class="row">
@@ -39,28 +39,13 @@
 
 <table class="table table-bordered ui-shadow-light" id="gallery">
 	<tbody>
-	{% for row in images %}
-		{% if loop.index0 is divisibleby(4) %}
-			<tr>
-		{% endif %}
-		<td data-id="{{ row.ID }}" id="image{{ row.ID }}" style="text-align: center; vertical-align: bottom;">
-			<p><a href="{{ url_for('preview', [row.ID]) }}"><img class="ui-shadow-med" src="{{ cfg.gallery_path }}/{{ row.DATE }}/t/{{ row.URL }}" alt=""></a></p>
-			<div>
-				<img src="//ivacuum.org/i/_/eye.png" alt=""> {{ row.VIEWS|number_format }}
-				<br><img src="//ivacuum.org/i/_/calendar_day.png" alt=""> {{ row.TIME }}
-				{% if row.OUTDATE %}
-					<br><img src="//ivacuum.org/i/_/exclamation_button.png" alt=""> {{ duration(row.OUTDATE, null, true) }}
-				{% endif %}
-			</div>
-		</td>
-		{% if loop.index is divisibleby(4) or loop.last %}
-			</tr>
-		{% endif %}
-	{% else %}
+	{foreach $images as $row}
+		{include "block/gallery_image.html"}
+	{else}
 		<tr>
 			<td class="t-center">Вы не загрузили ни одного изображения</td>
 		</tr>
-	{% endfor %}
+	{/foreach}
 	</tbody>
 </table>
 
@@ -95,8 +80,8 @@ $(document).ready(function() {
 
 		if (images_id.length > 0) {
 			if (confirm('Вы действительно хотите удалить картинки?')) {
-				$.post(encodeURI('{{ url_for('delete_images') }}'), { images_id: images_id.join() }, function() {
-					window.location = '{{ url_for('index') }}';
+				$.post(encodeURI('{'delete_images'|url_for}'), { images_id: images_id.join() }, function() {
+					window.location = '{'index'|url_for}';
 				});
 			}
 		} else {
@@ -110,7 +95,7 @@ $(document).ready(function() {
 	  g_loading = true;
 
 	  if (images_id.length > 0) {
-	    $.post(encodeURI('{{ url_for('links') }}'), { images_id: images_id.join() }, function(data) { $('#images_links').empty().hide().html(data).fadeIn('slow'); $.scrollTo('#images_links', 800); });
+	    $.post(encodeURI('{'links'|url_for}'), { images_id: images_id.join() }, function(data) { $('#images_links').empty().hide().html(data).fadeIn('slow'); $.scrollTo('#images_links', 800); });
 	  }
 	});
 
@@ -148,4 +133,4 @@ $(document).ready(function() {
 	});
 });
 </script>
-{% endblock %}
+{/block}

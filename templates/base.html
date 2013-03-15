@@ -93,7 +93,7 @@
 	{block "breadcrumbs"}
 		<ul class="breadcrumb">
 			<li><a href="{$U_INDEX}">{'INDEX_PAGE'|i18n}</a></li>
-			{foreach $breadcrumbs as $row}
+			{foreach $breadcrumbs|default:[] as $row}
 				{if not $row@last}
 					<li><span class="divider">&rarr;</span><a href="{$row.URL}">{$row.TEXT}</a></li>
 				{else}

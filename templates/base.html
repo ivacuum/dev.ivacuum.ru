@@ -9,8 +9,8 @@
 	{if $page.page_noindex}
 		<meta name="robots" content="noindex, nofollow">
 	{/if}
-	<meta name="keywords" content="{$page.page_keywords}">
-	<meta name="description" content="{$page.page_description}">
+	<meta name="keywords" content="{$page.page_keywords|default:''}">
+	<meta name="description" content="{$page.page_description|default:''}">
 	{$META|default:''}
 	{if $S_ISP == 'local'}
 		<link rel="shortcut icon" href="//0.ivacuum.org/i/_/home.png">

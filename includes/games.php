@@ -1,7 +1,7 @@
 <?php
 /**
 * @package ivacuum.ru
-* @copyright (c) 2012
+* @copyright (c) 2013
 */
 
 namespace app;
@@ -18,15 +18,13 @@ class games extends page
 	*/
 	public function index()
 	{
-		$rows = $this->get_page_descendants();
-		
-		foreach ($rows as $row)
+		foreach ($this->get_page_descendants() as $row)
 		{
 			$this->template->append('games', [
 				'COVER' => $row['page_url'],
 				'TITLE' => $row['page_name'],
 		
-				'U_DETAIL' => $this->descendant_link($row)
+				'U_DETAIL' => $this->descendant_link($row),
 			]);
 		}
 	}

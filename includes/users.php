@@ -1,7 +1,7 @@
 <?php
 /**
 * @package ivacuum.ru
-* @copyright (c) 2012
+* @copyright (c) 2013
 */
 
 namespace app;
@@ -21,31 +21,9 @@ class users extends page
 	/**
 	* Просмотр профиля
 	*/
-	public function profile($user = false)
+	public function profile($user_id)
 	{
-		if (!$user)
-		{
-			trigger_error('PAGE_NOT_FOUND');
-		}
-		
-		$u = '';
-		$uid = 0;
-		
-		if (((string)(int) $user) === ((string) $user))
-		{
-			/* Числовой идентификатор */
-			$uid = (int) $user;
-		}
-		else
-		{
-			/* Символьное имя */
-			$u = $user;
-		}
-		
-		/**
-		* Получение данных пользователя
-		*/
-		if (!($uid && $uid == $this->user['user_id']) && !($u && $u == $this->user['user_url']))
+		if ($user_id != $this->user['user_id'])
 		{
 			$sql = '
 				SELECT
@@ -53,7 +31,7 @@ class users extends page
 				FROM
 					' . USERS_TABLE . '
 				WHERE
-					' . ($u ? 'user_url = ' . $this->db->check_value($u) : 'user_id = ' . $this->db->check_value($uid));
+					user_id = ' . $this->db->check_value($user_id);
 			$this->db->query($sql);
 			$row = $this->db->fetchrow();
 			$this->db->freeresult();

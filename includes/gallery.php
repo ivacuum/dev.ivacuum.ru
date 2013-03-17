@@ -1,7 +1,7 @@
 <?php
 /**
 * @package ivacuum.ru
-* @copyright (c) 2012
+* @copyright (c) 2013
 */
 
 namespace app;
@@ -53,9 +53,7 @@ class gallery extends page
 
 		$pagination = pagination($this->config['gallery_images_on_page'], $total_images, ilink($this->url));
 		
-		/**
-		* Последние загруженные изображения
-		*/
+		/* Последние загруженные изображения */
 		$sql = '
 			SELECT
 				*
@@ -123,14 +121,11 @@ class gallery extends page
 			trigger_error('DATA_NOT_FOUND');
 		}
 
-		/**
-		* Удаляем файлы с жёсткого диска
-		*/
 		$date = implode('/', str_split($row['image_date'], 2));
 
-		@unlink($this->config['images_upload_dir'] . $date . '/' . $row['image_url']);
-		@unlink($this->config['images_upload_dir'] . $date . '/t/' . $row['image_url']);
-		@unlink($this->config['images_upload_dir'] . $date . '/s/' . $row['image_url']);
+		@unlink("{$this->config['images_upload_dir']}{$date}/{$row['image_url']}");
+		@unlink("{$this->config['images_upload_dir']}{$date}/t/{$row['image_url']}");
+		@unlink("{$this->config['images_upload_dir']}{$date}/s/{$row['image_url']}");
 
 		$sql = '
 			DELETE
@@ -173,14 +168,11 @@ class gallery extends page
 
 		while ($row = $this->db->fetchrow($result))
 		{
-			/**
-			* Удаляем файлы с жёсткого диска
-			*/
 			$date = implode('/', str_split($row['image_date'], 2));
 
-			@unlink($this->config['images_upload_dir'] . $date . '/' . $row['image_url']);
-			@unlink($this->config['images_upload_dir'] . $date . '/t/' . $row['image_url']);
-			@unlink($this->config['images_upload_dir'] . $date . '/s/' . $row['image_url']);
+			@unlink("{$this->config['images_upload_dir']}{$date}/{$row['image_url']}");
+			@unlink("{$this->config['images_upload_dir']}{$date}/t/{$row['image_url']}");
+			@unlink("{$this->config['images_upload_dir']}{$date}/s/{$row['image_url']}");
 
 			$sql = '
 				DELETE

@@ -1,7 +1,7 @@
 <?php
 /**
 * @package ivacuum.ru
-* @copyright (c) 2012
+* @copyright (c) 2013
 */
 
 namespace app;
@@ -18,15 +18,13 @@ class stats extends page
 	*/
 	public function index()
 	{
-		$rows = $this->get_page_descendants();
-		
-		foreach ($rows as $row)
+		foreach ($this->get_page_descendants() as $row)
 		{
 			$this->template->append('pages', [
 				'IMAGE' => $row['page_image'],
 				'TITLE' => $row['page_name'],
 				
-				'U_VIEW' => $this->descendant_link($row)
+				'U_VIEW' => $this->descendant_link($row),
 			]);
 		}
 	}

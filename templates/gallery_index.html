@@ -127,7 +127,7 @@ $(document).ready(function() {
 	});
 
 	/* Продолжение обзора галереи */
-	$('#close_images_links').live('click', function(e) {
+	$('#close_images_links').on('click', function(e) {
 	  g_loading = false;
 	  $('#images_links').empty();
 	});

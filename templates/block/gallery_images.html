@@ -12,7 +12,7 @@
 			{/if}
 		</div>
 	</td>
-	{if $row@iteration is div by 4 or $row@last}
+	{if ($row@iteration is div by 4) or $row@last}
 		</tr>
 	{/if}
 {/foreach}

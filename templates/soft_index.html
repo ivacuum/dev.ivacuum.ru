@@ -9,7 +9,7 @@
 		<p><a href="{$row.U_DETAIL}"><img src="//ivacuum.org/i/soft/_covers/{$row.COVER}.png" alt=""></a></p>
 		<p><a href="{$row.U_DETAIL}"><b>{$row.TITLE}</b></a></p>
 	</div>
-	{if $row@iteration is div by 4 or $row@last}
+	{if ($row@iteration is div by 4) or $row@last}
 		</div><br>
 	{/if}
 {/foreach}

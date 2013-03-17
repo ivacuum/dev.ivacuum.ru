@@ -2,7 +2,7 @@
 
 {block "content"}
 <div class="row">
-	<div class="span5">
+	<div class="span3">
 		<h3>Профиль</h3>
 		<ul class="unstyled">
 			<li><img src="//ivacuum.org/i/_/calendar_day.png" alt=""> {$REGDATE}</li>
@@ -11,7 +11,7 @@
 		</ul>
 		<h3>Контактная информация</h3>
 		<ul class="unstyled">
-			<li><img src="//ivacuum.org/i/_/icq.png" alt=""> {$ICQ|default:'&mdash;'}</li>
+			<li><img src="//ivacuum.org/i/_/icq.png" alt=""> {($ICQ != 0) ? $ICQ : '&mdash;'}</li>
 			<li><img src="//ivacuum.org/i/_/light_bulb.png" alt=""> {$JID|default:'&mdash;'}</li>
 		</ul>
 		<h3>О себе</h3>
@@ -22,10 +22,10 @@
 		<h6>Интересы</h6>
 		<p>{$INTERESTS|default:'&mdash;'}</p>
 	</div>
-	<div class="span11">
+	<div class="span9">
 		<p><img src="//ivacuum.org/i/_/status_{($ONLINE) ? 'online' : 'offline'}.png" alt=""> {$USERNAME}</p>
 		{if $RANK_IMG}
-			<p><img src="//ivacuum.org/i/ranks/{$RANK_IMG}.png" alt="">{if $RANK_TITLE}<br>{$RANK_TITLE}{/if}</p>
+			<p><img src="//ivacuum.org/i/ranks/{$RANK_IMG}" alt="">{if $RANK_TITLE}<br>{$RANK_TITLE}{/if}</p>
 		{/if}
 	</div>
 </div>

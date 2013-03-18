@@ -69,7 +69,7 @@
 								<li><a href="{$U_SIGNOUT}?goto={$U_THIS_PAGE}">{'SIGNOUT'|i18n}</a></li>
 							</ul>
 						</li>
-						{if not empty($languages)}
+						{if sizeof($languages) > 1}
 							<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="//ivacuum.org/i/flags/16/{$S_LANGUAGE}.png" alt="">&nbsp;<b class="caret"></b></a>
 								<ul class="dropdown-menu">
 									{foreach $languages as $row}

@@ -45,7 +45,7 @@
 			<a class="brand" href="{$U_INDEX}">{$cfg.sitename}{if $S_ISP == 'local'} <sup>local</sup>{/if}</a>
 			<div class="nav-collapse">
 				<ul class="nav">
-				{foreach $menu as $row}
+				{foreach $menu|default:[] as $row}
 					{if $row.children}
 						<li class="dropdown{if isset($row.ACTIVE)} active{/if}"><a href="#" class="dropdown-toggle" data-toggle="dropdown">{$row.TITLE} <b class="caret"></b></a>
 							<ul class="dropdown-menu">

@@ -3,7 +3,7 @@
 <html dir="{$S_LANGUAGE_DIRECTION}" lang="{$S_LANGUAGE}">
 <head>
 	<meta charset="utf-8">
-	<title>{foreach $breadcrumbs|default:[] as $row}{$row.TEXT}{if not $row@last} &raquo; {else}. {/if}{/foreach}{$cfg.sitename}</title>
+	<title>{if $page.page_title}{$page.page_title}{else}{foreach $breadcrumbs|default:[] as $row}{$row.TEXT}{if not $row@last} &raquo; {else}. {/if}{/foreach}{$cfg.sitename}{/if}</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="copyright" content="{$smarty.now|date_format:'%Y'} vacuum">
 	{if $page.page_noindex}

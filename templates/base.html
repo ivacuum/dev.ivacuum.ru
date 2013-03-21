@@ -34,88 +34,93 @@
 	{/if}
 </head>
 <body class="{$S_LANGUAGE_DIRECTION}">
-<div class="navbar navbar-fixed-top">
-	<div class="navbar-inner">
-		<div class="container">
-			<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-			</a>
-			<a class="brand" href="{$U_INDEX}">{$cfg.sitename}{if $S_ISP == 'local'} <sup>local</sup>{/if}</a>
-			<div class="nav-collapse">
-				<ul class="nav">
-				{foreach $menu|default:[] as $row}
-					{if $row.children}
-						<li class="dropdown{if isset($row.ACTIVE)} active{/if}"><a href="#" class="dropdown-toggle" data-toggle="dropdown">{$row.TITLE} <b class="caret"></b></a>
-							<ul class="dropdown-menu">
-								{foreach $row.children as $row2}
-									<li><a href="{$row2.URL}">{$row2.TITLE}</a></li>
-								{/foreach}
-							</ul>
-						</li>
-					{else}
-						<li class="{if isset($row.ACTIVE)}active{/if}"><a href="{$row.URL}">{$row.TITLE}</a></li>
-					{/if}
-				{/foreach}
-				</ul>
-				{if $S_USER_REGISTERED}
-					<ul class="nav pull-right">
-						<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="//ivacuum.org/i/{($S_OPENID_PROVIDER) ? 'openid/$S_OPENID_PROVIDER' : '_/user_guest_question'}.png" alt=""> {$S_USERNAME} <b class="caret"></b></a>
-							<ul class="dropdown-menu">
-								<li><a href="https://lk.beeline.ru/">Личный Кабинет «Билайн»</a></li>
-								<li><a href="http://portal.klg.corbina.net/">Портал Корбины</a></li>
-								<li class="divider"></li>
-								<li><a href="{$U_SIGNOUT}?goto={$U_THIS_PAGE}">{'SIGNOUT'|i18n}</a></li>
-							</ul>
-						</li>
-						{if sizeof($languages) > 1}
-							<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="//ivacuum.org/i/flags/16/{$S_LANGUAGE}.png" alt="">&nbsp;<b class="caret"></b></a>
+<div class="wrap-content">
+	<div class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container">
+				<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</a>
+				<a class="brand" href="{$U_INDEX}">{$cfg.sitename}{if $S_ISP == 'local'} <sup>local</sup>{/if}</a>
+				<div class="nav-collapse">
+					<ul class="nav">
+					{foreach $menu|default:[] as $row}
+						{if $row.children}
+							<li class="dropdown{if isset($row.ACTIVE)} active{/if}"><a href="#" class="dropdown-toggle" data-toggle="dropdown">{$row.TITLE} <b class="caret"></b></a>
 								<ul class="dropdown-menu">
-									{foreach $languages as $row}
-										<li><a href="{$row.URL}"><img src="//ivacuum.org/i/flags/16/{$row.IMG}.png" alt=""> &nbsp;{$row.NAME}</a></li>
+									{foreach $row.children as $row2}
+										<li><a href="{$row2.URL}">{$row2.TITLE}</a></li>
 									{/foreach}
 								</ul>
 							</li>
+						{else}
+							<li class="{if isset($row.ACTIVE)}active{/if}"><a href="{$row.URL}">{$row.TITLE}</a></li>
 						{/if}
+					{/foreach}
 					</ul>
-				{else}
-					<ul class="nav pull-right">
-						<li><a href="{$U_SIGNIN}?goto={$U_THIS_PAGE}">{'LOGIN'|i18n}</a></li>
-						<li><a href="{$U_REGISTER}">{'REGISTER'|i18n}</a></li>
-					</ul>
-				{/if}
+					{if $S_USER_REGISTERED}
+						<ul class="nav pull-right">
+							<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="//ivacuum.org/i/{($S_OPENID_PROVIDER) ? 'openid/$S_OPENID_PROVIDER' : '_/user_guest_question'}.png" alt=""> {$S_USERNAME} <b class="caret"></b></a>
+								<ul class="dropdown-menu">
+									<li><a href="https://lk.beeline.ru/">Личный Кабинет «Билайн»</a></li>
+									<li><a href="http://portal.klg.corbina.net/">Портал Корбины</a></li>
+									<li class="divider"></li>
+									<li><a href="{$U_SIGNOUT}?goto={$U_THIS_PAGE}">{'SIGNOUT'|i18n}</a></li>
+								</ul>
+							</li>
+							{if sizeof($languages) > 1}
+								<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="//ivacuum.org/i/flags/16/{$S_LANGUAGE}.png" alt="">&nbsp;<b class="caret"></b></a>
+									<ul class="dropdown-menu">
+										{foreach $languages as $row}
+											<li><a href="{$row.URL}"><img src="//ivacuum.org/i/flags/16/{$row.IMG}.png" alt=""> &nbsp;{$row.NAME}</a></li>
+										{/foreach}
+									</ul>
+								</li>
+							{/if}
+						</ul>
+					{else}
+						<ul class="nav pull-right">
+							<li><a href="{$U_SIGNIN}?goto={$U_THIS_PAGE}">{'LOGIN'|i18n}</a></li>
+							<li><a href="{$U_REGISTER}">{'REGISTER'|i18n}</a></li>
+						</ul>
+					{/if}
+				</div>
 			</div>
 		</div>
 	</div>
+	<div class="container">
+		{block "breadcrumbs"}
+			<ul class="breadcrumb">
+				<li><a href="{$U_INDEX}">{'INDEX_PAGE'|i18n}</a></li>
+				{foreach $breadcrumbs|default:[] as $row}
+					{if not $row@last}
+						<li><span class="divider">&rarr;</span><a href="{$row.URL}">{$row.TEXT}</a></li>
+					{else}
+						<li class="active"><span class="divider">&rarr;</span>{$row.TEXT}</li>
+					{/if}
+					</li>
+				{/foreach}
+			</ul>
+		{/block}
+		{/strip}
+		{block "content_header"}{/block}
+		{block "content"}{/block}
+		{block "content_footer"}{/block}
+		{strip}
+		<div class="wrap-push"></div>
+	</div>
 </div>
-<div class="container">
-	{block "breadcrumbs"}
-		<ul class="breadcrumb">
-			<li><a href="{$U_INDEX}">{'INDEX_PAGE'|i18n}</a></li>
-			{foreach $breadcrumbs|default:[] as $row}
-				{if not $row@last}
-					<li><span class="divider">&rarr;</span><a href="{$row.URL}">{$row.TEXT}</a></li>
-				{else}
-					<li class="active"><span class="divider">&rarr;</span>{$row.TEXT}</li>
-				{/if}
-				</li>
-			{/foreach}
-		</ul>
-	{/block}
-	{/strip}
-	{block "content_header"}{/block}
-	{block "content"}{/block}
-	{block "content_footer"}{/block}
-	{strip}
-	<footer>
+<footer>
+	<div class="container">
 		<ul class="inline">
 			<li class="muted">&copy; {$smarty.now|date_format:'%Y'} vacuum</li>
 			<li class="muted">&middot;</li>
 			<li><a href="mailto:{$cfg.email_support}">{'FEEDBACK'|i18n}</a></li>
 		</ul>
-	</footer>
-</div>
+	</div>
+</footer>
 
 {if $S_ISP == 'internet'}
 {literal}

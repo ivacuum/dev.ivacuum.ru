@@ -20,7 +20,7 @@ class news extends page
 	{
 		$this->check_input_date($year, $month, $day);
 		
-		$on_page    = $this->config['news_on_page'];
+		$on_page    = $this->config['news.on_page'];
 		$pagination = pagination($on_page, $this->get_news_count($year, $month, $day), ilink($this->full_url));
 		
 		$sql_array = [

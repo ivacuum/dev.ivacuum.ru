@@ -20,7 +20,7 @@ class gallery extends page
 	{
 		$this->user->is_auth('redirect');
 
-		if ($this->page != $this->config['router_directory_index'])
+		if ($this->page != $this->config['router.directory_index'])
 		{
 			trigger_error('PAGE_NOT_FOUND');
 		}
@@ -51,7 +51,7 @@ class gallery extends page
 			trigger_error('Вы еще не <a href="http://up.ivacuum.ru/"><b>загрузили</b></a> ни одного изображения.');
 		}
 
-		$pagination = pagination($this->config['gallery_images_on_page'], $total_images, ilink($this->url));
+		$pagination = pagination($this->config['gallery.images.on_page'], $total_images, ilink($this->url));
 		
 		/* Последние загруженные изображения */
 		$sql = '
@@ -72,7 +72,7 @@ class gallery extends page
 			$this->template->append('images', [
 				'DATE'    => $row['image_date'],
 				'ID'      => $row['image_id'],
-				'OUTDATE' => $outdate > $this->config['images_purge_interval'] ? $outdate : '',
+				'OUTDATE' => $outdate > $this->config['gallery.images.purge_interval'] ? $outdate : '',
 				'TIME'    => $this->user->create_date($row['image_time'], '|j F Y|, H:i', false, true),
 				'URL'     => $row['image_url'],
 				'VIEWS'   => $row['image_views'],
@@ -123,9 +123,9 @@ class gallery extends page
 
 		$date = implode('/', str_split($row['image_date'], 2));
 
-		@unlink("{$this->config['images_upload_dir']}{$date}/{$row['image_url']}");
-		@unlink("{$this->config['images_upload_dir']}{$date}/t/{$row['image_url']}");
-		@unlink("{$this->config['images_upload_dir']}{$date}/s/{$row['image_url']}");
+		@unlink("{$this->config['gallery.images.upload_dir']}{$date}/{$row['image_url']}");
+		@unlink("{$this->config['gallery.images.upload_dir']}{$date}/t/{$row['image_url']}");
+		@unlink("{$this->config['gallery.images.upload_dir']}{$date}/s/{$row['image_url']}");
 
 		$sql = '
 			DELETE
@@ -170,9 +170,9 @@ class gallery extends page
 		{
 			$date = implode('/', str_split($row['image_date'], 2));
 
-			@unlink("{$this->config['images_upload_dir']}{$date}/{$row['image_url']}");
-			@unlink("{$this->config['images_upload_dir']}{$date}/t/{$row['image_url']}");
-			@unlink("{$this->config['images_upload_dir']}{$date}/s/{$row['image_url']}");
+			@unlink("{$this->config['gallery.images.upload_dir']}{$date}/{$row['image_url']}");
+			@unlink("{$this->config['gallery.images.upload_dir']}{$date}/t/{$row['image_url']}");
+			@unlink("{$this->config['gallery.images.upload_dir']}{$date}/s/{$row['image_url']}");
 
 			$sql = '
 				DELETE
@@ -219,7 +219,7 @@ class gallery extends page
 
 		while ($row = $this->db->fetchrow())
 		{
-			$thumb = file_exists($this->config['images_upload_dir'] . implode('/', str_split($row['image_date'], 2)) . '/s/' . $row['image_url']);
+			$thumb = file_exists($this->config['gallery.images.upload_dir'] . implode('/', str_split($row['image_date'], 2)) . '/s/' . $row['image_url']);
 			$files_thumb += $thumb ? 1 : 0;
 
 			$this->template->append('files', [
@@ -276,7 +276,7 @@ class gallery extends page
 			trigger_error('Изображение не найдено.');
 		}
 
-		$thumb_exist = file_exists($this->config['images_upload_dir'] . implode('/', str_split($row['image_date'], 2)) . '/s/' . $row['image_url']);
+		$thumb_exist = file_exists($this->config['gallery.images.upload_dir'] . implode('/', str_split($row['image_date'], 2)) . '/s/' . $row['image_url']);
 
 		$this->breadcrumbs('Изображение #' . $image_id, ilink($this->get_handler_url('preview', [$image_id])));
 
@@ -319,7 +319,7 @@ class gallery extends page
 			trigger_error('Изображение не найдено.');
 		}
 
-		$thumb_exist = file_exists($this->config['images_upload_dir'] . implode('/', str_split($row['image_date'], 2)) . '/s/' . $row['image_url']);
+		$thumb_exist = file_exists($this->config['gallery.images.upload_dir'] . implode('/', str_split($row['image_date'], 2)) . '/s/' . $row['image_url']);
 
 		$this->breadcrumbs('Изображение #' . $image_id, ilink($this->get_handler_url('view', [$image_id])));
 

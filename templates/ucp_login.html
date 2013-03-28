@@ -1,43 +1,34 @@
 {extends "base.html"}
 
 {block "content"}
-<div class="row">
-	<!-- <div class="span5">
-		<div class="page-header">
-			<h3>Вы можете авторизоваться через</h3>
-		</div>
-		{include "block/loginza.html"}
-	</div> -->
-	<div class="span5 offset4">
-		<div class="page-header">
-			<h3>{'LOGIN'|i18n}</h3>
-		</div>
-		<!-- <br> -->
-		{if $LOGIN_ERROR}
-			<div class="alert alert-error" data-dismiss="alert">
-				<a class="close" href="#">&times;</a>
-				<h4 class="alert-heading">Ошибка авторизации</h4>
-				<ul>
-					<li>{$LOGIN_ERROR}</li>
-				</ul>
-			</div>
-		{elseif $LOGIN_EXPLAIN}
-			<div class="alert alert-error" data-dismiss="alert">
-				<a class="close" href="#">&times;</a>
-				<h4 class="alert-heading">Внимание!</h4>
-				{$LOGIN_EXPLAIN}
-			</div>
-		{/if}
-		<form action="{$U_ACTION}" method="post">
-			<input type="text" name="username" value="{$USERNAME}" tabindex="1" placeholder="{'USERNAME'|i18n}"><br>
-			<input type="password" name="password" tabindex="2" placeholder="{'PASSWORD'|i18n}"><br>
+{if $LOGIN_ERROR}
+	<div class="alert alert-error" data-dismiss="alert">
+		<a class="close" href="#">&times;</a>
+		<h4 class="alert-heading">Ошибка авторизации</h4>
+		<ul>
+			<li>{$LOGIN_ERROR}</li>
+		</ul>
+	</div>
+{elseif $LOGIN_EXPLAIN}
+	<div class="alert alert-error" data-dismiss="alert">
+		<a class="close" href="#">&times;</a>
+		<h4 class="alert-heading">Внимание!</h4>
+		{$LOGIN_EXPLAIN}
+	</div>
+{/if}
+
+<div class="boxed-group" style="margin: 0 auto; max-width: 420px;">
+	<h3>{'LOGIN'|i18n}</h3>
+	<div class="boxed-group-inner">
+		<form action="{$U_SIGNIN}" class="form-signin" method="post">
+			<label for="username_field">{'USERNAME_OR_EMAIL'|i18n}</label>
+			<input type="text" class="input-block-level" id="username_field" name="username" tabindex="1">
+			<label for="password_field">{'PASSWORD'|i18n}{*(<a href="/">забыли пароль?</a>)*}</label>
+			<input type="password" class="input-block-level" id="password_field" name="password" tabindex="2">
 			<label class="checkbox">
-				<input name="autologin" type="checkbox" tabindex="3" checked="checked"> {'AUTOLOGIN'|i18n}
+				<input type="checkbox" name="autologin" tabindex="3" checked> {'AUTOLOGIN'|i18n}
 			</label>
-			<!-- <label class="checkbox">
-				<input name="hideme" type="checkbox" tabindex="4" disabled="disabled"> {'HIDEME'|i18n}
-			</label> -->
-			<input class="btn btn-primary" type="submit" name="submit" value="{'LOGIN'|i18n}" tabindex="4">
+			<button class="btn btn-primary" type="submit" name="submit" tabindex="4">{'LOGIN'|i18n}</button>
 			{$S_HIDDEN_FIELDS}
 		</form>
 	</div>

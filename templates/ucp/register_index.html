@@ -1,49 +1,42 @@
 {extends "base.html"}
 
 {block "content"}
-<div class="row">
-	<!-- <div class="span5">
-		{if not $SKIP_OPENID}
-			<div class="page-header">
-				<h3>Вы можете авторизоваться через</h3>
+{if not empty($REGISTER_ERROR)}
+	<div class="alert alert-error" data-dismiss="alert">
+		<a class="close" href="#">&times;</a>
+		<h4 class="alert-heading">Ошибка регистрации</h4>
+		<ul>
+			{foreach $REGISTER_ERROR as $row}
+				<li>{$row}</li>
+			{/foreach}
+		</ul>
+	</div>
+{/if}
+{if not empty($MESSAGE)}
+	<div class="alert alert-error" data-dismiss="alert">
+		<a class="close" href="#">&times;</a>
+		{$MESSAGE}
+	</div>
+{/if}
+
+<div class="boxed-group form-signup">
+	<h3>{'REGISTER'|i18n}</h3>
+	<div class="boxed-group-inner">
+		<form action="{$U_REGISTER}" method="post">
+			<label for="username_field">{'USERNAME'|i18n}</label>
+			<input name="username" id="username_field" class="input-block-level" type="text" value="{$USERNAME|default:''}" tabindex="1">
+			<label for="email_field">{'EMAIL'|i18n}</label>
+			<input name="email" id="email_field" class="input-block-level" type="text" value="{$EMAIL|default:''}" tabindex="2">
+			<label for="password_field">{'PASSWORD'|i18n}</label>
+			<input name="password" id="password_field" class="input-block-level" type="password" value="{$PASSWORD|default:''}" tabindex="3">
+			<label for="confirm_code_field">Код подтверждения</label>
+			<div><img src="{'\\fw\\modules\\captcha::index'|url_for}" alt="" id="confirm_code_image"></div>
+			<div class="input-append">
+				<input name="confirm_code" id="confirm_code_field" class="span2" type="text" value="" tabindex="4">
+				<button class="btn" id="refresh_confirm_code"><i class="icon-refresh"></i></button>
 			</div>
-			{include "block/loginza.html"}
-		{else}
-			<div class="page-header">
-				<h3>Вы выбрали быструю регистрацию</h3>
-			</div>
-			<p>Для получения учетной записи на сайте необходимо дозаполнить форму.</p>
-		{/if}
-	</div> -->
-	<div class="span5 offset4">
-		<div class="page-header">
-			<h3>{if not $SKIP_OPENID}Регистрация на сайте{else}Завершение регистрации{/if}</h3>
-		</div>
-		{if $REGISTER_ERROR}
-			<div class="alert alert-error" data-dismiss="alert">
-				<a class="close" href="#">&times;</a>
-				<h4 class="alert-heading">Ошибка регистрации</h4>
-				<ul>
-					{foreach $REGISTER_ERROR as $row}
-						<li>{$row}</li>
-					{/foreach}
-				</ul>
-			</div>
-		{/if}
-		{if $MESSAGE}
-			<div class="alert alert-error" data-dismiss="alert">
-				<a class="close" href="#">&times;</a>
-				{$MESSAGE}
-			</div>
-		{/if}
-		<form action="{$U_ACTION}" method="post" id="register_form">
-			<input name="username" id="username" type="text" value="{$USERNAME}" placeholder="{'USERNAME'|i18n}" tabindex="1"><br>
-			<input name="email" id="email" type="text" value="{$EMAIL}" placeholder="{'EMAIL'|i18n}" tabindex="2"><br>
-			<input name="password" id="password" type="password" value="{$PASSWORD}" placeholder="{'PASSWORD'|i18n}" tabindex="3"><br>
-			<img src="{'\\fw\\modules\\captcha::index'|url_for}" alt="" style="vertical-align: middle;" id="confirm_code_image"> &nbsp; <a href="#" id="refresh_confirm_code"><img src="//ivacuum.org/i/_/24/arrow_circle_double_135.png" alt="" style="vertical-align: middle;"></a><br>
-			<input name="confirm_code" id="confirm_code" type="text" value="" placeholder="Код подтверждения" tabindex="4"><br>
-			<input class="btn btn-primary" type="submit" name="submit" value="Зарегистрироваться" tabindex="5">
-			{$S_HIDDEN_FIELDS}
+			<div><button class="btn btn-primary" type="submit" name="submit" tabindex="5">Зарегистрироваться</button></div>
+			{$S_HIDDEN_FIELDS|default:''}
 		</form>
 	</div>
 </div>
@@ -51,6 +44,7 @@
 <script>
 $('#refresh_confirm_code').bind('click', function() {
 	$('#confirm_code_image').attr('src', '{'\\fw\\modules\\captcha::index'|url_for}?' + Math.random());
+	$('#confirm_code_field').val('').focus();
 	return false;
 });
 </script>

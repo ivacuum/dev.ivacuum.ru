@@ -81,10 +81,10 @@
 							{/if}
 						</ul>
 					{else}
-						<ul class="nav pull-right">
-							<li><a href="{$U_SIGNIN}?goto={$U_THIS_PAGE}">{'LOGIN'|i18n}</a></li>
-							<li><a href="{$U_REGISTER}">{'REGISTER'|i18n}</a></li>
-						</ul>
+						<form class="navbar-form pull-right">
+							<a class="btn btn-success" href="{$U_REGISTER}">{'REGISTER'|i18n}</a>&nbsp;
+							<a class="btn" href="{$U_SIGNIN}">{'LOGIN'|i18n}</a>
+						</form>
 					{/if}
 				</div>
 			</div>

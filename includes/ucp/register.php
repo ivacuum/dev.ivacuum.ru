@@ -1,16 +1,13 @@
 <?php
 /**
 * @package ivacuum.ru
-* @copyright (c) 2012
+* @copyright (c) 2013
 */
 
 namespace app\ucp;
 
 use app\models\page;
 
-/**
-* Регистрация
-*/
 class register extends page
 {
 	public $openid_response;
@@ -30,38 +27,25 @@ class register extends page
 	*/
 	public function index_post()
 	{
-		$birth_day   = $this->request->post('birth_day', 0);
-		$birth_month = $this->request->post('birth_month', 0);
-		$birth_year  = $this->request->post('birth_year', 0);
-		$email       = mb_strtolower($this->request->post('email', ''));
-		$first_name  = $this->request->post('first_name', '');
-		$gender      = $this->request->post('gender', 0);
-		$identity    = $this->request->post('identity', '');
-		$last_name   = $this->request->post('last_name', '');
-		$password    = $this->request->post('password', '');
-		$provider    = $this->request->post('provider', '');
-		$uid         = $this->request->post('uid', '');
-		$username    = $this->request->post('username', '');
+		$username      = $this->request->post('username', '');
+		$user_email    = mb_strtolower($this->request->post('email', ''));
+		$user_password = $this->request->post('password', '');
 		
 		$error_ary = [];
 		
-		if (!$username)
-		{
-			$error_ary[] = 'Вы не указали логин';
-		}
-		if (mb_strlen($username) < 3 || mb_strlen($username) > 30)
+		if (!$username || mb_strlen($username) < 3 || mb_strlen($username) > 30)
 		{
 			$error_ary[] = 'Введите логин от 3 до 30 символов';
 		}
-		if (!$email)
+		if (!$user_email)
 		{
 			$error_ary[] = 'Вы не указали адрес электронной почты';
 		}
-		if (!$password)
+		elseif (!preg_match(sprintf('#%s#', get_preg_expression('email')), $user_email))
 		{
-			$error_ary[] = 'Вы не указали пароль';
+			$error_ary[] = 'Неверно введен адрес электронной почты';
 		}
-		if (mb_strlen($password) < 6 || mb_strlen($password) > 60)
+		if (!$user_password || mb_strlen($user_password) < 6 || mb_strlen($user_password) > 60)
 		{
 			$error_ary[] = 'Введите пароль от 6 до 60 символов';
 		}
@@ -89,23 +73,39 @@ class register extends page
 			if ($row)
 			{
 				$error_ary[] = 'Данный логин уже занят';
+				
+				$username = '';
 			}
 		}
 		
-		$this->template->assign([
-			'EMAIL'       => $email,
-			// 'OPENID'      => $openid,
-			// 'SKIP_OPENID' => true,
-			'USERNAME'    => $username,
+		if ($user_email)
+		{
+			$sql = '
+				SELECT
+					user_id
+				FROM
+					' . USERS_TABLE . '
+				WHERE
+					user_email = ' . $this->db->check_value($user_email);
+			$this->db->query($sql);
+			$row = $this->db->fetchrow();
+			$this->db->freeresult();
 			
-			// 'S_HIDDEN_FIELDS' => $s_hidden_fields,
-			
-			'U_ACTION' => ilink($this->url)
-		]);
-
+			if ($row)
+			{
+				$error_ary[] = 'Данный адрес электронной почты уже зарегистрирован';
+				
+				$user_email = '';
+			}
+		}
+		
 		if (sizeof($error_ary))
 		{
-			$this->template->assign('REGISTER_ERROR', $error_ary);
+			$this->template->assign([
+				'errors' => $error_ary,
+				'me'     => compact('user_email', 'username'),
+			]);
+			
 			return;
 		}
 		
@@ -114,24 +114,23 @@ class register extends page
 		$sql_ary = [
 			'username'       => $username,
 			'username_clean' => $username_clean,
-			'user_password'  => md5($password . $salt),
+			'user_password'  => md5($user_password . $salt),
 			'user_salt'      => $salt,
 			'user_regdate'   => $this->user->ctime,
-			'user_email'     => $email,
+			'user_email'     => $user_email,
 			'user_language'  => $this->request->language,
 		];
 		
 		$sql = 'INSERT INTO ' . USERS_TABLE . ' ' . $this->db->build_array('INSERT', $sql_ary);
 		$this->db->query($sql);
 
-		/**
-		* Последний зарегистрированный пользователь
-		*/
+		/* Обновление последнего зарегистрированного пользователя */
 		$this->config->set('newest_user_id', $this->db->insert_id(), 0);
 		$this->config->set('newest_username', $username, 0);
 		$this->config->increment('num_users', 1, 0);
-
-		trigger_error('Спасибо за регистрацию.<br><br>Теперь вы можете <a href="' . ilink($this->urls['_signin']) . '">войти на сайт</a>.');
+		
+		$this->auth->login($username, $user_password);
+		$this->request->redirect(ilink());
 	}
 	
 	/**

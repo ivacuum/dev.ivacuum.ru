@@ -22,6 +22,74 @@ class auth extends page
 		}
 	}
 	
+	public function activate_password($hash)
+	{
+		$this->template->assign('me', ['user_newpasswd' => $hash]);
+	}
+	
+	public function activate_password_post($hash)
+	{
+		$sql = '
+			SELECT
+				user_id,
+				username
+			FROM
+				' . USERS_TABLE . '
+			WHERE
+				user_newpasswd = ' . $this->db->check_value($hash);
+		$this->db->query($sql);
+		$row = $this->db->fetchrow();
+		$this->db->freeresult();
+		
+		if (!$row)
+		{
+			trigger_error('Код не найден. Попробуйте <a href="' . $this->get_handler_url('sendpassword') . '">восстановить пароль</a> еще раз.');
+		}
+
+		$user_password = $this->request->post('password', '');
+		
+		$error_ary = [];
+
+		if (!$user_password || mb_strlen($user_password) < 6 || mb_strlen($user_password) > 60)
+		{
+			$error_ary[] = 'Введите пароль от 6 до 60 символов';
+		}
+
+		if (sizeof($error_ary))
+		{
+			$this->template->assign([
+				'errors' => $error_ary,
+				'me'     => ['user_newpasswd' => $hash],
+			]);
+			
+			return;
+		}
+		
+		$salt = make_random_string(5);
+		
+		$sql_ary = [
+			'user_password'  => md5($user_password . $salt),
+			'user_salt'      => $salt,
+			'user_newpasswd' => '',
+		];
+		
+		$this->user->user_update($sql_ary, $row['user_id']);
+		
+		/* Сброс всех сессий */
+		$this->user->reset_login_keys($row['user_id'], false);
+		
+		$sql = '
+			DELETE
+			FROM
+				' . SESSIONS_TABLE . '
+			WHERE
+				user_id = ' . $this->db->check_value($row['user_id']);
+		$this->db->query($sql);
+		
+		$this->auth->login($row['username'], $user_password);
+		$this->request->redirect(ilink());
+	}
+	
 	public function sendpassword()
 	{
 		if ($this->user->is_registered)
@@ -30,6 +98,57 @@ class auth extends page
 		}
 		
 		return;
+	}
+	
+	public function sendpassword_post()
+	{
+		if ($this->user->is_registered)
+		{
+			return;
+		}
+		
+		$user_email = mb_strtolower($this->request->post('email', ''));
+		
+		$sql = '
+			SELECT
+				user_id,
+				username,
+				user_salt
+			FROM
+				' . USERS_TABLE . '
+			WHERE
+				user_email = ' . $this->db->check_value($user_email);
+		$this->db->query($sql);
+		$row = $this->db->fetchrow();
+		$this->db->freeresult();
+		
+		$error_ary = [];
+		
+		if (!$row)
+		{
+			$error_ary[] = 'Адрес электронной почты не найден';
+			
+			$user_email = '';
+		}
+		
+		if (sizeof($error_ary))
+		{
+			$this->template->assign('errors', $error_ary);
+			
+			return;
+		}
+		
+		$username       = $row['username'];
+		$user_newpasswd = md5(microtime(true));
+		
+		$this->user->user_update(compact('user_newpasswd'), $row['user_id']);
+
+		$this->mailer->set_to($user_email)->postpone($this->data['page_name']);
+		
+		$this->template->assign([
+			'me'     => compact('username', 'user_email', 'user_newpasswd'),
+			'status' => 'OK',
+		]);
 	}
 
 	public function signin()

@@ -29,5 +29,6 @@ class ucp extends page
 	
 	public function profile()
 	{
+		$this->template->assign('me', $this->user->data);
 	}
 }

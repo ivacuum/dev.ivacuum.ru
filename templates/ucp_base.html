@@ -1,0 +1,24 @@
+{extends "base.html"}
+
+{block "content_header"}
+<div class="row">
+	<div class="span3">
+		{if not empty($ucp_menu)}
+			<ul class="nav nav-tabs nav-stacked">
+				{foreach $ucp_menu as $row}
+					{if isset($row.ACTIVE) and not empty($row.children)}
+						{foreach $row.children as $row2}
+							<li><a href="{$row2.URL}">{$row2.TITLE}</a></li>
+						{/foreach}
+					{/if}
+				{/foreach}
+			</ul>
+		{/if}
+	</div>
+	<div class="span9">
+{/block}
+
+{block "content_footer"}
+	</div>
+</div>
+{/block}

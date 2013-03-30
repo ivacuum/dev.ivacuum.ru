@@ -20,10 +20,24 @@
 <div class="boxed-group form-signin">
 	<h3>{'LOGIN'|i18n}</h3>
 	<div class="boxed-group-inner">
+		{*
+		<div class="text-center">
+			<img src="//ivacuum.org/i/openid/48/facebook.png" alt="">
+			<img src="//ivacuum.org/i/openid/48/google.png" alt="">
+			<img src="//ivacuum.org/i/openid/48/twitter.png" alt="">
+			<img src="//ivacuum.org/i/openid/48/vk.png" alt="">
+			<img src="//ivacuum.org/i/openid/48/yandex.png" alt="">
+		</div>
+		<h3 class="conversation-list-heading">
+			<div class="inner">
+				или
+			</div>
+		</h3>
+		*}
 		<form action="{$U_SIGNIN}" method="post">
 			<label for="username_field">{'USERNAME_OR_EMAIL'|i18n}</label>
 			<input type="text" class="input-block-level" id="username_field" name="username" tabindex="1">
-			<label for="password_field">{'PASSWORD'|i18n}{*(<a href="/">забыли пароль?</a>)*}</label>
+			<label for="password_field">{'PASSWORD'|i18n}{*(<a href="/">{'FORGOT_PASSWORD'|i18n}</a>)*}</label>
 			<input type="password" class="input-block-level" id="password_field" name="password" tabindex="2">
 			<label class="checkbox">
 				<input type="checkbox" name="autologin" tabindex="3" checked> {'AUTOLOGIN'|i18n}

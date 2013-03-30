@@ -22,6 +22,16 @@ class auth extends page
 		}
 	}
 	
+	public function sendpassword()
+	{
+		if ($this->user->is_registered)
+		{
+			return;
+		}
+		
+		return;
+	}
+
 	public function signin()
 	{
 		if ($this->user->is_registered)

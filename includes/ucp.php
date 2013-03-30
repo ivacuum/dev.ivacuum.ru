@@ -28,9 +28,9 @@ class ucp extends page
 	}
 	
 	/**
-	* Авторизация
+	* Аутентификация
 	*/
-	public function login()
+	public function signin()
 	{
 		if ($this->user->is_registered)
 		{
@@ -58,7 +58,7 @@ class ucp extends page
 	/**
 	* Выход
 	*/
-	public function logout()
+	public function signout()
 	{
 		$close_sessions = $this->request->post('close_sessions', false);
 		$redirect       = $this->request->variable('goto', $this->user->page_prev);

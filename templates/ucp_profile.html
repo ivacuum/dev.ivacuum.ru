@@ -1,6 +1,24 @@
 {extends "ucp_base.html"}
 
 {block "content"}
+{if not empty($errors)}
+	<div class="alert alert-error" data-dismiss="alert">
+		<a class="close" href="#">&times;</a>
+		<h4 class="alert-heading">Не удалось сохранить изменения</h4>
+		<ul>
+			{foreach $errors as $row}
+				<li>{$row}</li>
+			{/foreach}
+		</ul>
+	</div>
+{/if}
+{if not empty($status) and $status == 'OK'}
+	<div class="alert alert-success" data-dismiss="alert">
+		<a class="close" href="#">&times;</a>
+		Ваш профиль обновлен.
+	</div>
+{/if}
+
 <div class="boxed-group">
 	<h3>{$page.page_name}</h3>
 	<div class="boxed-group-inner">
@@ -18,11 +36,20 @@
 					<input type="text" id="last_name_field" name="last_name" value="{$me.user_last_name}" tabindex="2">
 				</div>
 			</div>
+			{*
+			<div class="control-group">
+				<label class="control-label">Пол</label>
+				<div class="controls">
+					<label class="radio inline"><input type="radio" name="gender" value="1"> мужской</label>
+					<label class="radio inline"><input type="radio" name="gender" value="2"> женский</label>
+				</div>
+			</div>
+			*}
 			<hr>
 			<div class="control-group">
 				<label class="control-label" for="email_field">Email</label>
 				<div class="controls">
-					<input required type="text" id="email_field" name="email" value="{$me.user_email}" tabindex="3">
+					<input required type="email" id="email_field" name="email" value="{$me.user_email}" tabindex="3">
 				</div>
 			</div>
 			<div class="control-group">
@@ -32,15 +59,15 @@
 				</div>
 			</div>
 			<div class="control-group">
-				<label class="control-label" for="jabber_field">Jabber</label>
+				<label class="control-label" for="jid_field">Jabber</label>
 				<div class="controls">
-					<input type="text" id="jabber_field" name="jabber" value="{$me.user_jid}" tabindex="5">
+					<input type="text" id="jid_field" name="jid" value="{$me.user_jid}" tabindex="5">
 				</div>
 			</div>
 			<div class="control-group">
 				<label class="control-label" for="website_field">Веб-сайт</label>
 				<div class="controls">
-					<input type="text" id="website_field" name="website" value="{$me.user_website}" tabindex="6">
+					<input type="url" id="website_field" name="website" value="{$me.user_website}" tabindex="6">
 				</div>
 			</div>
 			<hr>

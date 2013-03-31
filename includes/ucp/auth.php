@@ -15,7 +15,7 @@ class auth extends page
 {
 	public function _setup()
 	{
-		/* Поисковым роботам вход/выход недоступны */
+		/* Поисковым роботам недоступен данный раздел */
 		if ($this->user->is_bot)
 		{
 			$this->request->redirect(ilink(), 301);
@@ -83,10 +83,19 @@ class auth extends page
 	{
 		if ($this->user->is_registered)
 		{
-			return;
-		}
+			$username       = $this->user['username'];
+			$user_email     = $this->user['user_email'];
+			$user_newpasswd = md5(microtime(true));
 		
-		return;
+			$this->user->user_update(compact('user_newpasswd'));
+
+			$this->mailer->set_to($user_email)->postpone($this->data['page_name']);
+		
+			$this->template->assign([
+				'me'     => compact('username', 'user_email', 'user_newpasswd'),
+				'status' => 'OK',
+			]);
+		}
 	}
 	
 	public function sendpassword_post()

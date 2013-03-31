@@ -74,18 +74,7 @@ class auth extends page
 		];
 		
 		$this->user->user_update($sql_ary, $row['user_id']);
-		
-		/* Сброс всех сессий */
 		$this->user->reset_login_keys($row['user_id'], false);
-		
-		$sql = '
-			DELETE
-			FROM
-				' . SESSIONS_TABLE . '
-			WHERE
-				user_id = ' . $this->db->check_value($row['user_id']);
-		$this->db->query($sql);
-		
 		$this->auth->login($row['username'], $user_password);
 		$this->request->redirect(ilink());
 	}

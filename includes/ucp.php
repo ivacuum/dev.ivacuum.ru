@@ -27,6 +27,44 @@ class ucp extends page
 	{
 	}
 	
+	public function password_post()
+	{
+		$old_password          = $this->request->post('old_password', '');
+		$password              = $this->request->post('password', '');
+		$password_confirmation = $this->request->post('password_confirmation', '');
+		
+		$error_ary = [];
+		
+		if (!$old_password || !($this->user['user_salt'] && md5($old_password . $this->user['user_salt']) == $this->user['user_password']) || (!$this->user['user_salt'] && md5($old_password) == $this->user['user_password']))
+		{
+			$error_ary[] = 'Текущий пароль введен неверно';
+		}
+		if (!$password || !$password_confirmation || mb_strlen($password) < 6 || mb_strlen($password) > 60)
+		{
+			$error_ary[] = 'Введите новый пароль от 6 до 60 символов';
+		}
+		if ($password != $password_confirmation)
+		{
+			$error_ary[] = 'Введенные пароли не совпадают';
+		}
+		
+		if (sizeof($error_ary))
+		{
+			$this->template->assign('errors', $error_ary);
+			return;
+		}
+		
+		$salt = make_random_string(5);
+		
+		$this->user->user_update([
+			'user_password' => md5($password . $salt),
+			'user_salt'     => $salt,
+		]);
+		
+		$this->user->reset_login_keys(false, false);
+		$this->template->assign('status', 'OK');
+	}
+	
 	public function profile()
 	{
 		$this->template->assign('me', $this->user->data);

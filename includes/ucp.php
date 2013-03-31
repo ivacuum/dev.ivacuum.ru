@@ -16,7 +16,7 @@ class ucp extends page
 	public function _setup()
 	{
 		$this->user->is_auth('redirect');
-		$this->append_menu('ucp_menu');
+		$this->append_menu('2nd_level_menu');
 	}
 	
 	public function index()

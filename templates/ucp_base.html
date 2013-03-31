@@ -3,9 +3,9 @@
 {block "content_header"}
 <div class="row">
 	<div class="span3">
-		{if not empty($ucp_menu)}
+		{if not empty($2nd_level_menu)}
 			<ul class="nav nav-tabs nav-stacked sidenav">
-				{foreach $ucp_menu as $row}
+				{foreach $2nd_level_menu as $row}
 					{if isset($row.ACTIVE) and not empty($row.children)}
 						{foreach $row.children as $row2}
 							<li class="{if isset($row2.ACTIVE)}active{/if}"><a href="{$row2.URL}"><i class="icon-chevron-right"></i>{$row2.TITLE}</a></li>

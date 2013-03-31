@@ -7,7 +7,21 @@
 		{block "soft_footer"}{/block}
 	</div>
 	<div class="span9">
-		{include "block/submenu.html"}
+		{if not empty($3rd_level_menu)}
+			<ul class="nav nav-tabs">
+				{foreach $3rd_level_menu as $row}
+					{if isset($row.ACTIVE) and not empty($row.children)}
+						{foreach $row.children as $row2}
+							{if isset($row2.ACTIVE) and not empty($row2.children)}
+								{foreach $row2.children as $row3}
+									<li class="{if isset($row3.ACTIVE)}active{/if}"><a href="{$row3.URL}">{$row3.TITLE}</a></li>
+								{/foreach}
+							{/if}
+						{/foreach}
+					{/if}
+				{/foreach}
+			</ul>
+		{/if}
 {/block}
 
 {block "content_footer"}

@@ -21,12 +21,12 @@ class commfort extends page
 			trigger_error('PAGE_NOT_FOUND');
 		}
 		
-		$this->set_site_submenu();
+		$this->append_menu('3rd_level_menu');
 	}
 	
 	public function index()
 	{
-		
+		$this->template->file = 'soft/commfort_static_page.html';
 	}
 	
 	public function static_page()

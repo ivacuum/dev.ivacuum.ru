@@ -4,7 +4,6 @@
 {if $LOGIN_ERROR}
 	<div class="alert alert-error" data-dismiss="alert">
 		<a class="close" href="#">&times;</a>
-		<h4 class="alert-heading">Ошибка авторизации</h4>
 		<ul>
 			<li>{$LOGIN_ERROR}</li>
 		</ul>
@@ -12,7 +11,6 @@
 {elseif $LOGIN_EXPLAIN}
 	<div class="alert alert-error" data-dismiss="alert">
 		<a class="close" href="#">&times;</a>
-		<h4 class="alert-heading">Внимание!</h4>
 		{$LOGIN_EXPLAIN}
 	</div>
 {/if}

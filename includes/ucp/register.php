@@ -111,15 +111,12 @@ class register extends page
 		
 		$salt = make_random_string(5);
 		
-		$sql_ary = [
-			'username'       => $username,
-			'username_clean' => $username_clean,
+		$sql_ary = array_merge([
 			'user_password'  => md5($user_password . $salt),
 			'user_salt'      => $salt,
 			'user_regdate'   => $this->user->ctime,
-			'user_email'     => $user_email,
 			'user_language'  => $this->request->language,
-		];
+		], compact('username', 'username_clean', 'user_email'));
 		
 		$sql = 'INSERT INTO ' . USERS_TABLE . ' ' . $this->db->build_array('INSERT', $sql_ary);
 		$this->db->query($sql);

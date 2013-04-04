@@ -20,11 +20,6 @@ class gallery extends page
 	{
 		$this->user->is_auth('redirect');
 
-		if ($this->page != $this->config['router.directory_index'])
-		{
-			trigger_error('PAGE_NOT_FOUND');
-		}
-
 		$total_images = $total_size = $total_traffic = $total_views = 0;
 
 		$sql = '

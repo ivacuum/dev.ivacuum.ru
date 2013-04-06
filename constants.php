@@ -6,9 +6,9 @@
 
 namespace app;
 
-if (false === $app->load_constants($app['acm.prefix']))
+if (false === $app->load_constants($app['cache.driver.options']['prefix']))
 {
-	$app->set_constants($app['acm.prefix'], [
+	$app->set_constants($app['cache.driver.options']['prefix'], [
 		/* Таблицы сайта */
 		'DOWNLOADS_TABLE'    => 'site_downloads',
 		'FILES_TABLE'        => 'site_files',

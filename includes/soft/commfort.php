@@ -15,12 +15,6 @@ class commfort extends page
 {
 	public function _setup()
 	{
-		/* Чат доступен только из локальной сети */
-		if ($this->request->isp == 'internet' && !$this->auth->acl_get('a_'))
-		{
-			trigger_error('PAGE_NOT_FOUND');
-		}
-		
 		$this->append_menu('3rd_level_menu');
 	}
 	

@@ -25,8 +25,8 @@ class news extends page
 		
 		$sql_array = [
 			'SELECT'    => 'n.*, u.username',
-			'FROM'      => NEWS_TABLE . ' n',
-			'LEFT_JOIN' => USERS_TABLE . ' u ON (u.user_id = n.user_id)',
+			'FROM'      => 'site_news n',
+			'LEFT_JOIN' => 'site_users u ON (u.user_id = n.user_id)',
 			'WHERE'     => ['n.site_id = ' . $this->db->check_value($this->data['site_id'])],
 			'ORDER_BY'  => 'n.news_time DESC'
 		];
@@ -81,7 +81,7 @@ class news extends page
 				news_url,
 				news_time
 			FROM
-				' . NEWS_TABLE . '
+				site_news
 			WHERE
 				news_id = ' . $this->db->check_value($news_id) . '
 			AND
@@ -144,9 +144,9 @@ class news extends page
 				n.*,
 				u.username
 			FROM
-				' . NEWS_TABLE . ' n
+				site_news n
 			LEFT JOIN
-				' . USERS_TABLE . ' u ON (u.user_id = n.user_id)
+				site_users u ON (u.user_id = n.user_id)
 			WHERE
 				n.news_time BETWEEN ' . $day_start . ' AND ' . $day_end . '
 			AND
@@ -179,8 +179,8 @@ class news extends page
 	{
 		$sql_array = [
 			'SELECT'    => 'n.*, u.username',
-			'FROM'      => NEWS_TABLE . ' n',
-			'LEFT_JOIN' => USERS_TABLE . ' u ON (u.user_id = n.user_id)',
+			'FROM'      => 'site_news n',
+			'LEFT_JOIN' => 'site_users u ON (u.user_id = n.user_id)',
 			'WHERE'     => ['n.site_id = ' . $this->db->check_value($this->data['site_id'])],
 			'ORDER_BY'  => 'n.news_comments DESC',
 		];
@@ -202,8 +202,8 @@ class news extends page
 	{
 		$sql_array = [
 			'SELECT'    => 'n.*, u.username',
-			'FROM'      => NEWS_TABLE . ' n',
-			'LEFT_JOIN' => USERS_TABLE . ' u ON (u.user_id = n.user_id)',
+			'FROM'      => 'site_news n',
+			'LEFT_JOIN' => 'site_users u ON (u.user_id = n.user_id)',
 			'WHERE'     => ['n.site_id = ' . $this->db->check_value($this->data['site_id'])],
 			'ORDER_BY'  => 'n.news_views DESC',
 		];
@@ -317,7 +317,7 @@ class news extends page
 		
 		$sql_array = [
 			'SELECT' => 'COUNT(*) AS total',
-			'FROM'   => NEWS_TABLE,
+			'FROM'   => 'site_news',
 			'WHERE'  => ['site_id = ' . $this->data['site_id']],
 		];
 		

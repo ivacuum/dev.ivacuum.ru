@@ -29,7 +29,7 @@ class users extends page
 				SELECT
 					*
 				FROM
-					' . USERS_TABLE . '
+					site_users
 				WHERE
 					user_id = ' . $this->db->check_value($user_id);
 			$this->db->query($sql);

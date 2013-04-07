@@ -63,7 +63,7 @@ class register extends page
 				SELECT
 					user_id
 				FROM
-					' . USERS_TABLE . '
+					site_users
 				WHERE
 					username_clean = ' . $this->db->check_value($username_clean);
 			$this->db->query($sql);
@@ -84,7 +84,7 @@ class register extends page
 				SELECT
 					user_id
 				FROM
-					' . USERS_TABLE . '
+					site_users
 				WHERE
 					user_email = ' . $this->db->check_value($user_email);
 			$this->db->query($sql);
@@ -118,7 +118,7 @@ class register extends page
 			'user_language'  => $this->request->language,
 		], compact('username', 'username_clean', 'user_email'));
 		
-		$sql = 'INSERT INTO ' . USERS_TABLE . ' ' . $this->db->build_array('INSERT', $sql_ary);
+		$sql = 'INSERT INTO site_users ' . $this->db->build_array('INSERT', $sql_ary);
 		$this->db->query($sql);
 
 		/* Обновление последнего зарегистрированного пользователя */
@@ -197,7 +197,7 @@ class register extends page
 				'openid_photo'      => isset($this->openid_response['photo']) ? $this->openid_response['photo'] : ''
 			];
 			
-			$sql = 'INSERT INTO ' . OPENID_IDENTITIES_TABLE . ' ' . $this->db->build_array('INSERT', $sql_ary);
+			$sql = 'INSERT INTO site_openid_identities ' . $this->db->build_array('INSERT', $sql_ary);
 			$this->db->query($sql);
 		}
 		
@@ -349,7 +349,7 @@ class register extends page
 				SELECT
 					user_id
 				FROM
-					' . OPENID_IDENTITIES_TABLE . '
+					site_openid_identities
 				WHERE
 					openid_uid = ' . $this->db->check_value($this->openid_response['uid']) . '
 				AND
@@ -370,7 +370,7 @@ class register extends page
 			SELECT
 				user_id
 			FROM
-				' . OPENID_IDENTITIES_TABLE . '
+				site_openid_identities
 			WHERE
 				openid_identity = ' . $this->db->check_value($this->openid_response['identity']);
 		$this->db->query($sql);

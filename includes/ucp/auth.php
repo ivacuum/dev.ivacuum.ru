@@ -34,7 +34,7 @@ class auth extends page
 				user_id,
 				username
 			FROM
-				' . USERS_TABLE . '
+				site_users
 			WHERE
 				user_newpasswd = ' . $this->db->check_value($hash);
 		$this->db->query($sql);
@@ -113,7 +113,7 @@ class auth extends page
 				username,
 				user_salt
 			FROM
-				' . USERS_TABLE . '
+				site_users
 			WHERE
 				user_email = ' . $this->db->check_value($user_email);
 		$this->db->query($sql);

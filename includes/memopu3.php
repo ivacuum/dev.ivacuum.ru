@@ -41,7 +41,7 @@ class memopu3 extends page
 			SELECT
 				*
 			FROM
-				' . QUOTES_TABLE . '
+				site_quotes
 			WHERE
 				quote_approver_time > 0
 			ORDER BY
@@ -87,7 +87,7 @@ class memopu3 extends page
 				trigger_error('Ваша цитата не подходит по размеру (от 10 до 2000 символов).');
 			}
 			
-			$sql = 'INSERT INTO ' . QUOTES_TABLE . ' ' .
+			$sql = 'INSERT INTO site_quotes ' .
 				$this->db->build_array('INSERT', [
 					'quote_sender_id'	=> $this->user['user_id'],
 					'quote_sender_name'	=> $this->user['username'],
@@ -119,7 +119,7 @@ class memopu3 extends page
 			SELECT
 				*
 			FROM
-				' . QUOTES_TABLE . '
+				site_quotes
 			WHERE
 				quote_approver_time > 0
 			ORDER BY
@@ -163,7 +163,7 @@ class memopu3 extends page
 					SELECT
 						FLOOR(RAND() * COUNT(*)) AS offset
 					FROM
-						' . QUOTES_TABLE;
+						site_quotes';
 				$this->db->query($sql);
 				$row = $this->db->fetchrow();
 				$this->db->freeresult();
@@ -190,7 +190,7 @@ class memopu3 extends page
 				SELECT
 					*
 				FROM
-					' . QUOTES_TABLE . '
+					site_quotes
 				WHERE
 					quote_approver_time > 0';
 			$this->db->query_limit($sql, 1, $row['offset']);
@@ -235,7 +235,7 @@ class memopu3 extends page
 			SELECT
 				*
 			FROM
-				' . QUOTES_TABLE . '
+				site_quotes
 			WHERE
 				quote_id = ' . $this->db->check_value($quote_id) . '
 			AND
@@ -270,9 +270,9 @@ class memopu3 extends page
 				u.user_url,
 				u.user_colour
 			FROM
-				' . QUOTES_VOTES_TABLE . ' v
+				site_quotes_votes v
 			LEFT JOIN
-				' . USERS_TABLE . ' u ON (u.user_id = v.user_id)
+				site_users u ON (u.user_id = v.user_id)
 			WHERE
 				v.quote_id = ' . $this->db->check_value($quote_id) . '
 			ORDER BY
@@ -296,7 +296,7 @@ class memopu3 extends page
 			SELECT
 				*
 			FROM
-				' . QUOTES_VOTES_TABLE . '
+				site_quotes_votes
 			WHERE
 				quote_id = ' . $this->db->check_value($quote_id) . '
 			AND
@@ -348,7 +348,7 @@ class memopu3 extends page
 			SELECT
 				vote_id
 			FROM
-				' . QUOTES_VOTES_TABLE . '
+				site_quotes_votes
 			WHERE
 				quote_id = ' . $this->db->check_value($quote_id) . '
 			AND
@@ -374,7 +374,7 @@ class memopu3 extends page
 		/**
 		* Голосуем
 		*/
-		$sql = 'INSERT INTO ' . QUOTES_VOTES_TABLE . ' ' .
+		$sql = 'INSERT INTO site_quotes_votes ' .
 			$this->db->build_array('INSERT', [
 				'user_id'     => $this->user['user_id'],
 				'user_ip'     => $this->user->ip,
@@ -386,7 +386,7 @@ class memopu3 extends page
 
 		$sql = '
 			UPDATE
-				' . QUOTES_TABLE . '
+				site_quotes
 			SET
 				quote_votes = quote_votes ' . ($mode == '+' ? '+ 1' : '- 1') . '
 			WHERE
@@ -422,7 +422,7 @@ class memopu3 extends page
 			SELECT
 				vote_option
 			FROM
-				' . QUOTES_VOTES_TABLE . '
+				site_quotes_votes
 			WHERE
 				vote_id = ' . $this->db->check_value($vote_id);
 		$this->db->query($sql);
@@ -438,14 +438,14 @@ class memopu3 extends page
 		$sql = '
 			DELETE
 			FROM
-				' . QUOTES_VOTES_TABLE . '
+				site_quotes_votes
 			WHERE
 				vote_id = ' . $this->db->check_value($vote_id);
 		$this->db->query($sql);
 
 		$sql = '
 			UPDATE
-				' . QUOTES_TABLE . '
+				site_quotes
 			SET
 				quote_votes = quote_votes ' . ($vote['vote_option'] ? '- 1' : '+ 1') . '
 			WHERE

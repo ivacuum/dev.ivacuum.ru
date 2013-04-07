@@ -35,9 +35,9 @@ class who_is_online extends page
 				u.user_url,
 				u.user_colour
 			FROM
-				' . SESSIONS_TABLE . ' s
+				site_sessions s
 			LEFT JOIN
-				' . USERS_TABLE . ' u ON (u.user_id = s.user_id)
+				site_users u ON (u.user_id = s.user_id)
 			WHERE
 				s.user_id > 0
 			AND
@@ -84,7 +84,7 @@ class who_is_online extends page
 				session_page,
 				session_referer
 			FROM
-				' . SESSIONS_TABLE . '
+				site_sessions
 			WHERE
 				user_id = 0
 			AND

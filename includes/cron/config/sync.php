@@ -22,7 +22,7 @@ class sync extends task
 			SELECT
 				COUNT(*) as total
 			FROM
-				' . COMMENTS_TABLE;
+				site_comments';
 		$this->db->query($sql);
 		$num_comments = $this->db->fetchfield('total');
 		$this->db->freeresult();
@@ -37,7 +37,7 @@ class sync extends task
 				site_id,
 				COUNT(*) as total
 			FROM
-				' . NEWS_TABLE . '
+				site_news
 			GROUP BY
 				site_id';
 		$result = $this->db->query($sql);
@@ -57,7 +57,7 @@ class sync extends task
 			SELECT
 				COUNT(*) as total
 			FROM
-				' . USERS_TABLE;
+				site_users';
 		$this->db->query($sql);
 		$num_users = $this->db->fetchfield('total');
 		$this->db->freeresult();
@@ -72,7 +72,7 @@ class sync extends task
 				user_id,
 				username
 			FROM
-				' . USERS_TABLE . '
+				site_users
 			ORDER BY
 				user_id DESC';
 		$this->db->query_limit($sql, 1);

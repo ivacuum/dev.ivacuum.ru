@@ -21,7 +21,7 @@ class purge extends task
 		$sql = '
 			DELETE
 			FROM
-				' . SESSIONS_TABLE . '
+				site_sessions
 			WHERE
 				user_id = 0
 			AND
@@ -40,7 +40,7 @@ class purge extends task
 				session_page,
 				MAX(session_time) AS recent_time
 			FROM
-				' . SESSIONS_TABLE . '
+				site_sessions
 			WHERE
 				session_time < ' . $this->db->check_value($this->ctime - $session_lifetime) . '
 			GROUP BY
@@ -59,7 +59,7 @@ class purge extends task
 
 			$sql = '
 				UPDATE
-					' . USERS_TABLE . '
+					site_users
 				SET
 					' . $this->db->build_array('UPDATE', $sql_ary) . '
 				WHERE
@@ -76,7 +76,7 @@ class purge extends task
 			$sql = '
 				DELETE
 				FROM
-					' . SESSIONS_TABLE . '
+					site_sessions
 				WHERE
 					' . $this->db->in_set('user_id', $del_users_id) . '
 				AND
@@ -93,17 +93,17 @@ class purge extends task
 			$sql = '
 				DELETE
 				FROM
-					' . SESSIONS_KEYS_TABLE . '
+					site_sessions_keys
 				WHERE
 					last_login < ' . $this->db->check_value($this->ctime - (86400 * $this->config['autologin.time']));
 			$this->db->query($sql);
 			$this->log('Удалено ключей сессий: ' . $this->db->affected_rows());
 
-			$sql = 'OPTIMIZE TABLE ' . SESSIONS_KEYS_TABLE;
+			$sql = 'OPTIMIZE TABLE site_sessions_keys';
 			$this->db->query($sql);
 		}
 
-		$sql = 'OPTIMIZE TABLE ' . SESSIONS_TABLE;
+		$sql = 'OPTIMIZE TABLE site_sessions';
 		$this->db->query($sql);
 		
 		return true;

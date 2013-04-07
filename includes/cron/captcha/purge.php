@@ -19,9 +19,9 @@ class purge extends task
 			SELECT DISTINCT
 				c.session_id
 			FROM
-				' . CONFIRM_TABLE . ' c
+				site_confirm c
 			LEFT JOIN
-				' . SESSIONS_TABLE . ' s ON (s.session_id = c.session_id)
+				site_sessions s ON (s.session_id = c.session_id)
 			WHERE
 				s.session_id IS NULL';
 		$result = $this->db->query($sql);
@@ -39,7 +39,7 @@ class purge extends task
 			$sql = '
 				DELETE
 				FROM
-					' . CONFIRM_TABLE . '
+					site_confirm
 				WHERE
 					' . $this->db->in_set('session_id', $sql_in);
 			$this->db->query($sql);

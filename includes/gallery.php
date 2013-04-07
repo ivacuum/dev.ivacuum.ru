@@ -29,7 +29,7 @@ class gallery extends page
 				SUM(image_views) AS total_views,
 				SUM(image_size * image_views) AS total_traffic
 			FROM
-				' . IMAGES_TABLE . '
+				site_images
 			WHERE
 				user_id = ' . $this->user['user_id'];
 		$this->db->query($sql);
@@ -53,7 +53,7 @@ class gallery extends page
 			SELECT
 				*
 			FROM
-				' . IMAGES_TABLE . '
+				site_images
 			WHERE
 				user_id = ' . $this->db->check_value($this->user['user_id']) . '
 			ORDER BY
@@ -102,7 +102,7 @@ class gallery extends page
 			SELECT
 				*
 			FROM
-				' . IMAGES_TABLE . '
+				site_images
 			WHERE
 				image_id = ' . $this->db->check_value($image_id) . '
 			AND
@@ -125,7 +125,7 @@ class gallery extends page
 		$sql = '
 			DELETE
 			FROM
-				' . IMAGES_TABLE . '
+				site_images
 			WHERE
 				image_id = ' . $this->db->check_value($image_id);
 		$this->db->query($sql);
@@ -154,7 +154,7 @@ class gallery extends page
 			SELECT
 				*
 			FROM
-				' . IMAGES_TABLE . '
+				site_images
 			WHERE
 				image_id IN(' . $images_id . ')
 			AND
@@ -172,7 +172,7 @@ class gallery extends page
 			$sql = '
 				DELETE
 				FROM
-					' . IMAGES_TABLE . '
+					site_images
 				WHERE
 					image_id = ' . $this->db->check_value($row['image_id']);
 			$this->db->query($sql);
@@ -205,7 +205,7 @@ class gallery extends page
 			SELECT
 				*
 			FROM
-				' . IMAGES_TABLE . '
+				site_images
 			WHERE
 				image_id IN (' . $images_id . ')
 			AND
@@ -256,8 +256,8 @@ class gallery extends page
 				u.user_url,
 				u.user_colour
 			FROM
-				' . IMAGES_TABLE . ' i,
-				' . USERS_TABLE . ' u
+				site_images i,
+				site_users u
 			WHERE
 				i.user_id = u.user_id
 			AND
@@ -302,7 +302,7 @@ class gallery extends page
 			SELECT
 				*
 			FROM
-				' . IMAGES_TABLE . '
+				site_images
 			WHERE
 				image_id = ' . $this->db->check_value($image_id);
 		$this->db->query($sql);

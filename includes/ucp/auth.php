@@ -107,6 +107,25 @@ class auth extends page
 		
 		$user_email = mb_strtolower($this->request->post('email', ''));
 		
+		$error_ary = [];
+
+		if (!$user_email)
+		{
+			$error_ary[] = 'Вы не указали адрес электронной почты';
+		}
+		elseif (!preg_match(sprintf('#%s#', get_preg_expression('email')), $user_email))
+		{
+			$error_ary[] = 'Неверно введен адрес электронной почты';
+			$user_email = '';
+		}
+
+		if (sizeof($error_ary))
+		{
+			$this->template->assign('errors', $error_ary);
+			
+			return;
+		}
+		
 		$sql = '
 			SELECT
 				user_id,
@@ -119,8 +138,6 @@ class auth extends page
 		$this->db->query($sql);
 		$row = $this->db->fetchrow();
 		$this->db->freeresult();
-		
-		$error_ary = [];
 		
 		if (!$row)
 		{

@@ -8,9 +8,6 @@ namespace app;
 
 use app\models\page;
 
-/**
-* Новостная лента
-*/
 class news extends page
 {
 	/**
@@ -34,7 +31,7 @@ class news extends page
 		/* Новости за определенный интервал времени */
 		if (false !== $interval = $this->calculate_interval($year, $month, $day))
 		{
-			$sql_array['WHERE'][] = sprintf('n.news_time BETWEEN %d AND %d', $interval['start'], $interval['end']);
+			$sql_array['WHERE'][] = "n.news_time BETWEEN {$interval['start']} AND {$interval['end']}";
 		}
 		
 		$this->db->query_limit($this->db->build_query('SELECT', $sql_array), $pagination['on_page'], $pagination['offset']);
@@ -108,7 +105,7 @@ class news extends page
 	/**
 	* Просмотр новостей за день
 	*/
-	public function day($year = false, $month = false, $day = false)
+	public function day($year, $month, $day)
 	{
 		return $this->index($year, $month, $day);
 	}
@@ -116,7 +113,7 @@ class news extends page
 	/**
 	* Просмотр новостей за месяц
 	*/
-	public function month($year = false, $month = false)
+	public function month($year, $month)
 	{
 		return $this->index($year, $month);
 	}
@@ -135,10 +132,6 @@ class news extends page
 		$day_start = mktime(0, 0, 0, $month, $day, $year);
 		$day_end   = mktime(0, 0, 0, $month, $day + 1, $year) - 1;
 		
-		/**
-		* Проверяем существование новости
-		* Если новости нет, то выводим ошибку
-		*/
 		$sql = '
 			SELECT
 				n.*,
@@ -167,7 +160,7 @@ class news extends page
 	/**
 	* Просмотр новостей за год
 	*/
-	public function year($year = false)
+	public function year($year)
 	{
 		return $this->index($year);
 	}
@@ -239,11 +232,11 @@ class news extends page
 	/**
 	* Интервал времени для SQL-запроса
 	*/
-	protected function calculate_interval($year = false, $month = false, $day = false)
+	protected function calculate_interval($year, $month, $day)
 	{
 		if (!$year && !$month && !$day)
 		{
-			return false;
+			return ['start' => 0, 'end' => time()];
 		}
 		
 		/* Новости за день */
@@ -277,12 +270,12 @@ class news extends page
 	/**
 	* Проверка даты на корректность
 	*/
-	protected function check_input_date($year = false, $month = false, $day = false)
+	protected function check_input_date($year, $month, $day)
 	{
 		if ($year && $month && $day)
 		{
 			/* Новости за день */
-			if (false === checkdate($month, $day, $year))
+			if (false === checkdate((int) $month, (int) $day, (int) $year))
 			{
 				trigger_error('PAGE_NOT_FOUND');
 			}
@@ -290,7 +283,7 @@ class news extends page
 		elseif ($year && $month)
 		{
 			/* Новости за месяц */
-			if (false === checkdate($month, 1, $year))
+			if (false === checkdate((int) $month, 1, (int) $year))
 			{
 				trigger_error('PAGE_NOT_FOUND');
 			}
@@ -298,7 +291,7 @@ class news extends page
 		elseif ($year)
 		{
 			/* Новости за год */
-			if (false === checkdate(1, 1, $year))
+			if (false === checkdate(1, 1, (int) $year))
 			{
 				trigger_error('PAGE_NOT_FOUND');
 			}
@@ -308,7 +301,7 @@ class news extends page
 	/**
 	* Количество новостей на языке сайта
 	*/
-	protected function get_news_count($year = false, $month = false, $day = false)
+	protected function get_news_count($year, $month, $day)
 	{
 		if (!$year && !$month && !$day)
 		{
@@ -318,11 +311,11 @@ class news extends page
 		$sql_array = [
 			'SELECT' => 'COUNT(*) AS total',
 			'FROM'   => 'site_news',
-			'WHERE'  => ['site_id = ' . $this->data['site_id']],
+			'WHERE'  => ['site_id = ' . $this->db->check_value($this->data['site_id'])],
 		];
 		
 		$interval = $this->calculate_interval($year, $month, $day);
-		$sql_array['WHERE'][] = sprintf('news_time BETWEEN %d AND %d', $interval['start'], $interval['end']);
+		$sql_array['WHERE'][] = "news_time BETWEEN {$interval['start']} AND {$interval['end']}";
 		
 		$this->db->query($this->db->build_query('SELECT', $sql_array));
 		$total_news = $this->db->fetchfield('total');

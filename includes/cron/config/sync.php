@@ -75,7 +75,7 @@ class sync extends task
 				site_users
 			ORDER BY
 				user_id DESC';
-		$this->db->query_limit($sql, 1);
+		$this->db->query_limit($sql, [], 1);
 		$row = $this->db->fetchrow();
 		$this->db->freeresult();
 		$this->config->set('newest_user_id', $row['user_id'], 0);

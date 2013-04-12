@@ -34,7 +34,7 @@ class news extends page
 			$sql_array['WHERE'][] = "n.news_time BETWEEN {$interval['start']} AND {$interval['end']}";
 		}
 		
-		$this->db->query_limit($this->db->build_query('SELECT', $sql_array), $pagination['on_page'], $pagination['offset']);
+		$this->db->query_limit($this->db->build_query('SELECT', $sql_array), [], $pagination['on_page'], $pagination['offset']);
 		
 		while ($row = $this->db->fetchrow())
 		{
@@ -178,7 +178,7 @@ class news extends page
 			'ORDER_BY'  => 'n.news_comments DESC',
 		];
 		
-		$this->db->query_limit($this->db->build_query('SELECT', $sql_array), 10);
+		$this->db->query_limit($this->db->build_query('SELECT', $sql_array), [], 10);
 		
 		while ($row = $this->db->fetchrow())
 		{
@@ -201,7 +201,7 @@ class news extends page
 			'ORDER_BY'  => 'n.news_views DESC',
 		];
 		
-		$this->db->query_limit($this->db->build_query('SELECT', $sql_array), 10);
+		$this->db->query_limit($this->db->build_query('SELECT', $sql_array), [], 10);
 		
 		while ($row = $this->db->fetchrow())
 		{

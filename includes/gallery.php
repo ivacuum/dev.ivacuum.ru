@@ -58,7 +58,7 @@ class gallery extends page
 				user_id = ' . $this->db->check_value($this->user['user_id']) . '
 			ORDER BY
 				image_time DESC';
-		$this->db->query_limit($sql, $pagination['on_page'], $pagination['offset']);
+		$this->db->query_limit($sql, [], $pagination['on_page'], $pagination['offset']);
 
 		while ($row = $this->db->fetchrow())
 		{

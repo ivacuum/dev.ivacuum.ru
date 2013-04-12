@@ -46,7 +46,7 @@ class memopu3 extends page
 				quote_approver_time > 0
 			ORDER BY
 				quote_sender_time DESC';
-		$this->db->query_limit($sql, $pagination['on_page'], $pagination['offset']);
+		$this->db->query_limit($sql, [], $pagination['on_page'], $pagination['offset']);
 
 		while ($row = $this->db->fetchrow())
 		{
@@ -124,7 +124,7 @@ class memopu3 extends page
 				quote_approver_time > 0
 			ORDER BY
 				quote_votes DESC';
-		$this->db->query_limit($sql, $pagination['on_page'], $pagination['offset']);
+		$this->db->query_limit($sql, [], $pagination['on_page'], $pagination['offset']);
 
 		while ($row = $this->db->fetchrow())
 		{
@@ -193,7 +193,7 @@ class memopu3 extends page
 					site_quotes
 				WHERE
 					quote_approver_time > 0';
-			$this->db->query_limit($sql, 1, $row['offset']);
+			$this->db->query_limit($sql, [], 1, $row['offset']);
 			$row = $this->db->fetchrow();
 			$this->db->freeresult();
 			

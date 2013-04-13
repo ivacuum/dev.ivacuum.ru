@@ -25,8 +25,8 @@ class purge extends task
 			WHERE
 				user_id = 0
 			AND
-				session_time < ' . $this->db->check_value($this->ctime - $session_lifetime);
-		$this->db->query($sql);
+				session_time < ?';
+		$this->db->query($sql, [$this->ctime - $session_lifetime]);
 		$this->log('Удалено сессий гостей: ' . $this->db->affected_rows());
 
 		/**
@@ -42,11 +42,11 @@ class purge extends task
 			FROM
 				site_sessions
 			WHERE
-				session_time < ' . $this->db->check_value($this->ctime - $session_lifetime) . '
+				session_time < ?
 			GROUP BY
 				user_id,
 				session_page';
-		$result = $this->db->query($sql);
+		$result = $this->db->query($sql, [$this->ctime - $session_lifetime]);
 		$del_users_id = [];
 
 		while ($row = $this->db->fetchrow($result))
@@ -61,10 +61,10 @@ class purge extends task
 				UPDATE
 					site_users
 				SET
-					' . $this->db->build_array('UPDATE', $sql_ary) . '
+					:update_ary
 				WHERE
-					user_id = ' . $this->db->check_value($row['user_id']);
-			$this->db->query($sql);
+					user_id = ?';
+			$this->db->query($sql, [$row['user_id'], ':update_ary' => $this->db->build_array('UPDATE', $sql_ary)]);
 
 			$del_users_id[] = (int) $row['user_id'];
 		}
@@ -78,10 +78,10 @@ class purge extends task
 				FROM
 					site_sessions
 				WHERE
-					' . $this->db->in_set('user_id', $del_users_id) . '
+					:del_users_id
 				AND
-					session_time < ' . $this->db->check_value($this->ctime - $session_lifetime);
-			$this->db->query($sql);
+					session_time < ?';
+			$this->db->query($sql, [$this->ctime - $session_lifetime, ':del_users_id' => $this->db->in_set('user_id', $del_users_id)]);
 			$this->log('Удалено сессий пользователей: ' . sizeof($del_users_id));
 		}
 
@@ -95,8 +95,8 @@ class purge extends task
 				FROM
 					site_sessions_keys
 				WHERE
-					last_login < ' . $this->db->check_value($this->ctime - (86400 * $this->config['autologin.time']));
-			$this->db->query($sql);
+					last_login < ?';
+			$this->db->query($sql, [$this->ctime - (86400 * $this->config['autologin.time'])]);
 			$this->log('Удалено ключей сессий: ' . $this->db->affected_rows());
 
 			$sql = 'OPTIMIZE TABLE site_sessions_keys';

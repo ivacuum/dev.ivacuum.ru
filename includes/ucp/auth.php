@@ -36,8 +36,8 @@ class auth extends page
 			FROM
 				site_users
 			WHERE
-				user_newpasswd = ' . $this->db->check_value($hash);
-		$this->db->query($sql);
+				user_newpasswd = ?';
+		$this->db->query($sql, [$hash]);
 		$row = $this->db->fetchrow();
 		$this->db->freeresult();
 		
@@ -134,8 +134,8 @@ class auth extends page
 			FROM
 				site_users
 			WHERE
-				user_email = ' . $this->db->check_value($user_email);
-		$this->db->query($sql);
+				user_email = ?';
+		$this->db->query($sql, [$user_email]);
 		$row = $this->db->fetchrow();
 		$this->db->freeresult();
 		

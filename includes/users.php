@@ -31,8 +31,8 @@ class users extends page
 				FROM
 					site_users
 				WHERE
-					user_id = ' . $this->db->check_value($user_id);
-			$this->db->query($sql);
+					user_id = ?';
+			$this->db->query($sql, [$user_id]);
 			$row = $this->db->fetchrow();
 			$this->db->freeresult();
 		}

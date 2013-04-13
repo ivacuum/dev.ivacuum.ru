@@ -31,8 +31,8 @@ class gallery extends page
 			FROM
 				site_images
 			WHERE
-				user_id = ' . $this->user['user_id'];
-		$this->db->query($sql);
+				user_id = ?';
+		$this->db->query($sql, [$this->user['user_id']]);
 		$row = $this->db->fetchrow();
 		$this->db->freeresult();
 
@@ -55,10 +55,10 @@ class gallery extends page
 			FROM
 				site_images
 			WHERE
-				user_id = ' . $this->db->check_value($this->user['user_id']) . '
+				user_id = ?
 			ORDER BY
 				image_time DESC';
-		$this->db->query_limit($sql, [], $pagination['on_page'], $pagination['offset']);
+		$this->db->query_limit($sql, [$this->user['user_id']], $pagination['on_page'], $pagination['offset']);
 
 		while ($row = $this->db->fetchrow())
 		{
@@ -104,10 +104,10 @@ class gallery extends page
 			FROM
 				site_images
 			WHERE
-				image_id = ' . $this->db->check_value($image_id) . '
+				image_id = ?
 			AND
-				user_id = ' . $this->user['user_id'];
-		$this->db->query($sql);
+				user_id = ?';
+		$this->db->query($sql, [$image_id, $this->user['user_id']]);
 		$row = $this->db->fetchrow();
 		$this->db->freeresult();
 
@@ -127,8 +127,8 @@ class gallery extends page
 			FROM
 				site_images
 			WHERE
-				image_id = ' . $this->db->check_value($image_id);
-		$this->db->query($sql);
+				image_id = ?';
+		$this->db->query($sql, [$image_id]);
 
 		$this->request->redirect(ilink($this->get_handler_url('index')));
 	}
@@ -156,10 +156,10 @@ class gallery extends page
 			FROM
 				site_images
 			WHERE
-				image_id IN(' . $images_id . ')
+				image_id IN (:images_id)
 			AND
-				user_id = ' . $this->user['user_id'];
-		$result = $this->db->query($sql);
+				user_id = ?';
+		$result = $this->db->query($sql, [$this->user['user_id'], ':images_id' => $images_id]);
 
 		while ($row = $this->db->fetchrow($result))
 		{
@@ -174,8 +174,8 @@ class gallery extends page
 				FROM
 					site_images
 				WHERE
-					image_id = ' . $this->db->check_value($row['image_id']);
-			$this->db->query($sql);
+					image_id = ?';
+			$this->db->query($sql, [$row['image_id']]);
 		}
 
 		$this->db->freeresult($result);
@@ -207,10 +207,10 @@ class gallery extends page
 			FROM
 				site_images
 			WHERE
-				image_id IN (' . $images_id . ')
+				image_id IN (:images_id)
 			AND
-				user_id = ' . $this->user['user_id'];
-		$this->db->query($sql);
+				user_id = ?';
+		$this->db->query($sql, [$this->user['user_id'], ':images_id' => $images_id]);
 
 		while ($row = $this->db->fetchrow())
 		{
@@ -261,8 +261,8 @@ class gallery extends page
 			WHERE
 				i.user_id = u.user_id
 			AND
-				i.image_id = ' . $this->db->check_value($image_id);
-		$this->db->query($sql);
+				i.image_id = ?';
+		$this->db->query($sql, [$image_id]);
 		$row = $this->db->fetchrow();
 		$this->db->freeresult();
 
@@ -304,8 +304,8 @@ class gallery extends page
 			FROM
 				site_images
 			WHERE
-				image_id = ' . $this->db->check_value($image_id);
-		$this->db->query($sql);
+				image_id = ?';
+		$this->db->query($sql, [$image_id]);
 		$row = $this->db->fetchrow();
 		$this->db->freeresult();
 

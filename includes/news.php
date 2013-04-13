@@ -80,10 +80,10 @@ class news extends page
 			FROM
 				site_news
 			WHERE
-				news_id = ' . $this->db->check_value($news_id) . '
+				news_id = ?
 			AND
-				site_id = ' . $this->db->check_value($this->data['site_id']);
-		$this->db->query($sql);
+				site_id = ?';
+		$this->db->query($sql, [$news_id, $this->data['site_id']]);
 		$row = $this->db->fetchrow();
 		$this->db->freeresult();
 		
@@ -141,10 +141,10 @@ class news extends page
 			LEFT JOIN
 				site_users u ON (u.user_id = n.user_id)
 			WHERE
-				n.news_time BETWEEN ' . $day_start . ' AND ' . $day_end . '
+				n.news_time BETWEEN ? AND ?
 			AND
-				n.news_url = ' . $this->db->check_value($this->page);
-		$this->db->query($sql);
+				n.news_url = ?';
+		$this->db->query($sql, [$day_start, $day_end, $this->page]);
 		$row = $this->db->fetchrow();
 		$this->db->freeresult();
 	

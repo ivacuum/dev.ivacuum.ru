@@ -41,10 +41,10 @@ class who_is_online extends page
 			WHERE
 				s.user_id > 0
 			AND
-				s.session_time >= ' . ($this->user->ctime - ($this->config['load_online_time'])) . '
+				s.session_time >= ?
 			ORDER BY
 				s.session_time DESC';
-		$this->db->query($sql);
+		$this->db->query($sql, [$this->user->ctime - ($this->config['load_online_time'])]);
 
 		while ($row = $this->db->fetchrow())
 		{
@@ -88,10 +88,10 @@ class who_is_online extends page
 			WHERE
 				user_id = 0
 			AND
-				session_time >= ' . $this->db->check_value($this->user->ctime - $this->config['load_online_time']) . '
+				session_time >= ?
 			ORDER BY
 				session_time DESC';
-		$this->db->query($sql);
+		$this->db->query($sql, [$this->user->ctime - $this->config['load_online_time']]);
 
 		while ($row = $this->db->fetchrow())
 		{

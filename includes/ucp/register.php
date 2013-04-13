@@ -65,8 +65,8 @@ class register extends page
 				FROM
 					site_users
 				WHERE
-					username_clean = ' . $this->db->check_value($username_clean);
-			$this->db->query($sql);
+					username_clean = ?';
+			$this->db->query($sql, [$username_clean]);
 			$row = $this->db->fetchrow();
 			$this->db->freeresult();
 			
@@ -86,8 +86,8 @@ class register extends page
 				FROM
 					site_users
 				WHERE
-					user_email = ' . $this->db->check_value($user_email);
-			$this->db->query($sql);
+					user_email = ?';
+			$this->db->query($sql, [$user_email]);
 			$row = $this->db->fetchrow();
 			$this->db->freeresult();
 			
@@ -351,10 +351,10 @@ class register extends page
 				FROM
 					site_openid_identities
 				WHERE
-					openid_uid = ' . $this->db->check_value($this->openid_response['uid']) . '
+					openid_uid = ?
 				AND
-					openid_provider = ' . $this->db->check_value($this->openid_response['provider']);
-			$this->db->query($sql);
+					openid_provider = ?';
+			$this->db->query($sql, [$this->openid_response['uid'], $this->openid_response['provider']]);
 			$row = $this->db->fetchrow();
 			$this->db->freeresult();
 			
@@ -372,8 +372,8 @@ class register extends page
 			FROM
 				site_openid_identities
 			WHERE
-				openid_identity = ' . $this->db->check_value($this->openid_response['identity']);
-		$this->db->query($sql);
+				openid_identity = ?';
+		$this->db->query($sql, [$this->openid_response['identity']]);
 		$row = $this->db->fetchrow();
 		$this->db->freeresult();
 		

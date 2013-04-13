@@ -92,7 +92,7 @@ class memopu3 extends page
 					'quote_sender_id'	=> $this->user['user_id'],
 					'quote_sender_name'	=> $this->user['username'],
 					'quote_sender_time'	=> $this->user->ctime,
-					'quote_text'		=> $text
+					'quote_text'		=> $text,
 				]);
 			$this->db->query($sql);
 
@@ -237,10 +237,10 @@ class memopu3 extends page
 			FROM
 				site_quotes
 			WHERE
-				quote_id = ' . $this->db->check_value($quote_id) . '
+				quote_id = ?
 			AND
 				quote_approver_time > 0';
-		$this->db->query($sql);
+		$this->db->query($sql, [$quote_id]);
 		$row = $this->db->fetchrow();
 		$this->db->freeresult();
 
@@ -274,10 +274,10 @@ class memopu3 extends page
 			LEFT JOIN
 				site_users u ON (u.user_id = v.user_id)
 			WHERE
-				v.quote_id = ' . $this->db->check_value($quote_id) . '
+				v.quote_id = ?
 			ORDER BY
 				v.vote_time DESC';
-		$this->db->query($sql);
+		$this->db->query($sql, [$quote_id]);
 
 		while ($votes = $this->db->fetchrow())
 		{
@@ -298,12 +298,12 @@ class memopu3 extends page
 			FROM
 				site_quotes_votes
 			WHERE
-				quote_id = ' . $this->db->check_value($quote_id) . '
+				quote_id = ?
 			AND
 				user_id = 0
 			ORDER BY
 				vote_time DESC';
-		$this->db->query($sql);
+		$this->db->query($sql, [$quote_id]);
 
 		while ($votes = $this->db->fetchrow())
 		{
@@ -350,10 +350,10 @@ class memopu3 extends page
 			FROM
 				site_quotes_votes
 			WHERE
-				quote_id = ' . $this->db->check_value($quote_id) . '
+				quote_id = ?
 			AND
 				' . ($this->user->is_registered ? '(user_id = ' . $this->db->check_value($this->user['user_id']) . ' OR user_ip = ' . $this->db->check_value($this->user->ip) . ')' : 'user_ip = ' . $this->db->check_value($this->user->ip));
-		$this->db->query($sql);
+		$this->db->query($sql, [$quote_id]);
 		$row = $this->db->fetchrow();
 		$this->db->freeresult();
 
@@ -390,8 +390,8 @@ class memopu3 extends page
 			SET
 				quote_votes = quote_votes ' . ($mode == '+' ? '+ 1' : '- 1') . '
 			WHERE
-				quote_id = ' . $this->db->check_value($quote_id);
-		$this->db->query($sql);
+				quote_id = ?';
+		$this->db->query($sql, [$quote_id]);
 
 		if (!$this->request->is_ajax)
 		{
@@ -424,8 +424,8 @@ class memopu3 extends page
 			FROM
 				site_quotes_votes
 			WHERE
-				vote_id = ' . $this->db->check_value($vote_id);
-		$this->db->query($sql);
+				vote_id = ?';
+		$this->db->query($sql, [$vote_id]);
 		$vote = $this->db->fetchrow();
 		$this->db->freeresult();
 
@@ -440,8 +440,8 @@ class memopu3 extends page
 			FROM
 				site_quotes_votes
 			WHERE
-				vote_id = ' . $this->db->check_value($vote_id);
-		$this->db->query($sql);
+				vote_id = ?';
+		$this->db->query($sql, [$vote_id]);
 
 		$sql = '
 			UPDATE
@@ -449,8 +449,8 @@ class memopu3 extends page
 			SET
 				quote_votes = quote_votes ' . ($vote['vote_option'] ? '- 1' : '+ 1') . '
 			WHERE
-				quote_id = ' . $this->db->check_value($row['quote_id']);
-		$this->db->query($sql);
+				quote_id = ?';
+		$this->db->query($sql, $row['quote_id']);
 		$this->db->transaction('commit');
 
 		json_output([

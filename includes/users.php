@@ -59,9 +59,9 @@ class users extends page
 			'ICQ'        => number_format(intval($row['user_icq']), 0, '.', '-'),
 			'IP'         => $row['user_ip'],
 			'JID'        => $row['user_jid'],
-			'LASTVISIT'  => $row['user_session_time'] ? $this->user->create_date($row['user_session_time']) : '',
+			'LASTVISIT'  => $row['user_last_visit'] ? $this->user->create_date($row['user_last_visit']) : '',
 			'OCCUPATION' => $row['user_occ'],
-			'ONLINE'     => $this->user->ctime - $row['user_session_time'] < $this->config['load_online_time'],
+			'ONLINE'     => $this->user->ctime - $row['user_last_visit'] < $this->config['load_online_time'],
 			
 			'RANK_IMG'   => isset($ranks[$row['user_rank']]['rank_image']) ? $ranks[$row['user_rank']]['rank_image'] : '',
 			'RANK_TITLE' => isset($ranks[$row['user_rank']]['rank_title']) ? $ranks[$row['user_rank']]['rank_title'] : '',

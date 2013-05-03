@@ -61,7 +61,7 @@ class github extends base
 		*     [id] => 1
 		*     [gravatar_id] => 6a3c6f7aaz02930251a455fee94989f7
 		*     [html_url] => https://github.com/Username
-		*     [name] => Firstname Lastname
+		*     [name] => Full name
 		*     [email] => mail@example.com
 		* )
 		*
@@ -69,21 +69,18 @@ class github extends base
 		* picture = http://www.gravatar.com/avatar/{gravatar_id}?s=1024
 		*/
 		$uid = (int) $json['id'];
-		list($first_name, $last_name) = explode(' ', $json['name']);
 		
 		if (false === $user_id = $this->get_openid_user_id($uid))
 		{
 			/* Новые данные */
 			$sql_ary = [
-				'user_id'           => 0,
-				'openid_time'       => $this->user->ctime,
-				'openid_provider'   => $this->api_provider,
-				'openid_uid'        => $uid,
-				'openid_identity'   => $json['html_url'],
-				'openid_first_name' => $first_name,
-				'openid_last_name'  => $last_name,
-				'openid_email'      => $json['email'],
-				'openid_photo'      => "http://www.gravatar.com/avatar/{$json['gravatar_id']}?s=400",
+				'user_id'         => 0,
+				'openid_time'     => $this->user->ctime,
+				'openid_provider' => $this->api_provider,
+				'openid_uid'      => $uid,
+				'openid_identity' => $json['html_url'],
+				'openid_email'    => isset($json['email']) ? $json['email'] : '',
+				'openid_photo'    => "http://www.gravatar.com/avatar/{$json['gravatar_id']}?s=400",
 			];
 			
 			$sql = 'INSERT INTO site_openid_identities ' . $this->db->build_array('INSERT', $sql_ary);

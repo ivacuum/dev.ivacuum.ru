@@ -6,6 +6,7 @@
 
 namespace app\ucp\oauth;
 
+use fw\core\errorhandler;
 use Guzzle\Http\Client as http_client;
 use Guzzle\Http\Exception\ClientErrorResponseException;
 
@@ -22,82 +23,47 @@ class github extends base
 		$this->redirect_if_user_denied();
 
 		$client = new http_client();
+		$params = http_build_query($this->get_access_token_params());
 		
 		try
 		{
-			$json = $client->post($this->access_token_endpoint, null, http_build_query($this->get_access_token_params()))
-				->addHeader('Accept', 'application/json')
-				->send()
-				->json();
+			$json = $client->post($this->access_token_endpoint, null, $params)->addHeader('Accept', 'application/json')->send()->json();
+			$this->exit_if_error($json);
 		}
 		catch (ClientErrorResponseException $e)
 		{
-			$this->profiler->log($e->getMessage());
+			errorhandler::log_mail(print_r($e->getMessage(), true), 'GitHub OAuth Error');
 			trigger_error('Произошла ошибка. Пожалуйста, повторите попытку позднее.');
 		}
 		
-		if (isset($json['error']))
-		{
-			trigger_error($json['error_description']);
-		}
-		
-		/**
-		* $json = Array
-		* (
-		*     [access_token] => 79024c4d8f093e5e310719a323f22
-		*     [token_type] => bearer
-		* )
-		*/
 		$access_token = $json['access_token'];
 		
 		$client->setBaseUrl($this->api_base_url);
 		$params = ['user{?access_token}', compact('access_token')];
 		$json = $client->get($params)->send()->json();
 		
-		/**
-		* $json = Array
-		* (
-		*     [login] => Username
-		*     [id] => 1
-		*     [gravatar_id] => 6a3c6f7aaz02930251a455fee94989f7
-		*     [html_url] => https://github.com/Username
-		*     [name] => Full name
-		*     [email] => mail@example.com
-		* )
-		*
-		* profile = https://github.com/{login}
-		* picture = http://www.gravatar.com/avatar/{gravatar_id}?s=1024
-		*/
-		$uid = (int) $json['id'];
+		$params = ['user/emails{?access_token}', compact('access_token')];
+		$json_emails = $client->get($params)->addHeader('Accept', 'application/vnd.github.v3')->send()->json();
+		$json['email'] = $this->get_primary_email($json_emails);
 		
-		if (false === $user_id = $this->get_openid_user_id($uid))
-		{
-			/* Новые данные */
-			$sql_ary = [
-				'user_id'         => 0,
-				'openid_time'     => $this->user->ctime,
-				'openid_provider' => $this->api_provider,
-				'openid_uid'      => $uid,
-				'openid_identity' => $json['html_url'],
-				'openid_email'    => isset($json['email']) ? $json['email'] : '',
-				'openid_photo'    => "http://www.gravatar.com/avatar/{$json['gravatar_id']}?s=400",
-			];
-			
-			$sql = 'INSERT INTO site_openid_identities ' . $this->db->build_array('INSERT', $sql_ary);
-			$this->db->query($sql);
-		}
-		
-		if ($user_id > 0)
-		{
-			/* Данные закреплены за пользователем, можно аутентифицировать */
-			$this->user->session_end(false);
-			$this->user->session_create(false, $user_id, true, false, $this->api_provider);
-			$this->request->redirect(ilink());
-		}
-		
+		$user_id = $this->get_openid_user_id($json['id']);
+
+		$this->save_openid_data($json);
+		$this->auth_if_guest($user_id);
+		$this->redirect_if_user_logged_in();
+
 		trigger_error('Дорегистрация');
 	}
 	
+	/**
+	* В ответ придет
+	*
+	* $json = Array
+	* (
+	*     [access_token] => 79024c4d8f093e5e310719a323f22
+	*     [token_type] => bearer
+	* )
+	*/
 	protected function get_access_token_params()
 	{
 		return [
@@ -118,5 +84,69 @@ class github extends base
 			'scope'        => 'user:email',
 			'state'        => $state,
 		];
+	}
+
+	/**
+	* $json = Array
+	* (
+	*     [login] => Username
+	*     [id] => 1
+	*     [gravatar_id] => 6a3c6f7aaz02930251a455fee94989f7
+	*     [html_url] => https://github.com/Username
+	*     [name] => Full name
+	*     [email] => mail@example.com
+	* )
+	*
+	* profile = https://github.com/{login}
+	* picture = http://www.gravatar.com/avatar/{gravatar_id}?s=1024
+	*/
+	protected function get_openid_insert_data($json)
+	{
+		return [
+			'user_id'           => $this->user['user_id'],
+			'openid_time'       => $this->user->ctime,
+			'openid_last_use'   => $this->user->ctime,
+			'openid_provider'   => $this->api_provider,
+			'openid_uid'        => $json['id'],
+			'openid_identity'   => $json['html_url'],
+			'openid_first_name' => '',
+			'openid_last_name'  => '',
+			'openid_dob'        => '',
+			'openid_gender'     => '',
+			'openid_email'      => isset($json['email']) ? $json['email'] : '',
+			'openid_photo'      => "http://www.gravatar.com/avatar/{$json['gravatar_id']}?s=400",
+		];
+	}
+	
+	/**
+	* Array
+	* (
+	*     [0] => Array
+	*         (
+	*             [email] => mail-reserve@example.com
+	*             [primary] => 
+	*             [verified] => 1
+	*         )
+    * 
+	*     [1] => Array
+	*         (
+	*             [email] => mail@example.com
+	*             [primary] => 1
+	*             [verified] => 1
+	*         )
+    * 
+	* )
+	*/
+	protected function get_primary_email($json)
+	{
+		foreach ($json as $email)
+		{
+			if ($email['primary'])
+			{
+				return $email['email'];
+			}
+		}
+		
+		return '';
 	}
 }

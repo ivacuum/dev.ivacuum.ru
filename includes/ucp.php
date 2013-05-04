@@ -110,4 +110,31 @@ class ucp extends page
 			'status' => 'OK',
 		]);
 	}
+
+	public function social()
+	{
+		$sql = 'SELECT * FROM site_openid_identities WHERE user_id = ? ORDER BY openid_provider';
+		$this->db->query($sql, [$this->user['user_id']]);
+		
+		while ($row = $this->db->fetchrow())
+		{
+			$row['LAST_USE'] = $this->user->create_date($row['openid_last_use']);
+			$row['U_DELETE'] = $this->append_link_params("provider={$row['openid_provider']}&uid={$row['openid_uid']}", $this->get_handler_url('social_delete'));
+			
+			$this->template->append('social', $row);
+		}
+		
+		$this->db->freeresult();
+	}
+	
+	public function social_delete()
+	{
+		$uid      = $this->request->variable('uid', '');
+		$provider = $this->request->variable('provider', '');
+		
+		$sql = 'DELETE FROM site_openid_identities WHERE user_id = ? AND openid_uid = ? AND openid_provider = ?';
+		$this->db->query($sql, [$this->user['user_id'], $uid, $provider]);
+		
+		$this->request->redirect(ilink($this->get_handler_url('social')));
+	}
 }

@@ -103,7 +103,7 @@ class base extends page
 			return false;
 		}
 		
-		$this->request->redirect(ilink($this->get_handler_url('ucp::index')));
+		$this->request->redirect(ilink($this->get_handler_url('ucp::social')));
 	}
 	
 	/**

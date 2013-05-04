@@ -1,0 +1,38 @@
+{extends "ucp_base.html"}
+
+{block "content"}
+{if not empty($social)}
+	<div class="boxed-group flush">
+		<h3>{$page.page_name}</h3>
+		<div class="boxed-group-inner">
+			<table class="table-stats">
+				<thead>
+					<th>Ссылка на профиль</th>
+					<th>Последний вход</th>
+					<th></th>
+				</thead>
+				{foreach $social as $row}
+					<tr>
+						<td><img src="//ivacuum.org/i/openid/{$row.openid_provider}.png" alt=""> &nbsp;<a href="{$row.openid_identity}">{$row.openid_identity}</a></td>
+						<td>{$row.LAST_USE}</td>
+						<td class="t-right"><a href="{$row.U_DELETE}" class="btn btn-danger">Удалить</a></td>
+					</tr>
+				{/foreach}
+			</table>
+		</div>
+	</div>
+{else}
+	<h1>{$page.page_name}</h1>
+	{$page.page_text}
+{/if}
+
+<h3>Добавить профиль</h3>
+<a href="{'ucp\oauth\facebook::index'|url_for}" class="tip" title="Facebook"><img src="//ivacuum.org/i/openid/48/facebook.png" alt=""></a>
+<a href="{'ucp\oauth\github::index'|url_for}" class="tip" title="GitHub"><img src="//ivacuum.org/i/openid/48/github.png" alt=""></a>
+<a href="{'ucp\oauth\google::index'|url_for}" class="tip" title="Google"><img src="//ivacuum.org/i/openid/48/google.png" alt=""></a>
+{*
+<a href="{'ucp\oauth\twitter::index'|url_for}" class="tip" title="Twitter"><img src="//ivacuum.org/i/openid/48/twitter.png" alt=""></a>
+*}
+<a href="{'ucp\oauth\vk::index'|url_for}" class="tip" title="ВКонтакте"><img src="//ivacuum.org/i/openid/48/vk.png" alt=""></a>
+<a href="{'ucp\oauth\yandex::index'|url_for}" class="tip" title="Яндекс"><img src="//ivacuum.org/i/openid/48/yandex.png" alt=""></a>
+{/block}

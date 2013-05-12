@@ -98,7 +98,7 @@ class register extends page
 		$sql_ary = array_merge([
 			'user_password'  => md5($user_password . $salt),
 			'user_salt'      => $salt,
-			'user_regdate'   => $this->user->ctime,
+			'user_regdate'   => $this->request->time,
 			'user_language'  => $this->request->language,
 		], compact('username', 'username_clean', 'user_email'));
 		

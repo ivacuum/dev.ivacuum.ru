@@ -111,8 +111,8 @@ class yandex extends base
 
 		return [
 			'user_id'           => $this->user['user_id'],
-			'openid_time'       => $this->user->ctime,
-			'openid_last_use'   => $this->user->ctime,
+			'openid_time'       => $this->request->time,
+			'openid_last_use'   => $this->request->time,
 			'openid_provider'   => $this->api_provider,
 			'openid_uid'        => $this->openid_uid,
 			'openid_identity'   => "http://{$json['display_name']}.ya.ru/",

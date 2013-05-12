@@ -55,7 +55,7 @@ class users extends page
 			'JID'        => $row['user_jid'],
 			'LASTVISIT'  => $row['user_last_visit'] ? $this->user->create_date($row['user_last_visit']) : '',
 			'OCCUPATION' => $row['user_occ'],
-			'ONLINE'     => $this->user->ctime - $row['user_last_visit'] < $this->config['load_online_time'],
+			'ONLINE'     => $this->request->time - $row['user_last_visit'] < $this->config['load_online_time'],
 			
 			'RANK_IMG'   => isset($ranks[$row['user_rank']]['rank_image']) ? $ranks[$row['user_rank']]['rank_image'] : '',
 			'RANK_TITLE' => isset($ranks[$row['user_rank']]['rank_title']) ? $ranks[$row['user_rank']]['rank_title'] : '',

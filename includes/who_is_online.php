@@ -44,7 +44,7 @@ class who_is_online extends page
 				s.session_time >= ?
 			ORDER BY
 				s.session_time DESC';
-		$this->db->query($sql, [$this->user->ctime - ($this->config['load_online_time'])]);
+		$this->db->query($sql, [$this->request->time - ($this->config['load_online_time'])]);
 
 		while ($row = $this->db->fetchrow())
 		{
@@ -91,7 +91,7 @@ class who_is_online extends page
 				session_time >= ?
 			ORDER BY
 				session_time DESC';
-		$this->db->query($sql, [$this->user->ctime - $this->config['load_online_time']]);
+		$this->db->query($sql, [$this->request->time - $this->config['load_online_time']]);
 
 		while ($row = $this->db->fetchrow())
 		{

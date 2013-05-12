@@ -63,7 +63,7 @@ class memcache extends page
 				'CACHE_USED'  => $stats_single[$server]['STAT']['bytes'],
 				'SERVER'      => $server,
 				'START_TIME'  => $this->user->create_date($stats_single[$server]['STAT']['time'] - $stats_single[$server]['STAT']['uptime']),
-				'UPTIME'      => $this->user->ctime - ($stats_single[$server]['STAT']['time'] - $stats_single[$server]['STAT']['uptime']),
+				'UPTIME'      => $this->request->time - ($stats_single[$server]['STAT']['time'] - $stats_single[$server]['STAT']['uptime']),
 				'VERSION'     => $stats_single[$server]['STAT']['version'],
 			]);
 		}
@@ -148,7 +148,7 @@ class memcache extends page
 					preg_match('#^\[(\d+) b\; (\d+) s\]$#', $info, $match);
 
 					$vars[$key] = [
-						'EXPIRE' => $this->user->ctime > $match[2] ? 'expired' : $this->user->create_date($match[2]),
+						'EXPIRE' => $this->request->time > $match[2] ? 'expired' : $this->user->create_date($match[2]),
 						'SIZE'   => $match[1],
 					];
 				}

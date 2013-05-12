@@ -83,7 +83,7 @@ class memopu3 extends page
 				$this->db->build_array('INSERT', [
 					'quote_sender_id'	=> $this->user['user_id'],
 					'quote_sender_name'	=> $this->user['username'],
-					'quote_sender_time'	=> $this->user->ctime,
+					'quote_sender_time'	=> $this->request->time,
 					'quote_text'		=> $text,
 				]);
 			$this->db->query($sql);
@@ -336,7 +336,7 @@ class memopu3 extends page
 				'user_ip'     => $this->user->ip,
 				'quote_id'    => $quote_id,
 				'vote_option' => $mode == '+' ? 1 : 0,
-				'vote_time'   => $this->user->ctime
+				'vote_time'   => $this->request->time,
 			]);
 		$this->db->query($sql);
 

@@ -29,14 +29,7 @@ class auth extends page
 	
 	public function activate_password_post($hash)
 	{
-		$sql = '
-			SELECT
-				user_id,
-				username
-			FROM
-				site_users
-			WHERE
-				user_newpasswd = ?';
+		$sql = 'SELECT user_id, username FROM site_users WHERE user_newpasswd = ?';
 		$this->db->query($sql, [$hash]);
 		$row = $this->db->fetchrow();
 		$this->db->freeresult();
@@ -126,15 +119,7 @@ class auth extends page
 			return;
 		}
 		
-		$sql = '
-			SELECT
-				user_id,
-				username,
-				user_salt
-			FROM
-				site_users
-			WHERE
-				user_email = ?';
+		$sql = 'SELECT user_id, username, user_salt FROM site_users WHERE user_email = ?';
 		$this->db->query($sql, [$user_email]);
 		$row = $this->db->fetchrow();
 		$this->db->freeresult();

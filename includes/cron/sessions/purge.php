@@ -18,14 +18,7 @@ class purge extends task
 		$session_lifetime = ini_get('session.gc_maxlifetime');
 		
 		/* Удаляем сессии гостей */
-		$sql = '
-			DELETE
-			FROM
-				site_sessions
-			WHERE
-				user_id = 0
-			AND
-				session_time < ?';
+		$sql = 'DELETE FROM site_sessions WHERE user_id = 0 AND session_time < ?';
 		$this->db->query($sql, [$this->ctime - $session_lifetime]);
 		$this->log('Удалено сессий гостей: ' . $this->db->affected_rows());
 
@@ -57,13 +50,7 @@ class purge extends task
 				'user_ip'           => (string) $row['session_ip']
 			];
 
-			$sql = '
-				UPDATE
-					site_users
-				SET
-					:update_ary
-				WHERE
-					user_id = ?';
+			$sql = 'UPDATE site_users SET :update_ary WHERE user_id = ?';
 			$this->db->query($sql, [$row['user_id'], ':update_ary' => $this->db->build_array('UPDATE', $sql_ary)]);
 
 			$del_users_id[] = (int) $row['user_id'];
@@ -73,14 +60,7 @@ class purge extends task
 
 		if (!empty($del_users_id))
 		{
-			$sql = '
-				DELETE
-				FROM
-					site_sessions
-				WHERE
-					:del_users_id
-				AND
-					session_time < ?';
+			$sql = 'DELETE FROM site_sessions WHERE :del_users_id AND session_time < ?';
 			$this->db->query($sql, [$this->ctime - $session_lifetime, ':del_users_id' => $this->db->in_set('user_id', $del_users_id)]);
 			$this->log('Удалено сессий пользователей: ' . sizeof($del_users_id));
 		}
@@ -90,12 +70,7 @@ class purge extends task
 		*/
 		if ($this->config['autologin.time'])
 		{
-			$sql = '
-				DELETE
-				FROM
-					site_sessions_keys
-				WHERE
-					last_login < ?';
+			$sql = 'DELETE FROM site_sessions_keys WHERE last_login < ?';
 			$this->db->query($sql, [$this->ctime - (86400 * $this->config['autologin.time'])]);
 			$this->log('Удалено ключей сессий: ' . $this->db->affected_rows());
 

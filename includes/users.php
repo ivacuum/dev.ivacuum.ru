@@ -25,13 +25,7 @@ class users extends page
 	{
 		if ($user_id != $this->user['user_id'])
 		{
-			$sql = '
-				SELECT
-					*
-				FROM
-					site_users
-				WHERE
-					user_id = ?';
+			$sql = 'SELECT * FROM site_users WHERE user_id = ?';
 			$this->db->query($sql, [$user_id]);
 			$row = $this->db->fetchrow();
 			$this->db->freeresult();

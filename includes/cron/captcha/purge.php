@@ -36,13 +36,8 @@ class purge extends task
 		
 		if (!empty($sql_in))
 		{
-			$sql = '
-				DELETE
-				FROM
-					site_confirm
-				WHERE
-					' . $this->db->in_set('session_id', $sql_in);
-			$this->db->query($sql);
+			$sql = 'DELETE FROM site_confirm WHERE :session_ids';
+			$this->db->query($sql, [':session_ids' => $this->db->in_set('session_id', $sql_in)]);
 			$this->log('Капч удалено: ' . $this->db->affected_rows());
 		}
 	}

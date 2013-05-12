@@ -37,15 +37,7 @@ class memopu3 extends page
 		/**
 		* Получаем данные из БД
 		*/
-		$sql = '
-			SELECT
-				*
-			FROM
-				site_quotes
-			WHERE
-				quote_approver_time > 0
-			ORDER BY
-				quote_sender_time DESC';
+		$sql = 'SELECT * FROM site_quotes WHERE quote_approver_time > 0 ORDER BY quote_sender_time DESC';
 		$this->db->query_limit($sql, [], $pagination['on_page'], $pagination['offset']);
 
 		while ($row = $this->db->fetchrow())
@@ -115,15 +107,7 @@ class memopu3 extends page
 		/**
 		* Получаем данные из БД
 		*/
-		$sql = '
-			SELECT
-				*
-			FROM
-				site_quotes
-			WHERE
-				quote_approver_time > 0
-			ORDER BY
-				quote_votes DESC';
+		$sql = 'SELECT * FROM site_quotes WHERE quote_approver_time > 0 ORDER BY quote_votes DESC';
 		$this->db->query_limit($sql, [], $pagination['on_page'], $pagination['offset']);
 
 		while ($row = $this->db->fetchrow())
@@ -159,11 +143,7 @@ class memopu3 extends page
 		{
 			do
 			{
-				$sql = '
-					SELECT
-						FLOOR(RAND() * COUNT(*)) AS offset
-					FROM
-						site_quotes';
+				$sql = 'SELECT FLOOR(RAND() * COUNT(*)) AS offset FROM site_quotes';
 				$this->db->query($sql);
 				$row = $this->db->fetchrow();
 				$this->db->freeresult();
@@ -186,13 +166,7 @@ class memopu3 extends page
 			}
 			while (true === $find);
 
-			$sql = '
-				SELECT
-					*
-				FROM
-					site_quotes
-				WHERE
-					quote_approver_time > 0';
+			$sql = 'SELECT * FROM site_quotes WHERE quote_approver_time > 0';
 			$this->db->query_limit($sql, [], 1, $row['offset']);
 			$row = $this->db->fetchrow();
 			$this->db->freeresult();
@@ -231,15 +205,7 @@ class memopu3 extends page
 			trigger_error('Не указана цитата для поиска.');
 		}
 		
-		$sql = '
-			SELECT
-				*
-			FROM
-				site_quotes
-			WHERE
-				quote_id = ?
-			AND
-				quote_approver_time > 0';
+		$sql = 'SELECT * FROM site_quotes WHERE quote_id = ? AND quote_approver_time > 0';
 		$this->db->query($sql, [$quote_id]);
 		$row = $this->db->fetchrow();
 		$this->db->freeresult();
@@ -292,17 +258,7 @@ class memopu3 extends page
 
 		$this->db->freeresult();
 
-		$sql = '
-			SELECT
-				*
-			FROM
-				site_quotes_votes
-			WHERE
-				quote_id = ?
-			AND
-				user_id = 0
-			ORDER BY
-				vote_time DESC';
+		$sql = 'SELECT * FROM site_quotes_votes WHERE quote_id = ? AND user_id = 0 ORDER BY vote_time DESC';
 		$this->db->query($sql, [$quote_id]);
 
 		while ($votes = $this->db->fetchrow())
@@ -418,13 +374,7 @@ class memopu3 extends page
 
 		$vote_id = (int) $vote_id;
 
-		$sql = '
-			SELECT
-				vote_option
-			FROM
-				site_quotes_votes
-			WHERE
-				vote_id = ?';
+		$sql = 'SELECT vote_option FROM site_quotes_votes WHERE vote_id = ?';
 		$this->db->query($sql, [$vote_id]);
 		$vote = $this->db->fetchrow();
 		$this->db->freeresult();
@@ -435,12 +385,7 @@ class memopu3 extends page
 		}
 
 		$this->db->transaction('begin');
-		$sql = '
-			DELETE
-			FROM
-				site_quotes_votes
-			WHERE
-				vote_id = ?';
+		$sql = 'DELETE FROM site_quotes_votes WHERE vote_id = ?';
 		$this->db->query($sql, [$vote_id]);
 
 		$sql = '

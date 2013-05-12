@@ -10,16 +10,12 @@ use app\models\page;
 
 class register extends page
 {
-	public $openid_response;
-	
 	public function index()
 	{
 		if ($this->user->is_registered)
 		{
 			$this->request->redirect(ilink());
 		}
-		
-		$this->template->assign('U_ACTION', ilink($this->url));
 	}
 	
 	/**
@@ -59,13 +55,7 @@ class register extends page
 		/* Проверка существования пользователя с подобным ником */
 		if ($username_clean)
 		{
-			$sql = '
-				SELECT
-					user_id
-				FROM
-					site_users
-				WHERE
-					username_clean = ?';
+			$sql = 'SELECT user_id FROM site_users WHERE username_clean = ?';
 			$this->db->query($sql, [$username_clean]);
 			$row = $this->db->fetchrow();
 			$this->db->freeresult();
@@ -80,13 +70,7 @@ class register extends page
 		
 		if ($user_email)
 		{
-			$sql = '
-				SELECT
-					user_id
-				FROM
-					site_users
-				WHERE
-					user_email = ?';
+			$sql = 'SELECT user_id FROM site_users WHERE user_email = ?';
 			$this->db->query($sql, [$user_email]);
 			$row = $this->db->fetchrow();
 			$this->db->freeresult();
@@ -131,275 +115,45 @@ class register extends page
 	}
 	
 	/**
-	* OpenID-регистрация
+	* Завершение регистрации
+	* Вызывается при добавлении гостем социального профиля
 	*/
-	public function openid_post()
+	public function complete()
 	{
-		$token = $this->request->post('token', '');
-		
-		if (!$token)
+		if (empty($_SESSION['oauth.saved']))
 		{
-			trigger_error('PAGE_NOT_FOUND');
+			$this->request->redirect(ilink());
 		}
 		
-		$url = 'http://loginza.ru/api/authinfo?' . http_build_query([
-			'token' => $token,
-			'id'    => $this->config['loginza_id'],
-			'sig'   => md5($token . $this->config['loginza_secret'])
-		]);
-
-		$this->openid_response = json_decode(file_get_contents($url), true);
+		$email = $_SESSION['oauth.saved']['email'];
 		
-		$this->profiler->log($this->openid_response);
-		
-		$birth_day   = 0;
-		$birth_month = 0;
-		$birth_year  = 0;
-		$email       = isset($this->openid_response['email']) ? $this->openid_response['email'] : '';
-		$first_name  = isset($this->openid_response['name']['first_name']) ? $this->openid_response['name']['first_name'] : '';
-		$full_name   = $this->get_openid_user_full_name();
-		$gender      = $this->get_openid_user_gender();
-		$identity    = $this->openid_response['identity'];
-		$last_name   = isset($this->openid_response['name']['last_name']) ? $this->openid_response['name']['last_name'] : '';
-		$provider    = $this->openid_response['provider'];
-		$uid         = isset($this->openid_response['uid']) ? $this->openid_response['uid'] : '';
-		$username    = $this->get_openid_username();
-		$website     = $this->get_openid_user_website();
-		
-		if (isset($this->openid_response['dob']))
-		{
-			/* Дата рождения */
-			$ary = explode('-', $this->openid_response['dob']);
-			
-			$birth_year  = $ary[0];
-			$birth_month = $ary[1];
-			$birth_day   = $ary[2];
-		}
-		
-		if (false === $user_id = $this->get_openid_user_id())
-		{
-			/* Новые OpenID данные */
-			$user_id = 0;
-			
-			$sql_ary = [
-				'user_id'           => $user_id,
-				'openid_time'       => $this->user->ctime,
-				'openid_provider'   => $provider,
-				'openid_uid'        => $uid,
-				'openid_identity'   => $identity,
-				'openid_full_name'  => $full_name,
-				'openid_first_name' => $first_name,
-				'openid_last_name'  => $last_name,
-				'openid_dob'        => isset($this->openid_response['dob']) ? $this->openid_response['dob'] : '',
-				'openid_gender'     => isset($this->openid_response['gender']) ? $this->openid_response['gender'] : '',
-				'openid_email'      => $email,
-				'openid_website'    => $website,
-				'openid_photo'      => isset($this->openid_response['photo']) ? $this->openid_response['photo'] : ''
-			];
-			
-			$sql = 'INSERT INTO site_openid_identities ' . $this->db->build_array('INSERT', $sql_ary);
-			$this->db->query($sql);
-		}
-		
-		if ($user_id > 0)
-		{
-			/* Авторизация прошла успешно */
-			$this->user->session_create($user_id, true, false, true, $this->get_openid_provider());
-			
-			$this->request->redirect(ilink(''));
-		}
-		
-		$s_hidden_fields = build_hidden_fields([
-			'birth_day'   => $birth_day,
-			'birth_month' => $birth_month,
-			'birth_year'  => $birth_year,
-			'first_name'  => $first_name,
-			'gender'      => $gender,
-			'identity'    => $identity,
-			'last_name'   => $last_name,
-			'provider'    => $provider,
-		]);
-
-		// $this->template->file = 'ucp/register_index.html';
-	}
-	
-	/**
-	* Провайдер авторизации
-	*/
-	private function get_openid_provider()
-	{
-		$ary = parse_url($this->openid_response['provider']);
-		
-		if (empty($ary))
-		{
-			return false;
-		}
-		
-		/* Список провайдеров */
-		$providers = [
-			0 => ['needle' => 'google.com',       'return' => 'google'],
-			1 => ['needle' => 'yandex.ru',        'return' => 'yandex'],
-			2 => ['needle' => 'rambler.ru',       'return' => 'rambler'],
-			3 => ['needle' => 'vkontakte.ru',     'return' => 'vk'],
-			4 => ['needle' => 'facebook.com',     'return' => 'facebook'],
-			5 => ['needle' => 'odnoklassniki.ru', 'return' => 'odnoklassniki'],
-			6 => ['needle' => 'twitter.com',      'return' => 'twitter'],
-			7 => ['needle' => 'mail.ru',          'return' => 'mailru'],
-			8 => ['needle' => 'livejournal.com',  'return' => 'livejournal'],
-		];
-		
-		foreach ($providers as $key => $row)
-		{
-			if (false !== strpos($ary['host'], $row['needle']))
-			{
-				return $row['return'];
-			}
-		}
-		
-		return false;
-	}
-	
-	/**
-	* Определение логина пользователя
-	*/
-	private function get_openid_username()
-	{
-		if (isset($this->openid_response['nickname']))
-		{
-			return $this->openid_response['nickname'];
-		}
-		
-		if (isset($this->openid_response['email']))
-		{
-			return mb_substr($this->openid_response['email'], 0, mb_strpos($this->openid_response['email'], '@'));
-		}
-		
-		if (isset($this->openid_response['name']['full_name']))
-		{
-			return $this->openid_response['name']['full_name'];
-		}
-		
-		/* Шаблоны, по которым выцепляем ник из identity */
-		$patterns = [
-			'([^\.]+)\.ya\.ru',
-			'openid\.mail\.ru\/[^\/]+\/([^\/?]+)',
-			'openid\.yandex\.ru\/([^\/?]+)',
-			'([^\.]+)\.myopenid\.com'
-		];
-		
-		foreach ($patterns as $pattern)
-		{
-			if (preg_match('/^https?\:\/\/' . $pattern . '/i', $this->openid_response['identity'], $match))
-			{
-				return $match[1];
-			}
-		}
-		
-		return false;
-	}
-	
-	/**
-	* Имя пользователя
-	*/
-	private function get_openid_user_full_name()
-	{
-		if (isset($this->openid_response['name']['full_name']))
-		{
-			return $this->openid_response['name']['full_name'];
-		}
-		
-		if (isset($this->openid_response['name']['first_name']) || isset($this->openid_response['name']['last_name']))
-		{
-			return trim(@$this->openid_response['name']['last_name'] . ' ' . @$this->openid_response['name']['first_name']);
-		}
-		
-		return '';
-	}
-	
-	/**
-	* Пол пользователя
-	*/
-	private function get_openid_user_gender()
-	{
-		if (isset($this->openid_response['gender']))
-		{
-			if ($this->openid_response['gender'] == 'F')
-			{
-				return 2;
-			}
-			
-			if ($this->openid_response['gender'] == 'M')
-			{
-				return 1;
-			}
-		}
-		
-		return 0;
-	}
-
-	/**
-	* Поиск данных пользователя в базе
-	* Возврат user_id в случае успеха
-	*/
-	private function get_openid_user_id()
-	{
-		if (isset($this->openid_response['uid']))
-		{
-			$sql = '
-				SELECT
-					user_id
-				FROM
-					site_openid_identities
-				WHERE
-					openid_uid = ?
-				AND
-					openid_provider = ?';
-			$this->db->query($sql, [$this->openid_response['uid'], $this->openid_response['provider']]);
-			$row = $this->db->fetchrow();
-			$this->db->freeresult();
-			
-			if (!$row)
-			{
-				return false;
-			}
-			
-			return $row['user_id'];
-		}
-		
-		$sql = '
-			SELECT
-				user_id
-			FROM
-				site_openid_identities
-			WHERE
-				openid_identity = ?';
-		$this->db->query($sql, [$this->openid_response['identity']]);
+		$sql = 'SELECT user_id FROM site_users WHERE user_email = ?';
+		$this->db->query($sql, [$email]);
 		$row = $this->db->fetchrow();
 		$this->db->freeresult();
 		
-		if (!$row)
-		{
-			return false;
-		}
-		
-		return $row['user_id'];
+		$this->template->assign([
+			'email_exists' => !empty($row),
+			'saved_email'  => $email,
+		]);
 	}
-
-	/**
-	* Домашняя страница пользователя
-	*/
-	private function get_openid_user_website()
+	
+	public function complete_post()
 	{
-		if (isset($this->openid_response['web']['blog']))
+		$have_login        = $this->request->is_set_post('have_login');
+		$password          = $this->request->post('password', '');
+		$redirect          = $_SESSION['request.redirect'] ?: '';
+		$register          = $this->request->is_set_post('register');
+		$username_or_email = $this->request->post('username', '');
+
+		if ($have_login)
 		{
-			return $this->openid_response['web']['blog'];
+			$result = $this->auth->login($username_or_email, $password);
+
+			if ($result['status'] == 'OK')
+			{
+				$this->request->redirect(ilink($redirect));
+			}
 		}
-		
-		if (isset($this->openid_response['web']['default']))
-		{
-			return $this->openid_response['web']['default'];
-		}
-		
-		return $this->openid_response['identity'];
 	}
 }

@@ -49,15 +49,7 @@ class gallery extends page
 		$pagination = pagination($this->config['gallery.images.on_page'], $total_images, ilink($this->url));
 		
 		/* Последние загруженные изображения */
-		$sql = '
-			SELECT
-				*
-			FROM
-				site_images
-			WHERE
-				user_id = ?
-			ORDER BY
-				image_time DESC';
+		$sql = 'SELECT * FROM site_images WHERE user_id = ? ORDER BY image_time DESC';
 		$this->db->query_limit($sql, [$this->user['user_id']], $pagination['on_page'], $pagination['offset']);
 
 		while ($row = $this->db->fetchrow())
@@ -98,15 +90,7 @@ class gallery extends page
 			trigger_error('DATA_NOT_FOUND');
 		}
 
-		$sql = '
-			SELECT
-				*
-			FROM
-				site_images
-			WHERE
-				image_id = ?
-			AND
-				user_id = ?';
+		$sql = 'SELECT * FROM site_images WHERE image_id = ? AND user_id = ?';
 		$this->db->query($sql, [$image_id, $this->user['user_id']]);
 		$row = $this->db->fetchrow();
 		$this->db->freeresult();
@@ -122,12 +106,7 @@ class gallery extends page
 		@unlink("{$this->config['gallery.images.upload_dir']}{$date}/t/{$row['image_url']}");
 		@unlink("{$this->config['gallery.images.upload_dir']}{$date}/s/{$row['image_url']}");
 
-		$sql = '
-			DELETE
-			FROM
-				site_images
-			WHERE
-				image_id = ?';
+		$sql = 'DELETE FROM site_images WHERE image_id = ?';
 		$this->db->query($sql, [$image_id]);
 
 		$this->request->redirect(ilink($this->get_handler_url('index')));
@@ -150,15 +129,7 @@ class gallery extends page
 		/* images_id = 5000,7525,10759,23409 */
 		$images_id = implode(',', array_map('intval', explode(',', $images_id)));
 
-		$sql = '
-			SELECT
-				*
-			FROM
-				site_images
-			WHERE
-				image_id IN (:images_id)
-			AND
-				user_id = ?';
+		$sql = 'SELECT * FROM site_images WHERE image_id IN (:images_id) AND user_id = ?';
 		$result = $this->db->query($sql, [$this->user['user_id'], ':images_id' => $images_id]);
 
 		while ($row = $this->db->fetchrow($result))
@@ -169,12 +140,7 @@ class gallery extends page
 			@unlink("{$this->config['gallery.images.upload_dir']}{$date}/t/{$row['image_url']}");
 			@unlink("{$this->config['gallery.images.upload_dir']}{$date}/s/{$row['image_url']}");
 
-			$sql = '
-				DELETE
-				FROM
-					site_images
-				WHERE
-					image_id = ?';
+			$sql = 'DELETE FROM site_images WHERE image_id = ?';
 			$this->db->query($sql, [$row['image_id']]);
 		}
 
@@ -201,15 +167,7 @@ class gallery extends page
 		$files_thumb = 0;
 		$images_id   = implode(',', array_map('intval', explode(',', $images_id)));
 
-		$sql = '
-			SELECT
-				*
-			FROM
-				site_images
-			WHERE
-				image_id IN (:images_id)
-			AND
-				user_id = ?';
+		$sql = 'SELECT * FROM site_images WHERE image_id IN (:images_id) AND user_id = ?';
 		$this->db->query($sql, [$this->user['user_id'], ':images_id' => $images_id]);
 
 		while ($row = $this->db->fetchrow())
@@ -298,13 +256,7 @@ class gallery extends page
 		/**
 		* Просмотр отдельного полноразмерного изображения
 		*/
-		$sql = '
-			SELECT
-				*
-			FROM
-				site_images
-			WHERE
-				image_id = ?';
+		$sql = 'SELECT * FROM site_images WHERE image_id = ?';
 		$this->db->query($sql, [$image_id]);
 		$row = $this->db->fetchrow();
 		$this->db->freeresult();

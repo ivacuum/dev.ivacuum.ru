@@ -73,16 +73,7 @@ class news extends page
 		
 		$news_id = (int) $matches[1];
 		
-		$sql = '
-			SELECT
-				news_url,
-				news_time
-			FROM
-				site_news
-			WHERE
-				news_id = ?
-			AND
-				site_id = ?';
+		$sql = 'SELECT news_url, news_time FROM site_news WHERE news_id = ? AND site_id = ?';
 		$this->db->query($sql, [$news_id, $this->data['site_id']]);
 		$row = $this->db->fetchrow();
 		$this->db->freeresult();

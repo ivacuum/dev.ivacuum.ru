@@ -41,14 +41,17 @@ class yandex extends base
 		$client->setBaseUrl($this->api_base_url);
 		$params = ['info{?oauth_token}', compact('oauth_token')];
 		$json = $client->get($params)->send()->json();
+
+		$this->openid_uid = $json['id'];
+		$this->openid_email = $json['default_email'];
 		
-		$user_id = $this->get_openid_user_id($json['id']);
+		$user_id = $this->get_openid_user_id();
 
 		$this->save_openid_data($json);
 		$this->auth_if_guest($user_id);
 		$this->redirect_if_user_logged_in();
-		
-		trigger_error('Дорегистрация');
+		$this->memorize_openid_credentials();
+		$this->request->redirect(ilink($this->get_handler_url('ucp\register::complete')));
 	}
 	
 	/**
@@ -111,13 +114,13 @@ class yandex extends base
 			'openid_time'       => $this->user->ctime,
 			'openid_last_use'   => $this->user->ctime,
 			'openid_provider'   => $this->api_provider,
-			'openid_uid'        => $json['id'],
+			'openid_uid'        => $this->openid_uid,
 			'openid_identity'   => "http://{$json['display_name']}.ya.ru/",
 			'openid_first_name' => $first_name,
 			'openid_last_name'  => $last_name,
 			'openid_dob'        => $json['birthday'],
 			'openid_gender'     => $gender,
-			'openid_email'      => $json['default_email'],
+			'openid_email'      => $this->openid_email,
 			'openid_photo'      => '',
 		];
 	}

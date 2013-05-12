@@ -40,14 +40,17 @@ class google extends base
 		$client->setBaseUrl($this->api_base_url);
 		$params = ['userinfo{?access_token}', ['access_token' => $json['access_token']]];
 		$json = $client->get($params)->send()->json();
+
+		$this->openid_uid = $json['sub'];
+		$this->openid_email = $json['email'];
 		
-		$user_id = $this->get_openid_user_id($json['sub']);
+		$user_id = $this->get_openid_user_id();
 		
 		$this->save_openid_data($json);
 		$this->auth_if_guest($user_id);
 		$this->redirect_if_user_logged_in();
-
-		trigger_error('Дорегистрация');
+		$this->memorize_openid_credentials();
+		$this->request->redirect(ilink($this->get_handler_url('ucp\register::complete')));
 	}
 
 	/**
@@ -114,13 +117,13 @@ class google extends base
 			'openid_time'       => $this->user->ctime,
 			'openid_last_use'   => $this->user->ctime,
 			'openid_provider'   => $this->api_provider,
-			'openid_uid'        => $json['sub'],
+			'openid_uid'        => $this->openid_uid,
 			'openid_identity'   => $json['profile'],
 			'openid_first_name' => isset($json['given_name']) ? $json['given_name'] : '',
 			'openid_last_name'  => isset($json['family_name']) ? $json['family_name'] : '',
 			'openid_dob'        => '',
 			'openid_gender'     => $gender,
-			'openid_email'      => $json['email'],
+			'openid_email'      => $this->openid_email,
 			'openid_photo'      => isset($json['picture']) ? $json['picture'] : '',
 		];
 	}

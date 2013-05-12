@@ -43,14 +43,17 @@ class facebook extends base
 		$client->setBaseUrl($this->api_base_url);
 		$params = ['me{?access_token,fields}', compact('access_token', 'fields')];
 		$json = $client->get($params)->send()->json();
-
-		$user_id = $this->get_openid_user_id($json['id']);
+		
+		$this->openid_uid = $json['id'];
+		$this->openid_email = $json['email'];
+		
+		$user_id = $this->get_openid_user_id();
 
 		$this->save_openid_data($json);
 		$this->auth_if_guest($user_id);
 		$this->redirect_if_user_logged_in();
-		
-		trigger_error('Дорегистрация');
+		$this->memorize_openid_credentials();
+		$this->request->redirect(ilink($this->get_handler_url('ucp\register::complete')));
 	}
 	
 	/**
@@ -65,8 +68,8 @@ class facebook extends base
 	protected function get_access_token_params()
 	{
 		return [
-			'client_id'     => $this->config['oauth.facebook.app_id'],
-			'client_secret' => $this->config['oauth.facebook.app_secret'],
+			'client_id'     => $this->config["oauth.{$this->api_provider}.app_id"],
+			'client_secret' => $this->config["oauth.{$this->api_provider}.app_secret"],
 			'code'          => $this->request->variable('code', ''),
 			'redirect_uri'  => $this->get_redirect_uri(),
 		];
@@ -77,7 +80,7 @@ class facebook extends base
 		$_SESSION["oauth.{$this->api_provider}.state"] = $state = make_random_string(10);
 
 		return [
-			'client_id'     => $this->config['oauth.facebook.app_id'],
+			'client_id'     => $this->config["oauth.{$this->api_provider}.app_id"],
 			'redirect_uri'  => $this->get_redirect_uri(),
 			'scope'         => 'email, user_birthday',
 			'state'         => $state,
@@ -113,14 +116,14 @@ class facebook extends base
 			'openid_time'       => $this->user->ctime,
 			'openid_last_use'   => $this->user->ctime,
 			'openid_provider'   => $this->api_provider,
-			'openid_uid'        => $json['id'],
-			'openid_identity'   => "https://www.facebook.com/{$json['id']}",
+			'openid_uid'        => $this->openid_uid,
+			'openid_identity'   => "https://www.facebook.com/{$this->openid_uid}",
 			'openid_first_name' => $json['first_name'],
 			'openid_last_name'  => $json['last_name'],
 			'openid_dob'        => isset($json['birthday']) ? $json['birthday'] : '',
 			'openid_gender'     => $gender,
-			'openid_email'      => $json['email'],
-			'openid_photo'      => "https://graph.facebook.com/{$json['id']}/picture?width=1024",
+			'openid_email'      => $this->openid_email,
+			'openid_photo'      => "https://graph.facebook.com/{$this->openid_uid}/picture?width=1024",
 		];
 	}
 }

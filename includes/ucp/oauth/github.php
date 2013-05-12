@@ -44,15 +44,17 @@ class github extends base
 		
 		$params = ['user/emails{?access_token}', compact('access_token')];
 		$json_emails = $client->get($params)->addHeader('Accept', 'application/vnd.github.v3')->send()->json();
-		$json['email'] = $this->get_primary_email($json_emails);
+
+		$this->openid_uid = $json['id'];
+		$this->openid_email = $this->get_primary_email($json_emails);
 		
-		$user_id = $this->get_openid_user_id($json['id']);
+		$user_id = $this->get_openid_user_id();
 
 		$this->save_openid_data($json);
 		$this->auth_if_guest($user_id);
 		$this->redirect_if_user_logged_in();
-
-		trigger_error('Дорегистрация');
+		$this->memorize_openid_credentials();
+		$this->request->redirect(ilink($this->get_handler_url('ucp\register::complete')));
 	}
 	
 	/**
@@ -107,13 +109,13 @@ class github extends base
 			'openid_time'       => $this->user->ctime,
 			'openid_last_use'   => $this->user->ctime,
 			'openid_provider'   => $this->api_provider,
-			'openid_uid'        => $json['id'],
+			'openid_uid'        => $this->openid_uid,
 			'openid_identity'   => $json['html_url'],
 			'openid_first_name' => '',
 			'openid_last_name'  => '',
 			'openid_dob'        => '',
 			'openid_gender'     => '',
-			'openid_email'      => isset($json['email']) ? $json['email'] : '',
+			'openid_email'      => $this->openid_email,
 			'openid_photo'      => "http://www.gravatar.com/avatar/{$json['gravatar_id']}?s=400",
 		];
 	}

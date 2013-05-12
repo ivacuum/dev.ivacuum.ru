@@ -1,0 +1,63 @@
+{extends "base.html"}
+
+{block "content"}
+{if not empty($errors)}
+	<div class="alert alert-error" data-dismiss="alert">
+		<a class="close" href="#">&times;</a>
+		<ul>
+			{foreach $errors as $row}
+				<li>{$row}</li>
+			{/foreach}
+		</ul>
+	</div>
+{/if}
+
+<div class="boxed-group form-signup">
+	<h3>{$page.page_name}</h3>
+	<div class="boxed-group-inner">
+		{if $email_exists}
+			<form action="{'ucp\auth::sendpassword'|url_for}" method="post" style="margin: 0;">
+				<p>Электропочта {$saved_email} уже зарегистрирована на сайте, попробуйте восстановить пароль от учетной записи.</p>
+				<p class="t-center"><button class="btn" type="submit">Начать восстановление пароля</button></p>
+				<input type="hidden" name="email" value="{$saved_email|escape}">
+			</form>
+			<h3 class="conversation-list-heading">
+				<div class="inner">
+					или
+				</div>
+			</h3>
+			<form action="{'ucp\register::complete'|url_for}" method="post">
+				<p class="t-center"><button class="btn">Зарегистрироваться с другой электропочтой</button></p>
+			</form>
+		{else}
+			<button class="btn">Я новый пользователь</button> &nbsp;
+			<button class="btn">У меня уже есть учетная запись</button>
+		{/if}
+	</div>
+</div>
+
+
+{*
+<div class="boxed-group form-signup">
+	<h3>{'REGISTER'|i18n}</h3>
+	<div class="boxed-group-inner">
+		<form action="{$U_REGISTER}" method="post">
+			<label for="username_field">{'USERNAME'|i18n}</label>
+			<input required name="username" id="username_field" class="input-block-level" type="text" value="{$me.username|default:''}" tabindex="1">
+			<label for="email_field">{'EMAIL'|i18n}</label>
+			<input required name="email" id="email_field" class="input-block-level" type="email" value="{$me.user_email|default:''}" tabindex="2">
+			<label for="password_field">{'PASSWORD'|i18n}</label>
+			<input required name="password" id="password_field" class="input-block-level" type="password" value="" tabindex="3">
+			<label for="confirm_code_field">Код подтверждения</label>
+			<div><img src="{'\fw\modules\captcha::index'|url_for}" alt="" id="confirm_code_image"></div>
+			<div class="input-append">
+				<input required name="confirm_code" id="confirm_code_field" class="span2" type="text" value="" tabindex="4">
+				<a class="btn" id="refresh_confirm_code" href="#"><i class="icon-refresh"></i></a>
+			</div>
+			<div><button class="btn btn-primary" type="submit" name="submit" tabindex="5">Зарегистрироваться</button></div>
+			{$S_HIDDEN_FIELDS|default:''}
+		</form>
+	</div>
+</div>
+*}
+{/block}

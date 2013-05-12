@@ -15,6 +15,8 @@ class base extends page
 	protected $access_token_endpoint;
 	protected $api_base_url;
 	protected $api_provider;
+	protected $openid_email = '';
+	protected $openid_uid;
 	
 	public function index()
 	{
@@ -78,10 +80,10 @@ class base extends page
 		return [];
 	}
 	
-	protected function get_openid_user_id($uid)
+	protected function get_openid_user_id()
 	{
 		$sql = 'SELECT user_id FROM site_openid_identities WHERE openid_uid = ? AND openid_provider = ?';
-		$this->db->query($sql, [$uid, $this->api_provider]);
+		$this->db->query($sql, [$this->openid_uid, $this->api_provider]);
 		$user_id = $this->db->fetchfield('user_id');
 		$this->db->freeresult();
 		
@@ -91,6 +93,18 @@ class base extends page
 	protected function get_redirect_uri()
 	{
 		return 'http://' . $this->request->server_name . ilink($this->get_handler_url('callback'));
+	}
+	
+	/**
+	* Сохранение данных социального профиля для завершения регистрации
+	*/
+	protected function memorize_openid_credentials()
+	{
+		$_SESSION['oauth.saved'] = [
+			'email'    => mb_strtolower($this->openid_email),
+			'provider' => $this->api_provider,
+			'uid'      => $this->openid_uid,
+		];
 	}
 	
 	/**

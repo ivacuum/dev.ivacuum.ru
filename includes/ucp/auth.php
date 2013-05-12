@@ -159,7 +159,7 @@ class auth extends page
 		}
 		
 		$goto = $this->request->variable('goto', '');
-		
+		$_SESSION['request.redirect'] = $goto;
 		$this->template->assign('GOTO', $goto);
 		
 		/* get для вывода сообщения только при первой попытке входа */

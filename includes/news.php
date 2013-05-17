@@ -263,6 +263,11 @@ class news extends page
 	*/
 	protected function check_input_date($year, $month, $day)
 	{
+		if (($day && !$this->is_number($day)) || ($month && !$this->is_number($month)) || ($year && !$this->is_number($year)))
+		{
+			trigger_error('PAGE_NOT_FOUND');
+		}
+		
 		if ($year && $month && $day)
 		{
 			/* Новости за день */
@@ -313,5 +318,10 @@ class news extends page
 		$this->db->freeresult();
 		
 		return $total_news;
+	}
+	
+	protected function is_number($n)
+	{
+		return is_int($n) || ctype_digit(strval($n));
 	}
 }

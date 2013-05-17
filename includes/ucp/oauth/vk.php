@@ -35,7 +35,7 @@ class vk extends base
 		
 		$user_id = $this->get_openid_user_id();
 
-		$this->save_openid_data($json);
+		$this->save_openid_data($user_id, $json);
 		$this->auth_if_guest($user_id);
 		$this->redirect_if_user_logged_in();
 		$this->memorize_openid_credentials();

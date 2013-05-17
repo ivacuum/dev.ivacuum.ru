@@ -133,12 +133,12 @@ class base extends page
 		$this->request->redirect(ilink($this->urls['_signin']));
 	}
 	
-	protected function save_openid_data($json)
+	protected function save_openid_data($user_id, $json)
 	{
 		$sql_ary = $this->get_openid_insert_data($json);
 		
 		errorhandler::log_mail(print_r($json, true) . print_r($sql_ary, true), 'OAuth data arrived');
 		
-		$this->db->multi_insert('site_openid_identities', $sql_ary, 'openid_last_use = values(openid_last_use), openid_first_name = values(openid_first_name), openid_last_name = values(openid_last_name), openid_dob = values(openid_dob), openid_gender = values(openid_gender), openid_email = values(openid_email)');
+		$this->db->multi_insert('site_openid_identities', $sql_ary, 'openid_last_use = values(openid_last_use), openid_first_name = values(openid_first_name), openid_last_name = values(openid_last_name), openid_dob = values(openid_dob), openid_gender = values(openid_gender), openid_email = values(openid_email)' . (!$user_id && $this->user['user_id'] ? ', user_id = values(user_id)' : ''));
 	}
 }

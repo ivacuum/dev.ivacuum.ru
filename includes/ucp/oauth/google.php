@@ -66,13 +66,13 @@ class google extends base
 	{
 		$_SESSION["oauth.{$this->api_provider}.state"] = $state = make_random_string(10);
 
-		return [
+		return http_build_query([
 			'client_id'     => $this->config["oauth.{$this->api_provider}.app_id"],
 			'redirect_uri'  => $this->get_redirect_uri(),
 			'response_type' => 'code',
 			'scope'         => 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email',
 			'state'         => $state,
-		];
+		]);
 	}
 	
 	/**

@@ -20,7 +20,7 @@ class base extends page
 	
 	public function index()
 	{
-		$url = $this->authorize_endpoint . '?' . http_build_query($this->get_authorize_params());
+		$url = $this->authorize_endpoint . '?' . $this->get_authorize_params();
 		$this->request->redirect($url);
 	}
 	
@@ -67,12 +67,12 @@ class base extends page
 
 	protected function get_access_token_params()
 	{
-		return [];
+		return http_build_query([]);
 	}
 	
 	protected function get_authorize_params()
 	{
-		return [];
+		return http_build_query([]);
 	}
 	
 	protected function get_openid_insert_data($json)

@@ -7,8 +7,6 @@
 namespace app\ucp\oauth;
 
 use fw\core\errorhandler;
-use Guzzle\Http\Client as http_client;
-use Guzzle\Http\Exception\ClientErrorResponseException;
 
 class facebook extends base
 {
@@ -22,27 +20,16 @@ class facebook extends base
 		$this->check_oauth_state();
 		$this->redirect_if_user_denied();
 
-		$client = new http_client();
-		$params = $this->access_token_endpoint . '?' . http_build_query($this->get_access_token_params());
-		
-		try
-		{
-			$response = $client->get($params)->send()->getBody();
-			parse_str($response, $json);
-			$this->exit_if_error($json);
-		}
-		catch (ClientErrorResponseException $e)
-		{
-			errorhandler::log_mail(print_r($e->getMessage(), true), 'Facebook OAuth Error');
-			trigger_error('Произошла ошибка. Пожалуйста, повторите попытку позднее.');
-		}
+		$response = $this->http_client->get($this->access_token_endpoint . '?' . $this->get_access_token_params())->send()->getBody();
+		parse_str($response, $json);
+		$this->exit_if_error($json);
 		
 		$access_token = $json['access_token'];
 		$fields       = 'first_name, last_name, username, birthday, gender, email';
 		
-		$client->setBaseUrl($this->api_base_url);
+		$this->http_client->setBaseUrl($this->api_base_url);
 		$params = ['me{?access_token,fields}', compact('access_token', 'fields')];
-		$json = $client->get($params)->send()->json();
+		$json = $this->http_client->get($params)->send()->json();
 		
 		$this->openid_uid = $json['id'];
 		$this->openid_email = $json['email'];
@@ -67,12 +54,12 @@ class facebook extends base
 	*/
 	protected function get_access_token_params()
 	{
-		return [
+		return http_build_query([
 			'client_id'     => $this->config["oauth.{$this->api_provider}.app_id"],
 			'client_secret' => $this->config["oauth.{$this->api_provider}.app_secret"],
 			'code'          => $this->request->variable('code', ''),
 			'redirect_uri'  => $this->get_redirect_uri(),
-		];
+		]);
 	}
 	
 	protected function get_authorize_params()

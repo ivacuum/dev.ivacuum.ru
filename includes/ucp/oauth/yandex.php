@@ -7,8 +7,6 @@
 namespace app\ucp\oauth;
 
 use fw\core\errorhandler;
-use Guzzle\Http\Client as http_client;
-use Guzzle\Http\Exception\ClientErrorResponseException;
 
 class yandex extends base
 {
@@ -22,25 +20,14 @@ class yandex extends base
 		$this->check_oauth_state();
 		$this->redirect_if_user_denied();
 
-		$client = new http_client();
-		$params = http_build_query($this->get_access_token_params());
-		
-		try
-		{
-			$json = $client->post($this->access_token_endpoint, null, $params)->send()->json();
-			$this->exit_if_error($json);
-		}
-		catch (ClientErrorResponseException $e)
-		{
-			errorhandler::log_mail(print_r($e->getMessage(), true), 'Yandex OAuth Error');
-			trigger_error('Произошла ошибка. Пожалуйста, повторите попытку позднее.');
-		}
+		$json = $this->http_client->post($this->access_token_endpoint, null, $this->get_access_token_params())->send()->json();
+		$this->exit_if_error($json);
 		
 		$oauth_token = $json['access_token'];
 		
-		$client->setBaseUrl($this->api_base_url);
+		$this->http_client->setBaseUrl($this->api_base_url);
 		$params = ['info{?oauth_token}', compact('oauth_token')];
-		$json = $client->get($params)->send()->json();
+		$json = $this->http_client->get($params)->send()->json();
 
 		$this->openid_uid = $json['id'];
 		$this->openid_email = $json['default_email'];
@@ -65,12 +52,12 @@ class yandex extends base
 	*/
 	protected function get_access_token_params()
 	{
-		return [
+		return http_build_query([
 			'client_id'     => $this->config["oauth.{$this->api_provider}.app_id"],
 			'client_secret' => $this->config["oauth.{$this->api_provider}.app_secret"],
 			'code'          => $this->request->variable('code', ''),
 			'grant_type'    => 'authorization_code',
-		];
+		]);
 	}
 	
 	protected function get_authorize_params()

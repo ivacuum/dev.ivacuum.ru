@@ -67,12 +67,12 @@ class base extends page
 
 	protected function get_access_token_params()
 	{
-		return http_build_query([]);
+		return;
 	}
 	
 	protected function get_authorize_params()
 	{
-		return http_build_query([]);
+		return;
 	}
 	
 	protected function get_openid_insert_data($json)

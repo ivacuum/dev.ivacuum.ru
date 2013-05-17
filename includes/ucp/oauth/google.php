@@ -53,13 +53,13 @@ class google extends base
 	*/
 	protected function get_access_token_params()
 	{
-		return http_build_query([
+		return [
 			'client_id'     => $this->config["oauth.{$this->api_provider}.app_id"],
 			'client_secret' => $this->config["oauth.{$this->api_provider}.app_secret"],
 			'code'          => $this->request->variable('code', ''),
 			'grant_type'    => 'authorization_code',
 			'redirect_uri'  => $this->get_redirect_uri(),
-		]);
+		];
 	}
 	
 	protected function get_authorize_params()

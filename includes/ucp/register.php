@@ -125,7 +125,8 @@ class register extends page
 			$this->request->redirect(ilink());
 		}
 		
-		$email = $_SESSION['oauth.saved']['email'];
+		$email    = $_SESSION['oauth.saved']['email'];
+		$redirect = !empty($_SESSION['request.redirect']) ? $_SESSION['request.redirect'] : '';
 		
 		$sql = 'SELECT user_id FROM site_users WHERE user_email = ?';
 		$this->db->query($sql, [$email]);
@@ -134,16 +135,23 @@ class register extends page
 		
 		$this->template->assign([
 			'email_exists' => !empty($row),
+			'redirect'     => $redirect,
 			'saved_email'  => $email,
 		]);
 	}
 	
 	public function complete_post()
 	{
+		if (empty($_SESSION['oauth.saved']))
+		{
+			$this->request->redirect(ilink());
+		}
+
 		$have_login        = $this->request->is_set_post('have_login');
 		$password          = $this->request->post('password', '');
-		$redirect          = $_SESSION['request.redirect'] ?: '';
+		$redirect          = !empty($_SESSION['request.redirect']) ? $_SESSION['request.redirect'] : '';
 		$register          = $this->request->is_set_post('register');
+		$user_email        = mb_strtolower($this->request->post('email', ''));
 		$username_or_email = $this->request->post('username', '');
 
 		if ($have_login)
@@ -154,6 +162,71 @@ class register extends page
 			{
 				$this->request->redirect(ilink($redirect));
 			}
+		}
+		else
+		{
+			$error_ary = [];
+			
+			if (!$user_email)
+			{
+				$error_ary[] = 'Вы не указали адрес электронной почты';
+			}
+			elseif (!preg_match(sprintf('#%s#', get_preg_expression('email')), $user_email))
+			{
+				$error_ary[] = 'Неверно введен адрес электронной почты';
+			}
+
+			$sql = 'SELECT user_id FROM site_users WHERE user_email = ?';
+			$this->db->query($sql, [$user_email]);
+			$row = $this->db->fetchrow();
+			$this->db->freeresult();
+			
+			if ($row)
+			{
+				$error_ary[] = 'Данный адрес электронной почты уже зарегистрирован';
+			}
+
+			if (sizeof($error_ary))
+			{
+				$this->template->assign([
+					'email_exists' => true,
+					'errors'       => $error_ary,
+					'saved_email'  => $_SESSION['oauth.saved']['email'],
+				]);
+				
+				return;
+			}
+			
+			$salt = make_random_string(5);
+			$username = $username_clean = $user_email;
+		
+			$sql_ary = array_merge([
+				'user_password'  => '',
+				'user_salt'      => $salt,
+				'user_regdate'   => $this->request->time,
+				'user_language'  => $this->request->language,
+			], compact('username', 'username_clean', 'user_email'));
+		
+			$sql = 'INSERT INTO site_users ' . $this->db->build_array('INSERT', $sql_ary);
+			$this->db->query($sql);
+			
+			$user_id = $this->db->insert_id();
+
+			/* Обновление последнего зарегистрированного пользователя */
+			$this->config->set('newest_user_id', $user_id, 0);
+			$this->config->set('newest_username', $username, 0);
+			$this->config->increment('num_users', 1, 0);
+			
+			/* Привязывание социальной учетки */
+			$openid_provider = $_SESSION['oauth.saved']['provider'];
+			$openid_uid      = $_SESSION['oauth.saved']['uid'];
+			
+			$sql = 'UPDATE site_openid_identities SET user_id = ? WHERE openid_uid = ? AND openid_provider = ? AND user_id = 0';
+			$this->db->query($sql, [$user_id, $openid_uid, $openid_provider]);
+			
+			$this->user->session_end(false);
+			$this->user->session_create(false, $user_id, true, false, $openid_provider);
+			$this->request->redirect(ilink($redirect));
 		}
 	}
 }

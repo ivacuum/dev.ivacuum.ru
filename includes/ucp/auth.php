@@ -158,7 +158,7 @@ class auth extends page
 			$this->request->redirect(ilink());
 		}
 		
-		$goto = $this->request->variable('goto', '');
+		$goto = $this->request->variable('goto', isset($_SESSION['request.redirect']) ? $_SESSION['request.redirect'] : '');
 		$_SESSION['request.redirect'] = $goto;
 		$this->template->assign('GOTO', $goto);
 		

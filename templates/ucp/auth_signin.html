@@ -19,12 +19,24 @@
 	<h3>{'LOGIN'|i18n}</h3>
 	<div class="boxed-group-inner">
 		<div class="text-center">
-			<a href="{'ucp\oauth\facebook::index'|url_for}" class="tip" title="Facebook"><img src="//ivacuum.org/i/openid/48/facebook.png" alt=""></a>
-			<a href="{'ucp\oauth\github::index'|url_for}" class="tip" title="GitHub"><img src="//ivacuum.org/i/openid/48/github.png" alt=""></a>
-			<a href="{'ucp\oauth\google::index'|url_for}" class="tip" title="Google"><img src="//ivacuum.org/i/openid/48/google.png" alt=""></a>
-			<a href="{'ucp\oauth\twitter::index'|url_for}" class="tip" title="Twitter"><img src="//ivacuum.org/i/openid/48/twitter.png" alt=""></a>
-			<a href="{'ucp\oauth\vk::index'|url_for}" class="tip" title="ВКонтакте"><img src="//ivacuum.org/i/openid/48/vk.png" alt=""></a>
-			<a href="{'ucp\oauth\yandex::index'|url_for}" class="tip" title="Яндекс"><img src="//ivacuum.org/i/openid/48/yandex.png" alt=""></a>
+			{if $url = '\fw\modules\ucp\oauth\facebook::index'|url_for}
+				<a href="{$url}" class="tip" title="Facebook"><img src="//ivacuum.org/i/openid/48/facebook.png" alt=""></a>
+			{/if}
+			{if $url = '\fw\modules\ucp\oauth\github::index'|url_for}
+				<a href="{$url}" class="tip" title="GitHub"><img src="//ivacuum.org/i/openid/48/github.png" alt=""></a>
+			{/if}
+			{if $url = '\fw\modules\ucp\oauth\google::index'|url_for}
+				<a href="{$url}" class="tip" title="Google"><img src="//ivacuum.org/i/openid/48/google.png" alt=""></a>
+			{/if}
+			{if $url = '\fw\modules\ucp\oauth\twitter::index'|url_for}
+				<a href="{$url}" class="tip" title="Twitter"><img src="//ivacuum.org/i/openid/48/twitter.png" alt=""></a>
+			{/if}
+			{if $url = '\fw\modules\ucp\oauth\vk::index'|url_for}
+				<a href="{$url}" class="tip" title="ВКонтакте"><img src="//ivacuum.org/i/openid/48/vk.png" alt=""></a>
+			{/if}
+			{if $url = '\fw\modules\ucp\oauth\yandex::index'|url_for}
+				<a href="{$url}" class="tip" title="Яндекс"><img src="//ivacuum.org/i/openid/48/yandex.png" alt=""></a>
+			{/if}
 		</div>
 		<h3 class="conversation-list-heading">
 			<div class="inner">

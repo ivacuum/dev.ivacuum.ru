@@ -72,6 +72,7 @@ class ucp extends page
 	
 	public function profile_post()
 	{
+		$username        = $this->request->post('username', '');
 		$user_first_name = $this->request->post('first_name', '');
 		$user_last_name  = $this->request->post('last_name', '');
 		$user_email      = mb_strtolower($this->request->post('email', ''));
@@ -84,6 +85,10 @@ class ucp extends page
 		
 		$error_ary = [];
 		
+		if (!$username || mb_strlen($username) < 3 || mb_strlen($username) > 30)
+		{
+			$error_ary[] = 'Введите логин от 3 до 30 символов';
+		}
 		if (!$user_email)
 		{
 			$error_ary[] = 'Вы не указали адрес электронной почты';
@@ -91,6 +96,35 @@ class ucp extends page
 		if (!preg_match(sprintf('#%s#', get_preg_expression('email')), $user_email))
 		{
 			$error_ary[] = 'Неверно введен адрес электронной почты';
+		}
+
+		$username_clean = mb_strtolower($username);
+
+		/* Проверка существования пользователя с подобным ником */
+		if ($username_clean)
+		{
+			$sql = 'SELECT user_id FROM site_users WHERE username_clean = ? AND user_id != ?';
+			$this->db->query($sql, [$username_clean, $this->user['user_id']]);
+			$row = $this->db->fetchrow();
+			$this->db->freeresult();
+			
+			if ($row)
+			{
+				$error_ary[] = 'Данный логин уже занят';
+			}
+		}
+
+		if ($user_email)
+		{
+			$sql = 'SELECT user_id FROM site_users WHERE user_email = ? AND user_id != ?';
+			$this->db->query($sql, [$user_email, $this->user['user_id']]);
+			$row = $this->db->fetchrow();
+			$this->db->freeresult();
+			
+			if ($row)
+			{
+				$error_ary[] = 'Данный адрес электронной почты уже зарегистрирован';
+			}
 		}
 
 		if (sizeof($error_ary))
@@ -103,7 +137,7 @@ class ucp extends page
 			return;
 		}
 		
-		$this->user->user_update(compact('user_first_name', 'user_last_name', 'user_email', 'user_icq', 'user_jid', 'user_website', 'user_from', 'user_occ', 'user_interests'));
+		$this->user->user_update(compact('username', 'username_clean', 'user_first_name', 'user_last_name', 'user_email', 'user_icq', 'user_jid', 'user_website', 'user_from', 'user_occ', 'user_interests'));
 		
 		$this->template->assign([
 			'me'     => $this->user->data,

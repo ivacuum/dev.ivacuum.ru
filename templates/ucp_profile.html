@@ -24,15 +24,21 @@
 		{$page.page_text}
 		<form action="{'profile'|url_for}" class="form-horizontal" method="post">
 			<div class="control-group">
+				<label class="control-label" for="username_field">Логин</label>
+				<div class="controls">
+					<input type="text" id="username_field" name="username" value="{$me.username}" tabindex="1">
+				</div>
+			</div>
+			<div class="control-group">
 				<label class="control-label" for="first_name_field">Имя</label>
 				<div class="controls">
-					<input type="text" id="first_name_field" name="first_name" value="{$me.user_first_name}" tabindex="1">
+					<input type="text" id="first_name_field" name="first_name" value="{$me.user_first_name}" tabindex="2">
 				</div>
 			</div>
 			<div class="control-group">
 				<label class="control-label" for="last_name_field">Фамилия</label>
 				<div class="controls">
-					<input type="text" id="last_name_field" name="last_name" value="{$me.user_last_name}" tabindex="2">
+					<input type="text" id="last_name_field" name="last_name" value="{$me.user_last_name}" tabindex="3">
 				</div>
 			</div>
 			{*
@@ -48,49 +54,49 @@
 			<div class="control-group">
 				<label class="control-label" for="email_field">Email</label>
 				<div class="controls">
-					<input required type="email" id="email_field" name="email" value="{$me.user_email}" tabindex="3">
+					<input required type="email" id="email_field" name="email" value="{$me.user_email}" tabindex="4">
 				</div>
 			</div>
 			<div class="control-group">
 				<label class="control-label" for="icq_field">ICQ</label>
 				<div class="controls">
-					<input type="text" id="icq_field" name="icq" value="{$me.user_icq}" tabindex="4">
+					<input type="text" id="icq_field" name="icq" value="{$me.user_icq}" tabindex="5">
 				</div>
 			</div>
 			<div class="control-group">
 				<label class="control-label" for="jid_field">Jabber</label>
 				<div class="controls">
-					<input type="text" id="jid_field" name="jid" value="{$me.user_jid}" tabindex="5">
+					<input type="text" id="jid_field" name="jid" value="{$me.user_jid}" tabindex="6">
 				</div>
 			</div>
 			<div class="control-group">
 				<label class="control-label" for="website_field">Веб-сайт</label>
 				<div class="controls">
-					<input type="url" id="website_field" name="website" value="{$me.user_website}" tabindex="6">
+					<input type="url" id="website_field" name="website" value="{$me.user_website}" tabindex="7">
 				</div>
 			</div>
 			<hr>
 			<div class="control-group">
 				<label class="control-label" for="from_field">Местоположение</label>
 				<div class="controls">
-					<input type="text" id="from_field" name="from" value="{$me.user_from}" tabindex="7">
+					<input type="text" id="from_field" name="from" value="{$me.user_from}" tabindex="8">
 				</div>
 			</div>
 			<div class="control-group">
 				<label class="control-label" for="occ_field">Род занятий</label>
 				<div class="controls">
-					<textarea id="occ_field" name="occ" class="input-block-level" tabindex="8" style="height: 5em;">{$me.user_occ}</textarea>
+					<textarea id="occ_field" name="occ" class="input-block-level" tabindex="9" style="height: 5em;">{$me.user_occ}</textarea>
 				</div>
 			</div>
 			<div class="control-group">
 				<label class="control-label" for="interests_field">Интересы</label>
 				<div class="controls">
-					<textarea id="interests_field" name="interests" class="input-block-level" tabindex="9" style="height: 5em;">{$me.user_interests}</textarea>
+					<textarea id="interests_field" name="interests" class="input-block-level" tabindex="10" style="height: 5em;">{$me.user_interests}</textarea>
 				</div>
 			</div>
 			<div class="control-group">
 				<div class="controls">
-					<button class="btn btn-primary" type="submit" name="submit" tabindex="10">Сохранить изменения</button>
+					<button class="btn btn-primary" type="submit" name="submit" tabindex="11">Сохранить изменения</button>
 				</div>
 			</div>
 		</form>

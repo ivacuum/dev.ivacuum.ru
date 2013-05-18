@@ -16,7 +16,7 @@
 	<h3>{$page.page_name}</h3>
 	<div class="boxed-group-inner">
 		{if $email_exists and $saved_email}
-			<p>Электропочта {$saved_email} уже зарегистрирована на сайте. Социальный профиль автоматически будет прекреплен к вашей учетной записи после входа.</p>
+			<p>Электропочта {$saved_email} уже зарегистрирована на сайте {$S_SERVER_NAME}. Социальный профиль автоматически будет прекреплен к вашей учетной записи после входа.</p>
 			<p class="text-center"><a class="btn" href="{$U_SIGNIN}">Я помню данные для входа</a></p>
 			<form action="{'ucp\auth::sendpassword'|url_for}" method="post" style="margin: 0;">
 				<p>Забыли пароль? Его можно восстановить.</p>
@@ -34,7 +34,7 @@
 				<p class="text-center"><button class="btn">Зарегистрировать новую учетную запись</button></p>
 			</form>
 		{elseif $saved_email}
-			<p>Если у вас уже есть учетная запись на данном сайте, то социальный профиль будет автоматически закреплен за ней после входа.</p>
+			<p>Если у вас уже есть учетная запись на сайте {$S_SERVER_NAME}, то социальный профиль будет автоматически закреплен за ней после входа.</p>
 			<p class="text-center"><a class="btn" href="{$U_SIGNIN}">У меня уже есть учетная запись</a></p>
 			<h3 class="conversation-list-heading">
 				<div class="inner">или</div>
@@ -45,11 +45,12 @@
 				<input type="hidden" name="email" value="{$saved_email|escape}">
 			</form>
 		{else}
-			<p>Если у вас уже есть учетная запись на данном сайте, то социальный профиль будет автоматически закреплен за ней после входа.</p>
+			<p>Если у вас уже есть учетная запись на сайте {$S_SERVER_NAME}, то социальный профиль будет автоматически закреплен за ней после входа.</p>
 			<p class="text-center"><a class="btn" href="{$U_SIGNIN}">У меня уже есть учетная запись</a></p>
 			<h3 class="conversation-list-heading">
 				<div class="inner">или</div>
 			</h3>
+			<p>Если учетной записи у вас еще нет, то можно зарегистрировать новую.</p>
 			<form action="{'ucp\register::complete'|url_for}" method="post">
 				<div class="complete-register-form-inner">
 					<label for="email_field">{'EMAIL'|i18n}</label>

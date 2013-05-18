@@ -17,10 +17,10 @@
 	<div class="boxed-group-inner">
 		{if $email_exists and $saved_email}
 			<p>Электропочта {$saved_email} уже зарегистрирована на сайте. Социальный профиль автоматически будет прекреплен к вашей учетной записи после входа.</p>
-			<p class="t-center"><a class="btn" href="{$U_SIGNIN}">Я помню данные для входа</a></p>
+			<p class="text-center"><a class="btn" href="{$U_SIGNIN}">Я помню данные для входа</a></p>
 			<form action="{'ucp\auth::sendpassword'|url_for}" method="post" style="margin: 0;">
 				<p>Забыли пароль? Его можно восстановить.</p>
-				<p class="t-center"><button class="btn" type="submit">Начать восстановление пароля</button></p>
+				<p class="text-center"><button class="btn" type="submit">Начать восстановление пароля</button></p>
 				<input type="hidden" name="email" value="{$saved_email|escape}">
 			</form>
 			<h3 class="conversation-list-heading">
@@ -31,22 +31,22 @@
 					<label for="email_field">{'EMAIL'|i18n}</label>
 					<input required name="email" id="email_field" class="input-block-level" type="email" value="">
 				</div>
-				<p class="t-center"><button class="btn">Зарегистрировать новую учетную запись</button></p>
+				<p class="text-center"><button class="btn">Зарегистрировать новую учетную запись</button></p>
 			</form>
 		{elseif $saved_email}
 			<p>Если у вас уже есть учетная запись на данном сайте, то социальный профиль будет автоматически закреплен за ней после входа.</p>
-			<p class="t-center"><a class="btn" href="{$U_SIGNIN}">У меня уже есть учетная запись</a></p>
+			<p class="text-center"><a class="btn" href="{$U_SIGNIN}">У меня уже есть учетная запись</a></p>
 			<h3 class="conversation-list-heading">
 				<div class="inner">или</div>
 			</h3>
 			<form action="{'ucp\register::complete'|url_for}" method="post">
 				<p>Вы можете зарегистрировать новую учетную запись с электропочтой {$saved_email} прямо сейчас.</p>
-				<p class="t-center"><button class="btn" type="submit">Зарегистрировать новую учетную запись</button></p>
+				<p class="text-center"><button class="btn" type="submit">Зарегистрировать новую учетную запись</button></p>
 				<input type="hidden" name="email" value="{$saved_email|escape}">
 			</form>
 		{else}
 			<p>Если у вас уже есть учетная запись на данном сайте, то социальный профиль будет автоматически закреплен за ней после входа.</p>
-			<p class="t-center"><a class="btn" href="{$U_SIGNIN}">У меня уже есть учетная запись</a></p>
+			<p class="text-center"><a class="btn" href="{$U_SIGNIN}">У меня уже есть учетная запись</a></p>
 			<h3 class="conversation-list-heading">
 				<div class="inner">или</div>
 			</h3>
@@ -55,7 +55,7 @@
 					<label for="email_field">{'EMAIL'|i18n}</label>
 					<input required name="email" id="email_field" class="input-block-level" type="email" value="">
 				</div>
-				<p class="t-center"><button class="btn">Зарегистрировать новую учетную запись</button></p>
+				<p class="text-center"><button class="btn">Зарегистрировать новую учетную запись</button></p>
 			</form>
 		{/if}
 	</div>

@@ -29,6 +29,9 @@
 			{if $url = '\fw\modules\ucp\oauth\google::index'|url_for}
 				<a href="{$url}" class="tip" title="Google"><img src="//ivacuum.org/i/openid/48/google.png" alt=""></a>
 			{/if}
+			{if $url = '\fw\modules\ucp\oauth\instagram::index'|url_for}
+				<a href="{$url}" class="tip" title="Instagram"><img src="//ivacuum.org/i/openid/48/instagram.png" alt=""></a>
+			{/if}
 			{if $url = '\fw\modules\ucp\oauth\twitter::index'|url_for}
 				<a href="{$url}" class="tip" title="Twitter"><img src="//ivacuum.org/i/openid/48/twitter.png" alt=""></a>
 			{/if}
@@ -49,12 +52,31 @@
 			<input type="text" class="input-block-level" id="username_field" name="username" tabindex="1">
 			<label for="password_field">{'PASSWORD'|i18n} (<a href="{'sendpassword'|url_for}">{'FORGOT_PASSWORD'|i18n}</a>)</label>
 			<input type="password" class="input-block-level" id="password_field" name="password" tabindex="2">
+			{if not empty($ERROR_ATTEMPTS)}
+				<label for="confirm_code_field">Код подтверждения</label>
+				<div><img src="{'\fw\modules\captcha::index'|url_for}" alt="" id="confirm_code_image"></div>
+				<div class="input-append">
+					<input required name="confirm_code" id="confirm_code_field" class="span2" type="text" value="" tabindex="3">
+					<a class="btn" id="refresh_confirm_code" href="#"><i class="icon-refresh"></i></a>
+				</div>
+				<div class="clearfix"></div>
+			{/if}
 			<label class="checkbox">
-				<input type="checkbox" name="autologin" tabindex="3" checked> {'AUTOLOGIN'|i18n}
+				<input type="checkbox" name="autologin" checked> {'AUTOLOGIN'|i18n}
 			</label>
 			<button class="btn btn-primary" type="submit" name="submit" tabindex="4">{'LOGIN'|i18n}</button>
 			{$S_HIDDEN_FIELDS}
 		</form>
 	</div>
 </div>
+
+{if not empty($ERROR_ATTEMPTS)}
+<script>
+$('#refresh_confirm_code').bind('click', function() {
+	$('#confirm_code_image').attr('src', '{'\fw\modules\captcha::index'|url_for}?' + Math.random());
+	$('#confirm_code_field').val('').focus();
+	return false;
+});
+</script>
+{/if}
 {/block}

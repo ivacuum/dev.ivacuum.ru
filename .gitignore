@@ -35,7 +35,7 @@ cache.properties
 .CVS
 .idea
 
-/cache
-/includes/cron/log
-/public_html/apc.php
+/cache/templates/*
+/cache/*
+/logs/*
 /config.php

@@ -17,7 +17,7 @@ class purge extends task
 	{
 		$session_lifetime = ini_get('session.gc_maxlifetime');
 		
-		/* Удаляем сессии гостей */
+		/* Удаление сессий гостей */
 		$sql = 'DELETE FROM site_sessions WHERE user_id = 0 AND session_time < ?';
 		$this->db->query($sql, [$this->ctime - $session_lifetime]);
 		$this->log('Удалено сессий гостей: ' . $this->db->affected_rows());
@@ -65,9 +65,7 @@ class purge extends task
 			$this->log('Удалено сессий пользователей: ' . sizeof($del_users_id));
 		}
 
-		/**
-		* Удаляем ключи автовхода
-		*/
+		/* Удаление ключей автовхода */
 		if ($this->config['autologin.time'])
 		{
 			$sql = 'DELETE FROM site_sessions_keys WHERE last_login < ?';
@@ -77,6 +75,11 @@ class purge extends task
 			$sql = 'OPTIMIZE TABLE site_sessions_keys';
 			$this->db->query($sql);
 		}
+		
+		/* Удаление неудачных попыток аутентификации */
+		$sql = 'DELETE FROM site_login_attempts WHERE attempt_time < ?';
+		$this->db->query($sql, [$this->ctime - $this->config['ip_login_limit_time']]);
+		$this->log('Удалено записей о неудачных попытках аутентификации: ' . $this->db->affected_rows());
 
 		$sql = 'OPTIMIZE TABLE site_sessions';
 		$this->db->query($sql);

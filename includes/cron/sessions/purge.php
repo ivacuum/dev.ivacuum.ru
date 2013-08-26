@@ -71,18 +71,12 @@ class purge extends task
 			$sql = 'DELETE FROM site_sessions_keys WHERE last_login < ?';
 			$this->db->query($sql, [$this->ctime - (86400 * $this->config['autologin.time'])]);
 			$this->log('Удалено ключей сессий: ' . $this->db->affected_rows());
-
-			$sql = 'OPTIMIZE TABLE site_sessions_keys';
-			$this->db->query($sql);
 		}
 		
 		/* Удаление неудачных попыток аутентификации */
 		$sql = 'DELETE FROM site_login_attempts WHERE attempt_time < ?';
 		$this->db->query($sql, [$this->ctime - $this->config['ip_login_limit_time']]);
 		$this->log('Удалено записей о неудачных попытках аутентификации: ' . $this->db->affected_rows());
-
-		$sql = 'OPTIMIZE TABLE site_sessions';
-		$this->db->query($sql);
 		
 		return true;
 	}

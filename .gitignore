@@ -35,6 +35,7 @@ cache.properties
 .CVS
 .idea
 
+/acp
 /cache
 /logs
 /config.php

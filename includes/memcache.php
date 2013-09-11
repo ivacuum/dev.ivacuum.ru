@@ -13,13 +13,29 @@ use app\models\page;
 */
 class memcache extends page
 {
-	private $servers = [0 => 'unix:///var/run/memcached/memcached.lock'];
+	protected $servers = [];
 	
 	public function _setup()
 	{
 		if (!$this->auth->acl_get('a_'))
 		{
 			trigger_error('PAGE_NOT_FOUND');
+		}
+		
+		$options = $this->app['cache.driver.options'];
+		
+		if (!$options['host'])
+		{
+			trigger_error('NO_MEMCACHE_SERVER_CONFIGURED');
+		}
+		
+		if ($options['port'])
+		{
+			$this->servers[] = "{$options['host']}:{$options['port']}";
+		}
+		else
+		{
+			$this->servers[] = $options['host'];
 		}
 		
 		$this->set_site_submenu();

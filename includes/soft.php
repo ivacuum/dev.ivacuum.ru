@@ -18,8 +18,7 @@ class soft extends page
 	*/
 	public function index()
 	{
-		foreach ($this->get_page_descendants() as $row)
-		{
+		foreach ($this->get_page_descendants() as $row) {
 			$this->template->append('soft', [
 				'COVER' => $row['page_url'],
 				'TITLE' => $row['page_name'],

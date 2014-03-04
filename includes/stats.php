@@ -18,8 +18,7 @@ class stats extends page
 	*/
 	public function index()
 	{
-		foreach ($this->get_page_descendants() as $row)
-		{
+		foreach ($this->get_page_descendants() as $row) {
 			$this->template->append('pages', [
 				'IMAGE' => $row['page_image'],
 				'TITLE' => $row['page_name'],
@@ -37,8 +36,7 @@ class stats extends page
 		$sql = 'SHOW GLOBAL STATUS';
 		$this->db->query($sql);
 
-		while ($row = $this->db->fetchrow())
-		{
+		while ($row = $this->db->fetchrow()) {
 			$info[$row['Variable_name']] = $row['Value'];
 		}
 

@@ -40,8 +40,7 @@ class memopu3 extends page
 		$sql = 'SELECT * FROM site_quotes WHERE quote_approver_time > 0 ORDER BY quote_sender_time DESC';
 		$this->db->query_limit($sql, [], $pagination['on_page'], $pagination['offset']);
 
-		while ($row = $this->db->fetchrow())
-		{
+		while ($row = $this->db->fetchrow()) {
 			/* Поддержка изображений */
 			$row['quote_text'] = preg_replace('#\[url=([^\]]+)\]\[img\]([^\[]+)\[\/img\]\[\/url\]#', '<a href="\1"><img src="\2" alt="" /></a>', $row['quote_text']);
 
@@ -72,10 +71,8 @@ class memopu3 extends page
 		$text   = $this->request->variable('text', '');
 		
 		/* Добавление цитаты на рассмотрение */
-		if ($submit)
-		{
-			if (mb_strlen($text) < 10 || mb_strlen($text) > 2000)
-			{
+		if ($submit) {
+			if (mb_strlen($text) < 10 || mb_strlen($text) > 2000) {
 				trigger_error('Ваша цитата не подходит по размеру (от 10 до 2000 символов).');
 			}
 			
@@ -110,8 +107,7 @@ class memopu3 extends page
 		$sql = 'SELECT * FROM site_quotes WHERE quote_approver_time > 0 ORDER BY quote_votes DESC';
 		$this->db->query_limit($sql, [], $pagination['on_page'], $pagination['offset']);
 
-		while ($row = $this->db->fetchrow())
-		{
+		while ($row = $this->db->fetchrow()) {
 			/* Поддержка изображений */
 			$row['quote_text'] = preg_replace('#\[url=([^\]]+)\]\[img\]([^\[]+)\[\/img\]\[\/url\]#', '<a href="\1"><img src="\2" alt="" /></a>', $row['quote_text']);
 
@@ -139,10 +135,8 @@ class memopu3 extends page
 		$offset = [];
 		$find = true;
 
-		for ($i = 0; $i < 10; $i++)
-		{
-			do
-			{
+		for ($i = 0; $i < 10; $i++) {
+			do {
 				$sql = 'SELECT FLOOR(RAND() * COUNT(*)) AS offset FROM site_quotes';
 				$this->db->query($sql);
 				$row = $this->db->fetchrow();
@@ -150,29 +144,24 @@ class memopu3 extends page
 
 				$find = false;
 
-				for ($k = 0, $_k = sizeof($offset); $k < $_k; $k++)
-				{
-					if ($offset[$k] == $row['offset'])
-					{
+				for ($k = 0, $_k = sizeof($offset); $k < $_k; $k++) {
+					if ($offset[$k] == $row['offset']) {
 						$find = true;
 						break;
 					}
 				}
 
-				if (false === $find)
-				{
+				if (false === $find) {
 					$offset[] = $row['offset'];
 				}
-			}
-			while (true === $find);
+			} while (true === $find);
 
 			$sql = 'SELECT * FROM site_quotes WHERE quote_approver_time > 0';
 			$this->db->query_limit($sql, [], 1, $row['offset']);
 			$row = $this->db->fetchrow();
 			$this->db->freeresult();
 			
-			if (!$row)
-			{
+			if (!$row) {
 				continue;
 			}
 
@@ -200,8 +189,7 @@ class memopu3 extends page
 	{
 		$quote_id = (int) $quote_id;
 		
-		if ($quote_id < 1)
-		{
+		if ($quote_id < 1) {
 			trigger_error('Не указана цитата для поиска.');
 		}
 		
@@ -210,14 +198,12 @@ class memopu3 extends page
 		$row = $this->db->fetchrow();
 		$this->db->freeresult();
 
-		if (!$row)
-		{
+		if (!$row) {
 			trigger_error('Цитата не найдена.');
 		}
 
 		/* Повышение/понижение рейтинга */
-		if ($mode == '+' || $mode == '-')
-		{
+		if ($mode == '+' || $mode == '-') {
 			$this->vote($quote_id, $mode);
 		}
 		
@@ -245,8 +231,7 @@ class memopu3 extends page
 				v.vote_time DESC';
 		$this->db->query($sql, [$quote_id]);
 
-		while ($votes = $this->db->fetchrow())
-		{
+		while ($votes = $this->db->fetchrow()) {
 			$this->template->append('votes', [
 				'ID'   => $votes['vote_id'],
 				'IP'   => $votes['user_ip'],
@@ -261,8 +246,7 @@ class memopu3 extends page
 		$sql = 'SELECT * FROM site_quotes_votes WHERE quote_id = ? AND user_id = 0 ORDER BY vote_time DESC';
 		$this->db->query($sql, [$quote_id]);
 
-		while ($votes = $this->db->fetchrow())
-		{
+		while ($votes = $this->db->fetchrow()) {
 			$this->template->append('votes_guest', [
 				'ID'   => $votes['vote_id'],
 				'IP'   => $votes['user_ip'],
@@ -295,8 +279,7 @@ class memopu3 extends page
 	private function vote($quote_id, $mode)
 	{
 		/* Запрещаем поисковым ботам голосовать */
-		if ($this->user->is_bot)
-		{
+		if ($this->user->is_bot) {
 			trigger_error('Вы не можете голосовать.');
 		}
 
@@ -314,10 +297,8 @@ class memopu3 extends page
 		$this->db->freeresult();
 
 		/* Найдены прежние голоса */
-		if ($row)
-		{
-			if (!$this->request->is_ajax)
-			{
+		if ($row) {
+			if (!$this->request->is_ajax) {
 				$redirect = ilink(sprintf('%s%d', $this->urls['view'], $quote_id));
 
 				meta_refresh(2, $redirect);
@@ -327,9 +308,6 @@ class memopu3 extends page
 			json_output(['votes' => '(Голос уже учтён)']);
 		}
 		
-		/**
-		* Голосуем
-		*/
 		$sql = 'INSERT INTO site_quotes_votes ' .
 			$this->db->build_array('INSERT', [
 				'user_id'     => $this->user['user_id'],
@@ -349,8 +327,7 @@ class memopu3 extends page
 				quote_id = ?';
 		$this->db->query($sql, [$quote_id]);
 
-		if (!$this->request->is_ajax)
-		{
+		if (!$this->request->is_ajax) {
 			$this->request->redirect(ilink(sprintf('%s%d', $this->urls['view'], $quote_id)));
 		}
 		
@@ -362,13 +339,11 @@ class memopu3 extends page
 	*/
 	public function vote_delete($vote_id)
 	{
-		if (!$this->request->is_ajax)
-		{
+		if (!$this->request->is_ajax) {
 			exit;
 		}
 		
-		if (!$this->auth->acl_get('a_'))
-		{
+		if (!$this->auth->acl_get('a_')) {
 			exit;
 		}
 
@@ -379,8 +354,7 @@ class memopu3 extends page
 		$vote = $this->db->fetchrow();
 		$this->db->freeresult();
 
-		if (!$vote)
-		{
+		if (!$vote) {
 			exit;
 		}
 

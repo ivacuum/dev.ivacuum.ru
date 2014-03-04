@@ -35,21 +35,17 @@ class ucp extends page
 		
 		$error_ary = [];
 		
-		if (!$old_password || !($this->user['user_salt'] && md5($old_password . $this->user['user_salt']) == $this->user['user_password']) || (!$this->user['user_salt'] && md5($old_password) == $this->user['user_password']))
-		{
+		if (!$old_password || !($this->user['user_salt'] && md5($old_password . $this->user['user_salt']) == $this->user['user_password']) || (!$this->user['user_salt'] && md5($old_password) == $this->user['user_password'])) {
 			$error_ary[] = 'Текущий пароль введен неверно';
 		}
-		if (!$password || !$password_confirmation || mb_strlen($password) < 6 || mb_strlen($password) > 60)
-		{
+		if (!$password || !$password_confirmation || mb_strlen($password) < 6 || mb_strlen($password) > 60) {
 			$error_ary[] = 'Введите новый пароль от 6 до 60 символов';
 		}
-		if ($password != $password_confirmation)
-		{
+		if ($password != $password_confirmation) {
 			$error_ary[] = 'Введенные пароли не совпадают';
 		}
 		
-		if (sizeof($error_ary))
-		{
+		if (sizeof($error_ary)) {
 			$this->template->assign('errors', $error_ary);
 			return;
 		}
@@ -85,50 +81,42 @@ class ucp extends page
 		
 		$error_ary = [];
 		
-		if (!$username || mb_strlen($username) < 3 || mb_strlen($username) > 30)
-		{
+		if (!$username || mb_strlen($username) < 3 || mb_strlen($username) > 30) {
 			$error_ary[] = 'Введите логин от 3 до 30 символов';
 		}
-		if (!$user_email)
-		{
+		if (!$user_email) {
 			$error_ary[] = 'Вы не указали адрес электронной почты';
 		}
-		if (!preg_match(sprintf('#%s#', get_preg_expression('email')), $user_email))
-		{
+		if (!preg_match(sprintf('#%s#', get_preg_expression('email')), $user_email)) {
 			$error_ary[] = 'Неверно введен адрес электронной почты';
 		}
 
 		$username_clean = mb_strtolower($username);
 
 		/* Проверка существования пользователя с подобным ником */
-		if ($username_clean)
-		{
+		if ($username_clean) {
 			$sql = 'SELECT user_id FROM site_users WHERE username_clean = ? AND user_id != ?';
 			$this->db->query($sql, [$username_clean, $this->user['user_id']]);
 			$row = $this->db->fetchrow();
 			$this->db->freeresult();
 			
-			if ($row)
-			{
+			if ($row) {
 				$error_ary[] = 'Данный логин уже занят';
 			}
 		}
 
-		if ($user_email)
-		{
+		if ($user_email) {
 			$sql = 'SELECT user_id FROM site_users WHERE user_email = ? AND user_id != ?';
 			$this->db->query($sql, [$user_email, $this->user['user_id']]);
 			$row = $this->db->fetchrow();
 			$this->db->freeresult();
 			
-			if ($row)
-			{
+			if ($row) {
 				$error_ary[] = 'Данный адрес электронной почты уже зарегистрирован';
 			}
 		}
 
-		if (sizeof($error_ary))
-		{
+		if (sizeof($error_ary)) {
 			$this->template->assign([
 				'errors' => $error_ary,
 				'me'     => $this->user->data,
@@ -150,8 +138,7 @@ class ucp extends page
 		$sql = 'SELECT * FROM site_openid_identities WHERE user_id = ? ORDER BY openid_provider';
 		$this->db->query($sql, [$this->user['user_id']]);
 		
-		while ($row = $this->db->fetchrow())
-		{
+		while ($row = $this->db->fetchrow()) {
 			$row['LAST_USE'] = $this->user->create_date($row['openid_last_use']);
 			$row['U_DELETE'] = $this->append_link_params("provider={$row['openid_provider']}&uid={$row['openid_uid']}", $this->get_handler_url('social_delete'));
 			

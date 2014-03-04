@@ -41,8 +41,7 @@ class gallery extends page
 		$total_traffic = $row['total_traffic'];
 		$total_views   = $row['total_views'];
 
-		if (!$total_images)
-		{
+		if (!$total_images) {
 			trigger_error('Вы еще не <a href="http://up.ivacuum.ru/"><b>загрузили</b></a> ни одного изображения.');
 		}
 
@@ -52,8 +51,7 @@ class gallery extends page
 		$sql = 'SELECT * FROM site_images WHERE user_id = ? ORDER BY image_time DESC';
 		$this->db->query_limit($sql, [$this->user['user_id']], $pagination['on_page'], $pagination['offset']);
 
-		while ($row = $this->db->fetchrow())
-		{
+		while ($row = $this->db->fetchrow()) {
 			$outdate = $row['image_touch'] ? time() - $row['image_touch'] : time() - $row['image_time'];
 
 			$this->template->append('images', [
@@ -85,8 +83,7 @@ class gallery extends page
 
 		$image_id = $this->request->variable('image_id', 0);
 		
-		if ($image_id < 1)
-		{
+		if ($image_id < 1) {
 			trigger_error('DATA_NOT_FOUND');
 		}
 
@@ -95,8 +92,7 @@ class gallery extends page
 		$row = $this->db->fetchrow();
 		$this->db->freeresult();
 
-		if (!$row)
-		{
+		if (!$row) {
 			trigger_error('DATA_NOT_FOUND');
 		}
 
@@ -121,8 +117,7 @@ class gallery extends page
 
 		$images_id = $this->request->variable('images_id', '');
 		
-		if (!$images_id || !$this->request->is_ajax)
-		{
+		if (!$images_id || !$this->request->is_ajax) {
 			trigger_error('DATA_NOT_FOUND');
 		}
 
@@ -132,8 +127,7 @@ class gallery extends page
 		$sql = 'SELECT * FROM site_images WHERE image_id IN (:images_id) AND user_id = ?';
 		$result = $this->db->query($sql, [$this->user['user_id'], ':images_id' => $images_id]);
 
-		while ($row = $this->db->fetchrow($result))
-		{
+		while ($row = $this->db->fetchrow($result)) {
 			$date = implode('/', str_split($row['image_date'], 2));
 
 			@unlink("{$this->config['gallery.images.upload_dir']}{$date}/{$row['image_url']}");

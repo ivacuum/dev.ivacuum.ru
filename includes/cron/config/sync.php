@@ -27,8 +27,7 @@ class sync extends task
 		$sql = ' SELECT site_id, COUNT(*) as total FROM site_news GROUP BY site_id';
 		$result = $this->db->query($sql);
 
-		while ($row = $this->db->fetchrow($result))
-		{
+		while ($row = $this->db->fetchrow($result)) {
 			$this->config->set('num_news', $row['total'], $row['site_id']);
 			$this->log(sprintf('num_news #%d: %d', $row['site_id'], $row['total']));
 		}

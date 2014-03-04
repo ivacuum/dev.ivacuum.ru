@@ -46,10 +46,8 @@ class who_is_online extends page
 				s.session_time DESC';
 		$this->db->query($sql, [$this->request->time - ($this->config['load_online_time'])]);
 
-		while ($row = $this->db->fetchrow())
-		{
-			if (!isset($prev_id[$row['user_id']]))
-			{
+		while ($row = $this->db->fetchrow()) {
+			if (!isset($prev_id[$row['user_id']])) {
 				$patterns[0] = '/ ?\.net clr \d\.\d\.\d{1,5}(\.\d{1,5})?;?/i';
 				$patterns[1] = '/ ?mrsputnik \d\, \d\, \d\, \d{1,3};?/i';
 				$patterns[2] = '/ sputnik \d\.\d\.\d\.\d{1,3};?/i';
@@ -93,10 +91,8 @@ class who_is_online extends page
 				session_time DESC';
 		$this->db->query($sql, [$this->request->time - $this->config['load_online_time']]);
 
-		while ($row = $this->db->fetchrow())
-		{
-			if (!isset($prev_ip[$row['session_ip']]))
-			{
+		while ($row = $this->db->fetchrow()) {
+			if (!isset($prev_ip[$row['session_ip']])) {
 				$patterns[0] = '/ ?\.net clr \d\.\d\.\d{1,5}(\.\d{1,5})?;?/i';
 				$patterns[1] = '/ ?mrsputnik \d\, \d\, \d\, \d{1,3};?/i';
 				$patterns[2] = '/ sputnik \d\.\d\.\d\.\d{1,3};?/i';
@@ -134,10 +130,8 @@ class who_is_online extends page
 		*/
 		$groups = $this->cache->obtain_groups();
 
-		foreach ($groups as $row)
-		{
-			if (!$row['group_legend'])
-			{
+		foreach ($groups as $row) {
+			if (!$row['group_legend']) {
 				continue;
 			}
 

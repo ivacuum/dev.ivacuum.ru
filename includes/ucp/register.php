@@ -12,8 +12,7 @@ class register extends page
 {
 	public function index()
 	{
-		if ($this->user->is_registered)
-		{
+		if ($this->user->is_registered) {
 			$this->request->redirect(ilink());
 		}
 	}
@@ -29,62 +28,54 @@ class register extends page
 		
 		$error_ary = [];
 		
-		if (!$username || mb_strlen($username) < 3 || mb_strlen($username) > 30)
-		{
+		if (!$username || mb_strlen($username) < 3 || mb_strlen($username) > 30) {
 			$error_ary[] = 'Введите логин от 3 до 30 символов';
 		}
-		if (!$user_email)
-		{
+		
+		if (!$user_email) {
 			$error_ary[] = 'Вы не указали адрес электронной почты';
-		}
-		elseif (!preg_match(sprintf('#%s#', get_preg_expression('email')), $user_email))
-		{
+		} elseif (!preg_match(sprintf('#%s#', get_preg_expression('email')), $user_email)) {
 			$error_ary[] = 'Неверно введен адрес электронной почты';
 		}
-		if (!$user_password || mb_strlen($user_password) < 6 || mb_strlen($user_password) > 60)
-		{
+		
+		if (!$user_password || mb_strlen($user_password) < 6 || mb_strlen($user_password) > 60) {
 			$error_ary[] = 'Введите пароль от 6 до 60 символов';
 		}
-		if (!$this->captcha_validator->is_solved())
-		{
+		
+		if (!$this->captcha_validator->is_solved()) {
 			$error_ary[] = 'Неверно введен код подтверждения';
 		}
 		
 		$username_clean = mb_strtolower($username);
 
 		/* Проверка существования пользователя с подобным ником */
-		if ($username_clean)
-		{
+		if ($username_clean) {
 			$sql = 'SELECT user_id FROM site_users WHERE username_clean = ?';
 			$this->db->query($sql, [$username_clean]);
 			$row = $this->db->fetchrow();
 			$this->db->freeresult();
 			
-			if ($row)
-			{
+			if ($row) {
 				$error_ary[] = 'Данный логин уже занят';
 				
 				$username = '';
 			}
 		}
 		
-		if ($user_email)
-		{
+		if ($user_email) {
 			$sql = 'SELECT user_id FROM site_users WHERE user_email = ?';
 			$this->db->query($sql, [$user_email]);
 			$row = $this->db->fetchrow();
 			$this->db->freeresult();
 			
-			if ($row)
-			{
+			if ($row) {
 				$error_ary[] = 'Данный адрес электронной почты уже зарегистрирован';
 				
 				$user_email = '';
 			}
 		}
 		
-		if (sizeof($error_ary))
-		{
+		if (sizeof($error_ary)) {
 			$this->template->assign([
 				'errors' => $error_ary,
 				'me'     => compact('user_email', 'username'),
@@ -120,8 +111,7 @@ class register extends page
 	*/
 	public function complete()
 	{
-		if (empty($_SESSION['oauth.saved']))
-		{
+		if (empty($_SESSION['oauth.saved'])) {
 			$this->request->redirect(ilink());
 		}
 		
@@ -142,8 +132,7 @@ class register extends page
 	
 	public function complete_post()
 	{
-		if (empty($_SESSION['oauth.saved']))
-		{
+		if (empty($_SESSION['oauth.saved'])) {
 			$this->request->redirect(ilink());
 		}
 
@@ -154,25 +143,18 @@ class register extends page
 		$user_email        = mb_strtolower($this->request->post('email', ''));
 		$username_or_email = $this->request->post('username', '');
 
-		if ($have_login)
-		{
+		if ($have_login) {
 			$result = $this->auth->login($username_or_email, $password);
 
-			if ($result['status'] == 'OK')
-			{
+			if ($result['status'] == 'OK') {
 				$this->request->redirect(ilink($redirect));
 			}
-		}
-		else
-		{
+		} else {
 			$error_ary = [];
 			
-			if (!$user_email)
-			{
+			if (!$user_email) {
 				$error_ary[] = 'Вы не указали адрес электронной почты';
-			}
-			elseif (!preg_match(sprintf('#%s#', get_preg_expression('email')), $user_email))
-			{
+			} elseif (!preg_match(sprintf('#%s#', get_preg_expression('email')), $user_email)) {
 				$error_ary[] = 'Неверно введен адрес электронной почты';
 			}
 
@@ -181,13 +163,11 @@ class register extends page
 			$row = $this->db->fetchrow();
 			$this->db->freeresult();
 			
-			if ($row)
-			{
+			if ($row) {
 				$error_ary[] = 'Данный адрес электронной почты уже зарегистрирован';
 			}
 
-			if (sizeof($error_ary))
-			{
+			if (sizeof($error_ary)) {
 				$this->template->assign([
 					'email_exists' => true,
 					'errors'       => $error_ary,

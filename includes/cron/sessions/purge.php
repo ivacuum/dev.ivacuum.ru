@@ -42,8 +42,7 @@ class purge extends task
 		$result = $this->db->query($sql, [$this->ctime - $session_lifetime]);
 		$del_users_id = [];
 
-		while ($row = $this->db->fetchrow($result))
-		{
+		while ($row = $this->db->fetchrow($result)) {
 			$sql_ary = [
 				'user_session_page' => (string) $row['session_page'],
 				'user_last_visit'   => (int) $row['recent_time'],
@@ -58,16 +57,14 @@ class purge extends task
 
 		$this->db->freeresult($result);
 
-		if (!empty($del_users_id))
-		{
+		if (!empty($del_users_id)) {
 			$sql = 'DELETE FROM site_sessions WHERE :del_users_id AND session_time < ?';
 			$this->db->query($sql, [$this->ctime - $session_lifetime, ':del_users_id' => $this->db->in_set('user_id', $del_users_id)]);
 			$this->log('Удалено сессий пользователей: ' . sizeof($del_users_id));
 		}
 
 		/* Удаление ключей автовхода */
-		if ($this->config['autologin.time'])
-		{
+		if ($this->config['autologin.time']) {
 			$sql = 'DELETE FROM site_sessions_keys WHERE last_login < ?';
 			$this->db->query($sql, [$this->ctime - (86400 * $this->config['autologin.time'])]);
 			$this->log('Удалено ключей сессий: ' . $this->db->affected_rows());

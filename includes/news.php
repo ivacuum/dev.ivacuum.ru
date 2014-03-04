@@ -29,15 +29,13 @@ class news extends page
 		];
 		
 		/* Новости за определенный интервал времени */
-		if (false !== $interval = $this->calculate_interval($year, $month, $day))
-		{
+		if (false !== $interval = $this->calculate_interval($year, $month, $day)) {
 			$sql_array['WHERE'][] = "n.news_time BETWEEN {$interval['start']} AND {$interval['end']}";
 		}
 		
 		$this->db->query_limit($this->db->build_query('SELECT', $sql_array), [], $pagination['on_page'], $pagination['offset']);
 		
-		while ($row = $this->db->fetchrow())
-		{
+		while ($row = $this->db->fetchrow()) {
 			$this->append_news('news', $row);
 		}
 		
@@ -57,8 +55,7 @@ class news extends page
 	{
 		preg_match('#^страница-(\d+)$#', $this->page, $matches);
 		
-		if (!empty($matches))
-		{
+		if (!empty($matches)) {
 			$page = (int) $matches[1];
 			
 			$this->request->redirect($this->get_handler_url('index') . '?p=' . $page, 301);
@@ -66,8 +63,7 @@ class news extends page
 		
 		preg_match(sprintf('#^(\d+)-(%s)$#', get_preg_expression('url_symbols')), $this->page, $matches);
 		
-		if (empty($matches))
-		{
+		if (empty($matches)) {
 			trigger_error('PAGE_NOT_FOUND');
 		}
 		
@@ -78,8 +74,7 @@ class news extends page
 		$row = $this->db->fetchrow();
 		$this->db->freeresult();
 		
-		if (!$row)
-		{
+		if (!$row) {
 			trigger_error('PAGE_NOT_FOUND');
 		}
 		
@@ -115,8 +110,7 @@ class news extends page
 	public function single($year = false, $month = false, $day = false)
 	{
 		/* Границы дня, в который была опубликована новости */
-		if (false === checkdate($month, $day, $year))
-		{
+		if (false === checkdate($month, $day, $year)) {
 			trigger_error('PAGE_NOT_FOUND');
 		}
 		
@@ -139,8 +133,7 @@ class news extends page
 		$row = $this->db->fetchrow();
 		$this->db->freeresult();
 	
-		if (!$row)
-		{
+		if (!$row) {
 			trigger_error('NEWS_NOT_FOUND');
 		}
 		
@@ -171,8 +164,7 @@ class news extends page
 		
 		$this->db->query_limit($this->db->build_query('SELECT', $sql_array), [], 10);
 		
-		while ($row = $this->db->fetchrow())
-		{
+		while ($row = $this->db->fetchrow()) {
 			$this->append_news('most_discussed_news', $row);
 		}
 		
@@ -194,8 +186,7 @@ class news extends page
 		
 		$this->db->query_limit($this->db->build_query('SELECT', $sql_array), [], 10);
 		
-		while ($row = $this->db->fetchrow())
-		{
+		while ($row = $this->db->fetchrow()) {
 			$this->append_news('most_viewed_news', $row);
 		}
 		
@@ -225,14 +216,12 @@ class news extends page
 	*/
 	protected function calculate_interval($year, $month, $day)
 	{
-		if (!$year && !$month && !$day)
-		{
+		if (!$year && !$month && !$day) {
 			return ['start' => 0, 'end' => time()];
 		}
 		
 		/* Новости за день */
-		if ($year && $month && $day)
-		{
+		if ($year && $month && $day) {
 			return [
 				'start' => mktime(0, 0, 0, $month, $day, $year),
 				'end'   => mktime(0, 0, 0, $month, $day + 1, $year) - 1,
@@ -240,8 +229,7 @@ class news extends page
 		}
 		
 		/* Новости за месяц */
-		if ($year && $month)
-		{
+		if ($year && $month) {
 			return [
 				'start' => mktime(0, 0, 0, $month, 1, $year),
 				'end'   => mktime(0, 0, 0, $month + 1, 1, $year) - 1,
@@ -249,8 +237,7 @@ class news extends page
 		}
 		
 		/* Новости за год */
-		if ($year)
-		{
+		if ($year) {
 			return [
 				'start' => mktime(0, 0, 0, 1, 1, $year),
 				'end'   => mktime(0, 0, 0, 1, 1, $year + 1) - 1,
@@ -263,32 +250,23 @@ class news extends page
 	*/
 	protected function check_input_date($year, $month, $day)
 	{
-		if (($day && !$this->is_number($day)) || ($month && !$this->is_number($month)) || ($year && !$this->is_number($year)))
-		{
+		if (($day && !$this->is_number($day)) || ($month && !$this->is_number($month)) || ($year && !$this->is_number($year))) {
 			trigger_error('PAGE_NOT_FOUND');
 		}
 		
-		if ($year && $month && $day)
-		{
+		if ($year && $month && $day) {
 			/* Новости за день */
-			if (false === checkdate((int) $month, (int) $day, (int) $year))
-			{
+			if (false === checkdate((int) $month, (int) $day, (int) $year)) {
 				trigger_error('PAGE_NOT_FOUND');
 			}
-		}
-		elseif ($year && $month)
-		{
+		} elseif ($year && $month) {
 			/* Новости за месяц */
-			if (false === checkdate((int) $month, 1, (int) $year))
-			{
+			if (false === checkdate((int) $month, 1, (int) $year)) {
 				trigger_error('PAGE_NOT_FOUND');
 			}
-		}
-		elseif ($year)
-		{
+		} elseif ($year) {
 			/* Новости за год */
-			if (false === checkdate(1, 1, (int) $year))
-			{
+			if (false === checkdate(1, 1, (int) $year)) {
 				trigger_error('PAGE_NOT_FOUND');
 			}
 		}
@@ -299,8 +277,7 @@ class news extends page
 	*/
 	protected function get_news_count($year, $month, $day)
 	{
-		if (!$year && !$month && !$day)
-		{
+		if (!$year && !$month && !$day) {
 			return $this->config['num_news'];
 		}
 		

@@ -17,24 +17,19 @@ class memcache extends page
 	
 	public function _setup()
 	{
-		if (!$this->auth->acl_get('a_'))
-		{
+		if (!$this->auth->acl_get('a_')) {
 			trigger_error('PAGE_NOT_FOUND');
 		}
 		
 		$options = $this->app['cache.driver.options'];
 		
-		if (!$options['host'])
-		{
+		if (!$options['host']) {
 			trigger_error('NO_MEMCACHE_SERVER_CONFIGURED');
 		}
 		
-		if ($options['port'])
-		{
+		if ($options['port']) {
 			$this->servers[] = "{$options['host']}:{$options['port']}";
-		}
-		else
-		{
+		} else {
 			$this->servers[] = $options['host'];
 		}
 		
@@ -72,8 +67,7 @@ class memcache extends page
 			'SET_RATE'  => sprintf('%.2f', $stats['cmd_set'] / $total_uptime),
 		]);
 
-		foreach ($this->servers as $server)
-		{
+		foreach ($this->servers as $server) {
 			$this->template->append('servers', [
 				'CACHE_TOTAL' => $stats_single[$server]['STAT']['limit_maxbytes'],
 				'CACHE_USED'  => $stats_single[$server]['STAT']['bytes'],
@@ -92,8 +86,7 @@ class memcache extends page
 	{
 		$key = $this->request->variable('key', '');
 		
-		if (!$key)
-		{
+		if (!$key) {
 			trigger_error('No key set!');
 		}
 		
@@ -111,8 +104,7 @@ class memcache extends page
 	{
 		$key = $this->request->variable('key', '');
 		
-		if (!$key)
-		{
+		if (!$key) {
 			trigger_error('No key set!');
 		}
 		
@@ -122,12 +114,10 @@ class memcache extends page
 		$row = $row['VALUE'][$key];
 		
 		/* Попытки разобрать значение */
-		if (false === $value = @unserialize($row['value']))
-		{
+		if (false === $value = @unserialize($row['value'])) {
 			$value = json_decode($row['value'], true);
 			
-			if (is_null($value))
-			{
+			if (is_null($value)) {
 				$value = $row['value'];
 			}
 		}
@@ -148,16 +138,12 @@ class memcache extends page
 		$cache_items = $this->get_cache_items();
 		$vars = [];
 		
-		foreach ($cache_items['items'] as $server => $entries)
-		{
-			foreach ($entries as $slab_id => $slab)
-			{
+		foreach ($cache_items['items'] as $server => $entries) {
+			foreach ($entries as $slab_id => $slab) {
 				$items = $this->dump_cache_slab($server, $slab_id, $slab['number'])['ITEM'];
 				
-				foreach ($items as $key => $info)
-				{
-					if (0 === strpos($key, 't.ivacuum.ru'))
-					{
+				foreach ($items as $key => $info) {
+					if (0 === strpos($key, 't.ivacuum.ru')) {
 						continue;
 					}
 					
@@ -189,26 +175,21 @@ class memcache extends page
 		$server_items = [];
 		$total_items  = [];
 
-		foreach ($items as $server => $itemlist)
-		{
+		foreach ($items as $server => $itemlist) {
 			$server_items[$server] = [];
 			$total_items[$server]  = 0;
 
-			if (!isset($itemlist['STAT']))
-			{
+			if (!isset($itemlist['STAT'])) {
 				continue;
 			}
 
 			$iteminfo = $itemlist['STAT'];
 
-			foreach ($iteminfo as $keyinfo => $value)
-			{
-				if (preg_match('#items\:(\d+?)\:(.+?)$#', $keyinfo, $matches))
-				{
+			foreach ($iteminfo as $keyinfo => $value) {
+				if (preg_match('#items\:(\d+?)\:(.+?)$#', $keyinfo, $matches)) {
 					$server_items[$server][$matches[1]][$matches[2]] = $value;
 
-					if ($matches[2] == 'number')
-					{
+					if ($matches[2] == 'number') {
 						$total_items[$server] += $value;
 					}
 				}
@@ -222,24 +203,19 @@ class memcache extends page
 	{
 		$resp = $this->send_memcache_commands('stats');
 		
-		if (!$total)
-		{
+		if (!$total) {
 			return $resp;
 		}
 
 		$res = [];
 
-		foreach ($resp as $server => $r)
-		{
-			foreach ($r['STAT'] as $key => $row)
-			{
-				if (!isset($res[$key]))
-				{
+		foreach ($resp as $server => $r) {
+			foreach ($r['STAT'] as $key => $row) {
+				if (!isset($res[$key])) {
 					$res[$key] = null;
 				}
 
-				switch ($key)
-				{
+				switch ($key) {
 					case 'pid': $res['pid'][$server] = $row; break;
 					case 'uptime': $res['uptime'][$server] = $row; break;
 					case 'time': $res['time'][$server] = $row; break;
@@ -286,26 +262,21 @@ class memcache extends page
 		$res   = [];
 		$lines = explode("\r\n", $str);
 
-		for ($i = 0, $len = sizeof($lines); $i < $len; $i++)
-		{
+		for ($i = 0, $len = sizeof($lines); $i < $len; $i++) {
 			$line = $lines[$i];
 			$l = explode(' ', $line, 3);
 
-			if (3 == sizeof($l))
-			{
+			if (3 == sizeof($l)) {
 				$res[$l[0]][$l[1]] = $l[2];
 
-				if ($l[0] == 'VALUE')
-				{
+				if ($l[0] == 'VALUE') {
 					/* next line is the value */
 					$res[$l[0]][$l[1]] = [];
 					list($flag, $size) = explode(' ', $l[2]);
 					$res[$l[0]][$l[1]]['stat'] = ['flag' => $flag, 'size' => $size];
 					$res[$l[0]][$l[1]]['value'] = $lines[++$i];
 				}
-			}
-			elseif ($line == 'DELETED' || $line == 'NOT_FOUND' || $line == 'OK')
-			{
+			} elseif ($line == 'DELETED' || $line == 'NOT_FOUND' || $line == 'OK') {
 				return $line;
 			}
 		}
@@ -317,8 +288,7 @@ class memcache extends page
 	{
 		$s = @fsockopen($server, $port, $errno, $errstr);
 
-		if (!$s)
-		{
+		if (!$s) {
 			trigger_error('Cant connect to: ' . $server . ':' . $port . '(' . $errno . ') - ' . $errstr);
 		}
 
@@ -326,22 +296,18 @@ class memcache extends page
 
 		$buf = '';
 
-		while (!feof($s))
-		{
+		while (!feof($s)) {
 			$buf .= fgets($s, 256);
 			
-			if (false !== strpos($buf, "END\r\n"))
-			{
+			if (false !== strpos($buf, "END\r\n")) {
 				/* stat says end */
 				break;
 			}
-			if (false !== strpos($buf, "DELETED\r\n") || false !== strpos($buf, "NOT_FOUND\r\n"))
-			{
+			if (false !== strpos($buf, "DELETED\r\n") || false !== strpos($buf, "NOT_FOUND\r\n")) {
 				/* delete says these */
 				break;
 			}
-			if (false !== strpos($buf, "OK\r\n"))
-			{
+			if (false !== strpos($buf, "OK\r\n")) {
 				/* flush_all says ok */
 				break;
 			}
@@ -356,8 +322,7 @@ class memcache extends page
 	{
 		$result = [];
 
-		foreach ($this->servers as $server)
-		{
+		foreach ($this->servers as $server) {
 			list($host, $port) = $this->get_server_host_port($server);
 
 			$result[$server] = $this->send_memcache_command($host, $port, $command);

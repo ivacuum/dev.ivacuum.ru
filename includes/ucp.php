@@ -1,16 +1,7 @@
-<?php
-/**
-* @package ivacuum.ru
-* @copyright (c) 2013
-*/
-
-namespace app;
+<?php namespace app;
 
 use app\models\page;
 
-/**
-* Панель управления пользователя
-*/
 class ucp extends page
 {
 	public function _setup()

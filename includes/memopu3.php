@@ -1,21 +1,9 @@
-<?php
-/**
-* @package ivacuum.ru
-* @copyright (c) 2012
-*/
-
-namespace app;
+<?php namespace app;
 
 use app\models\page;
 
-/**
-* Сборник цитат
-*/
 class memopu3 extends page
 {
-	/**
-	* Предварительная настройка
-	*/
 	public function _setup()
 	{
 		// rss_add('rss/memopu3.xml', true);
@@ -34,9 +22,6 @@ class memopu3 extends page
 	{
 		$pagination = pagination(25, $this->config['bash_quotes_approved'], ilink($this->url));
 
-		/**
-		* Получаем данные из БД
-		*/
 		$sql = 'SELECT * FROM site_quotes WHERE quote_approver_time > 0 ORDER BY quote_sender_time DESC';
 		$this->db->query_limit($sql, [], $pagination['on_page'], $pagination['offset']);
 
@@ -101,9 +86,6 @@ class memopu3 extends page
 	{
 		$pagination = pagination(25, $this->config['bash_quotes_approved'], ilink($this->url));
 
-		/**
-		* Получаем данные из БД
-		*/
 		$sql = 'SELECT * FROM site_quotes WHERE quote_approver_time > 0 ORDER BY quote_votes DESC';
 		$this->db->query_limit($sql, [], $pagination['on_page'], $pagination['offset']);
 
@@ -212,9 +194,6 @@ class memopu3 extends page
 		/* TODO */
 		/* коменты */
 
-		/**
-		* Лог голосов
-		*/
 		$sql = '
 			SELECT
 				v.*,

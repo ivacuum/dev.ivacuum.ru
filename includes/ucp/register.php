@@ -1,10 +1,4 @@
-<?php
-/**
-* @package ivacuum.ru
-* @copyright (c) 2013
-*/
-
-namespace app\ucp;
+<?php namespace app\ucp;
 
 use app\models\page;
 

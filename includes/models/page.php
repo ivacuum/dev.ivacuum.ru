@@ -1,10 +1,4 @@
-<?php
-/**
-* @package ivacuum.ru
-* @copyright (c) 2013
-*/
-
-namespace app\models;
+<?php namespace app\models;
 
 use fw\models\page as base_page;
 

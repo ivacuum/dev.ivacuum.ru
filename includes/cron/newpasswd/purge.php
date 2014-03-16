@@ -1,10 +1,4 @@
-<?php
-/**
-* @package ivacuum.ru
-* @copyright (c) 2013
-*/
-
-namespace app\cron\newpasswd;
+<?php namespace app\cron\newpasswd;
 
 use fw\cron\task;
 

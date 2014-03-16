@@ -1,10 +1,4 @@
-<?php
-/**
-* @package ivacuum.ru
-* @copyright (c) 2013
-*/
-
-namespace app\cron\sessions;
+<?php namespace app\cron\sessions;
 
 use fw\cron\task;
 

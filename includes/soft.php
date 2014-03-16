@@ -1,21 +1,9 @@
-<?php
-/**
-* @package ivacuum.ru
-* @copyright (c) 2013
-*/
-
-namespace app;
+<?php namespace app;
 
 use app\models\page;
 
-/**
-* Программное обеспечение
-*/
 class soft extends page
 {
-	/**
-	* Список ПО
-	*/
 	public function index()
 	{
 		foreach ($this->get_page_descendants() as $row) {

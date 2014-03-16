@@ -1,16 +1,7 @@
-<?php
-/**
-* @package ivacuum.ru
-* @copyright (c) 2013
-*/
-
-namespace app\soft;
+<?php namespace app\soft;
 
 use app\models\page;
 
-/**
-* Commfort-чат
-*/
 class commfort extends page
 {
 	public function _setup()

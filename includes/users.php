@@ -1,16 +1,7 @@
-<?php
-/**
-* @package ivacuum.ru
-* @copyright (c) 2013
-*/
-
-namespace app;
+<?php namespace app;
 
 use app\models\page;
 
-/**
-* Пользователи
-*/
 class users extends page
 {
 	public function index()

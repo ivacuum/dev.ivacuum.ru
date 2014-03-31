@@ -13,7 +13,7 @@
 				</thead>
 				{foreach $social as $row}
 					<tr>
-						<td><img src="//ivacuum.org/i/openid/{$row.openid_provider}.png" alt=""> &nbsp;<a href="{$row.openid_identity}">{$row.openid_identity}</a></td>
+						<td><img src="{$T_STATIC}/i/openid/{$row.openid_provider}.png" alt=""> &nbsp;<a href="{$row.openid_identity}">{$row.openid_identity}</a></td>
 						<td>{$row.LAST_USE}</td>
 						<td class="t-right"><a href="{$row.U_DELETE}" class="btn btn-danger js-confirm" data-confirm="Вы действительно хотите удалить социальный профиль {$row.openid_provider|escape}?">Удалить</a></td>
 					</tr>
@@ -28,25 +28,25 @@
 
 <h3>Добавить профиль</h3>
 {if $url = '\fw\modules\ucp\oauth\facebook::index'|url_for}
-	<a href="{$url}" class="tip" title="Facebook"><img src="//ivacuum.org/i/openid/48/facebook.png" alt=""></a>
+	<a href="{$url}" class="tip" title="Facebook"><img src="{$T_STATIC}/i/openid/48/facebook.png" alt=""></a>
 {/if}
 {if $url = '\fw\modules\ucp\oauth\github::index'|url_for}
-	<a href="{$url}" class="tip" title="GitHub"><img src="//ivacuum.org/i/openid/48/github.png" alt=""></a>
+	<a href="{$url}" class="tip" title="GitHub"><img src="{$T_STATIC}/i/openid/48/github.png" alt=""></a>
 {/if}
 {if $url = '\fw\modules\ucp\oauth\google::index'|url_for}
-	<a href="{$url}" class="tip" title="Google"><img src="//ivacuum.org/i/openid/48/google.png" alt=""></a>
+	<a href="{$url}" class="tip" title="Google"><img src="{$T_STATIC}/i/openid/48/google.png" alt=""></a>
 {/if}
 {if $url = '\fw\modules\ucp\oauth\instagram::index'|url_for}
-	<a href="{$url}" class="tip" title="Instagram"><img src="//ivacuum.org/i/openid/48/instagram.png" alt=""></a>
+	<a href="{$url}" class="tip" title="Instagram"><img src="{$T_STATIC}/i/openid/48/instagram.png" alt=""></a>
 {/if}
 {if $url = '\fw\modules\ucp\oauth\twitter::index'|url_for}
-	<a href="{$url}" class="tip" title="Twitter"><img src="//ivacuum.org/i/openid/48/twitter.png" alt=""></a>
+	<a href="{$url}" class="tip" title="Twitter"><img src="{$T_STATIC}/i/openid/48/twitter.png" alt=""></a>
 {/if}
 {if $url = '\fw\modules\ucp\oauth\vk::index'|url_for}
-	<a href="{$url}" class="tip" title="ВКонтакте"><img src="//ivacuum.org/i/openid/48/vk.png" alt=""></a>
+	<a href="{$url}" class="tip" title="ВКонтакте"><img src="{$T_STATIC}/i/openid/48/vk.png" alt=""></a>
 {/if}
 {if $url = '\fw\modules\ucp\oauth\yandex::index'|url_for}
-	<a href="{$url}" class="tip" title="Яндекс"><img src="//ivacuum.org/i/openid/48/yandex.png" alt=""></a>
+	<a href="{$url}" class="tip" title="Яндекс"><img src="{$T_STATIC}/i/openid/48/yandex.png" alt=""></a>
 {/if}
 
 <script>

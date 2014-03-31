@@ -13,25 +13,16 @@
 	<meta name="description" content="{$page.page_description|default:''}">
 	{$META|default:''}
 	{if $S_ISP == 'local'}
-		<link rel="shortcut icon" href="//0.ivacuum.org/i/_/home.png">
-		<link rel="stylesheet" href="//0.ivacuum.org/i/bootstrap/2.3.1/css/bootstrap.min.css">
-		<link rel="stylesheet" href="//0.ivacuum.org/i/bootstrap/2.3.1/expansion.css?{$cfg['css.version']}">
-		<link rel="stylesheet" href="//0.ivacuum.org/i/bootstrap/2.3.1/css/bootstrap-responsive.min.css">
-
 		<script>var g_local = true;</script>
-		<script src="//0.ivacuum.org/js/jquery/1.9.1/jquery.min.js"></script>
-		<script src="//0.ivacuum.org/i/bootstrap/2.3.1/js/bootstrap.min.js"></script>
-		<script src="//0.ivacuum.org/js/base-1.9.1.js?{$cfg['js.version']}"></script>
-	{else}
-		<link rel="shortcut icon" href="//ivacuum.org/i/_/home.png">
-		<link rel="stylesheet" href="//yandex.st/bootstrap/2.3.1/css/bootstrap.min.css">
-		<link rel="stylesheet" href="//ivacuum.org/i/bootstrap/2.3.1/expansion.css?{$cfg['css.version']}">
-		<link rel="stylesheet" href="//yandex.st/bootstrap/2.3.1/css/bootstrap-responsive.min.css">
-
-		<script src="//yandex.st/jquery/1.9.1/jquery.min.js"></script>
-		<script src="//yandex.st/bootstrap/2.3.1/js/bootstrap.min.js"></script>
-		<script src="//ivacuum.org/js/base-1.9.1.js?{$cfg['js.version']}"></script>
 	{/if}
+	<link rel="shortcut icon" href="{$T_STATIC}/i/_/home.png">
+	<link rel="stylesheet" href="{$T_STATIC}/i/bootstrap/2.3.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="{$T_STATIC}/i/bootstrap/2.3.1/expansion.css?{$cfg['css.version']}">
+	<link rel="stylesheet" href="{$T_STATIC}/i/bootstrap/2.3.1/css/bootstrap-responsive.min.css">
+
+	<script src="{$T_STATIC}/js/jquery/1.9.1/jquery.min.js"></script>
+	<script src="{$T_STATIC}/i/bootstrap/2.3.1/js/bootstrap.min.js"></script>
+	<script src="{$T_STATIC}/js/base-1.9.1.js?{$cfg['js.version']}"></script>
 </head>
 <body class="{$S_LANGUAGE_DIRECTION}">
 <div class="wrap-content">
@@ -62,7 +53,7 @@
 					</ul>
 					{if $S_USER_REGISTERED}
 						<ul class="nav pull-right">
-							<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="//ivacuum.org/i/{($S_OPENID_PROVIDER) ? "openid/{$S_OPENID_PROVIDER}" : '_/user_guest_question'}.png" alt=""> {$S_USERNAME} <b class="caret"></b></a>
+							<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="{$T_STATIC}/i/{($S_OPENID_PROVIDER) ? "openid/{$S_OPENID_PROVIDER}" : '_/user-silhouette-question'}.png" alt=""> {$S_USERNAME} <b class="caret"></b></a>
 								<ul class="dropdown-menu">
 									<li><a href="{'ucp::index'|url_for}">Личный кабинет</a></li>
 									<li class="divider"></li>
@@ -110,10 +101,10 @@
 			<li><a href="mailto:{$cfg['email.support']}">{'FEEDBACK'|i18n}</a></li>
 			{if sizeof($languages) > 1}
 				<li class="muted">&middot;</li>
-				<li class="dropdown dropup"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="//ivacuum.org/i/flags/16/{$S_LANGUAGE}.png" alt="">&nbsp;<b class="caret"></b></a>
+				<li class="dropdown dropup"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="{$T_STATIC}/i/flags/16/{$S_LANGUAGE}.png" alt="">&nbsp;<b class="caret"></b></a>
 					<ul class="dropdown-menu">
 						{foreach $languages as $row}
-							<li><a href="{$row.URL}"><img src="//ivacuum.org/i/flags/16/{$row.IMG}.png" alt=""> &nbsp;{$row.NAME}</a></li>
+							<li><a href="{$row.URL}"><img src="{$T_STATIC}/i/flags/16/{$row.IMG}.png" alt=""> &nbsp;{$row.NAME}</a></li>
 						{/foreach}
 					</ul>
 				</li>

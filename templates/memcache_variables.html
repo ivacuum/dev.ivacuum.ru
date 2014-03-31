@@ -16,7 +16,7 @@
 			<td><a href="{'item'|url_for}?key={$row@key}">{$row@key}</a></td>
 			<td>{$row.SIZE|humn_size}</td>
 			<td>{$row.EXPIRE}</td>
-			<td class="text-center"><a href="{'delete'|url_for}?key={$row@key}"><img src="//ivacuum.org/i/_/cross.png" alt=""></a></td>
+			<td class="text-center"><a href="{'delete'|url_for}?key={$row@key}"><img src="{$T_STATIC}/i/_/cross.png" alt=""></a></td>
 		</tr>
 	{/foreach}
 	</tbody>

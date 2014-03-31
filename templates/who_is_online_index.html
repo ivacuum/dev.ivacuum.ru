@@ -11,7 +11,7 @@
 	</tr>
 	{foreach $users as $row}
 	<tr>
-		<td><img src="//ivacuum.org/i/_/{($row.NAME == 'Гость') ? 'user_guest' : 'user_black'}.png"> {$row.NAME}</td>
+		<td><img src="{$T_STATIC}/i/_/{($row.NAME == 'Гость') ? 'user_guest' : 'user_black'}.png"> {$row.NAME}</td>
 		<td align="center">{$row.TIME}</td>
 	</tr>
 	{/foreach}

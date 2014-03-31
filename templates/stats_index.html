@@ -4,7 +4,7 @@
 <h2>{'STATS'|i18n}</h2>
 <ol>
 	{foreach $pages as $row}
-		<li><img src="//ivacuum.org/i/_/{$row.IMAGE}.png" alt=""> <a href="{$row.U_VIEW}">{$row.TITLE}</a></li>
+		<li><img src="{$T_STATIC}/i/_/{$row.IMAGE}.png" alt=""> <a href="{$row.U_VIEW}">{$row.TITLE}</a></li>
 	{/foreach}
 </ol>
 {/block}

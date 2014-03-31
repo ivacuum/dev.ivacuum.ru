@@ -7,21 +7,21 @@
 			<dt>
 				<div class="bubble-bg imgpad shadow-light ui-corner-all">
 					{if $row.ONLINE}
-						<img src="//ivacuum.org/i/_/status_online.png" alt="" title="{'ONLINE'|i18n}">
+						<img src="{$T_STATIC}/i/_/status.png" alt="" title="{'ONLINE'|i18n}">
 					{else}
-						<img src="//ivacuum.org/i/_/status_offline.png" alt="" title="{'OFFLINE'|i18n}">
+						<img src="{$T_STATIC}/i/_/status-offline.png" alt="" title="{'OFFLINE'|i18n}">
 					{/if}
 					{$row.USERNAME}
 				</div>
 			</dt>
 			<dd>
 				<div class="bubble-gray-bg imgpad shadow-light ui-corner-all" style="width: 97%;">
-					<img class="icons" src="//ivacuum.org/i/_/calendar_day.png" alt="">{$row.TIME}
+					<img class="icons" src="{$T_STATIC}/i/_/calendar_day.png" alt="">{$row.TIME}
 					{if $S_EDIT}
-						<a href="#" id="quick_edit{$row.ID}" onclick="quick_edit({$row.ID}); return false;" title="{'EDIT'|i18n}"><img class="icons" src="//ivacuum.org/i/_/pencil.png" alt=""></a>
+						<a href="#" id="quick_edit{$row.ID}" onclick="quick_edit({$row.ID}); return false;" title="{'EDIT'|i18n}"><img class="icons" src="{$T_STATIC}/i/_/pencil.png" alt=""></a>
 					{/if}
 					{if $S_DELETE}
-						<a href="#" onclick="quick_delete({$row.ID}); return false;" title="{'DELETE'|i18n}"><img class="icons" src="//ivacuum.org/i/_/cross_script.png" alt=""></a>
+						<a href="#" onclick="quick_delete({$row.ID}); return false;" title="{'DELETE'|i18n}"><img class="icons" src="{$T_STATIC}/i/_/cross_script.png" alt=""></a>
 					{/if}
 				</div>
 			</dd>
@@ -33,7 +33,7 @@
 				{elseif $row.RANK_TITLE}
 					<p><b class="genmed">{$row.RANK_TITLE}</b></p>
 				{/if}
-				<p><img class="icons" src="//ivacuum.org/i/_/balloons.png" alt="">{$row.POSTS}</p>
+				<p><img class="icons" src="{$T_STATIC}/i/_/balloons.png" alt="">{$row.POSTS}</p>
 			</dt>
 			<dd>
 				<p id="comment_{$row.ID}">{$row.TEXT}</p>

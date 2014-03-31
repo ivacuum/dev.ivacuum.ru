@@ -4,19 +4,19 @@
 <div class="row">
 	<div class="span3">
 		<h4>Изображений</h4>
-		<p><img src="//ivacuum.org/i/_/images.png" alt=""> {$TOTAL_IMAGES|number_format}</p>
+		<p><img src="{$T_STATIC}/i/_/images.png" alt=""> {$TOTAL_IMAGES|number_format}</p>
 	</div>
 	<div class="span3">
 		<h4>Общий размер</h4>
-		<p><img src="//ivacuum.org/i/_/chart_pie.png" alt=""> {$TOTAL_SIZE|humn_size}</p>
+		<p><img src="{$T_STATIC}/i/_/chart_pie.png" alt=""> {$TOTAL_SIZE|humn_size}</p>
 	</div>
 	<div class="span3">
 		<h4>Просмотров</h4>
-		<p><img src="//ivacuum.org/i/_/eye.png" alt=""> {$TOTAL_VIEWS|number_format}</p>
+		<p><img src="{$T_STATIC}/i/_/eye.png" alt=""> {$TOTAL_VIEWS|number_format}</p>
 	</div>
 	<div class="span3">
 		<h4>Общий трафик</h4>
-		<p><img src="//ivacuum.org/i/_/traffic_light.png" alt=""> {$TOTAL_TRAFFIC|humn_size}</p>
+		<p><img src="{$T_STATIC}/i/_/traffic_light.png" alt=""> {$TOTAL_TRAFFIC|humn_size}</p>
 	</div>
 </div>
 
@@ -29,8 +29,8 @@
 <div class="row">
 	<div class="span6 offset4">
 		<div class="btn-group">
-			<button class="btn" id="get_images_links"><img src="//ivacuum.org/i/_/images.png" alt=""> Получить ссылки</button>
-			<button class="btn" id="delete_images"><img src="//ivacuum.org/i/_/cross_script.png" alt=""> Удалить картинки</button>
+			<button class="btn" id="get_images_links"><img src="{$T_STATIC}/i/_/images.png" alt=""> Получить ссылки</button>
+			<button class="btn" id="delete_images"><img src="{$T_STATIC}/i/_/cross_script.png" alt=""> Удалить картинки</button>
 		</div>
 	</div>
 </div>
@@ -51,11 +51,11 @@
 
 <div id="images_links"></div>
 
-<script src="//ivacuum.org/js/jquery.scrollto.min.js"></script>
-<script src="//yandex.st/jquery-ui/1.10.1/jquery.ui.core.min.js"></script>
-<script src="//yandex.st/jquery-ui/1.10.1/jquery.ui.widget.min.js"></script>
-<script src="//yandex.st/jquery-ui/1.10.1/jquery.ui.mouse.min.js"></script>
-<script src="//yandex.st/jquery-ui/1.10.1/jquery.ui.selectable.min.js"></script>
+<script src="{$T_STATIC}/js/jquery.scrollto.min.js"></script>
+<script src="{$T_STATIC}/jquery-ui/1.10.1/jquery.ui.core.min.js"></script>
+<script src="{$T_STATIC}/jquery-ui/1.10.1/jquery.ui.widget.min.js"></script>
+<script src="{$T_STATIC}/jquery-ui/1.10.1/jquery.ui.mouse.min.js"></script>
+<script src="{$T_STATIC}/jquery-ui/1.10.1/jquery.ui.selectable.min.js"></script>
 <script>
 var g_loading = false;
 var S_DISABLE_GALLERY = true;

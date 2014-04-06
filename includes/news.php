@@ -4,40 +4,34 @@ use app\models\page;
 
 class news extends page
 {
+	protected $news;
+	
+	public function _setup()
+	{
+		parent::_setup();
+		
+		$this->news = $this->getApi('News', $this->data['site_id']);
+	}
+	
 	/**
 	* Список новостей
 	*/
 	public function index($year = false, $month = false, $day = false)
 	{
-		$this->check_input_date($year, $month, $day);
+		$on_page = $this->config['news.on_page'];
 		
-		$on_page    = $this->config['news.on_page'];
-		$pagination = pagination($on_page, $this->get_news_count($year, $month, $day), ilink($this->full_url));
-		
-		$sql_array = [
-			'SELECT'    => 'n.*, u.username',
-			'FROM'      => 'site_news n',
-			'LEFT_JOIN' => 'site_users u ON (u.user_id = n.user_id)',
-			'WHERE'     => ['n.site_id = ' . $this->db->check_value($this->data['site_id'])],
-			'ORDER_BY'  => 'n.news_time DESC'
-		];
-		
-		/* Новости за определенный интервал времени */
-		if (false !== $interval = $this->calculate_interval($year, $month, $day)) {
-			$sql_array['WHERE'][] = "n.news_time BETWEEN {$interval['start']} AND {$interval['end']}";
+		foreach ($this->news->get(compact('year', 'month', 'day', 'on_page')) as $row) {
+			$this->appendNews('news', $row);
 		}
 		
-		$this->db->query_limit($this->db->build_query('SELECT', $sql_array), [], $pagination['on_page'], $pagination['offset']);
-		
-		while ($row = $this->db->fetchrow()) {
-			$this->append_news('news', $row);
+		foreach ($this->news->getMostDiscussed() as $row) {
+			$this->appendNews('most_discussed_news', $row);
 		}
 		
-		$this->db->freeresult();
+		foreach ($this->news->getMostViewed() as $row) {
+			$this->appendNews('most_viewed_news', $row);
+		}
 		
-		$this->append_most_discussed();
-		$this->append_most_viewed();
-
 		/* Другие методы вызывают index, всем надо установить один шаблон */
 		$this->template->file = 'news_index.html';
 	}
@@ -101,38 +95,16 @@ class news extends page
 	/**
 	* Вывод одной новости
 	*/
-	public function single($year = false, $month = false, $day = false)
+	public function single($year, $month, $day)
 	{
-		/* Границы дня, в который была опубликована новости */
-		if (false === checkdate($month, $day, $year)) {
-			trigger_error('PAGE_NOT_FOUND');
-		}
-		
-		$day_start = mktime(0, 0, 0, $month, $day, $year);
-		$day_end   = mktime(0, 0, 0, $month, $day + 1, $year) - 1;
-		
-		$sql = '
-			SELECT
-				n.*,
-				u.username
-			FROM
-				site_news n
-			LEFT JOIN
-				site_users u ON (u.user_id = n.user_id)
-			WHERE
-				n.news_time BETWEEN ? AND ?
-			AND
-				n.news_url = ?';
-		$this->db->query($sql, [$day_start, $day_end, $this->page]);
-		$row = $this->db->fetchrow();
-		$this->db->freeresult();
-	
-		if (!$row) {
-			trigger_error('NEWS_NOT_FOUND');
+		try {
+			$row = $this->news->getByUrl($this->page, $year, $month, $day);
+		} catch (\Exception $e) {
+			trigger_error($e->getMessage());
 		}
 		
 		$this->breadcrumbs($row['news_subject']);
-		$this->append_news('news', $row);
+		$this->appendNews('news', $row);
 	}
 	
 	/**
@@ -144,53 +116,9 @@ class news extends page
 	}
 	
 	/**
-	* Самые обсуждаемые новости
-	*/
-	protected function append_most_discussed()
-	{
-		$sql_array = [
-			'SELECT'    => 'n.*, u.username',
-			'FROM'      => 'site_news n',
-			'LEFT_JOIN' => 'site_users u ON (u.user_id = n.user_id)',
-			'WHERE'     => ['n.site_id = ' . $this->db->check_value($this->data['site_id'])],
-			'ORDER_BY'  => 'n.news_comments DESC',
-		];
-		
-		$this->db->query_limit($this->db->build_query('SELECT', $sql_array), [], 10);
-		
-		while ($row = $this->db->fetchrow()) {
-			$this->append_news('most_discussed_news', $row);
-		}
-		
-		$this->db->freeresult();
-	}
-
-	/**
-	* Самые просматриваемые новости
-	*/
-	protected function append_most_viewed()
-	{
-		$sql_array = [
-			'SELECT'    => 'n.*, u.username',
-			'FROM'      => 'site_news n',
-			'LEFT_JOIN' => 'site_users u ON (u.user_id = n.user_id)',
-			'WHERE'     => ['n.site_id = ' . $this->db->check_value($this->data['site_id'])],
-			'ORDER_BY'  => 'n.news_views DESC',
-		];
-		
-		$this->db->query_limit($this->db->build_query('SELECT', $sql_array), [], 10);
-		
-		while ($row = $this->db->fetchrow()) {
-			$this->append_news('most_viewed_news', $row);
-		}
-		
-		$this->db->freeresult();
-	}
-	
-	/**
 	* Передача новости шаблонизатору
 	*/
-	protected function append_news($loop_name, &$row)
+	protected function appendNews($loop_name, &$row)
 	{
 		$this->template->append($loop_name, [
 			'COMMENTS'  => $row['news_comments'],
@@ -203,96 +131,5 @@ class news extends page
 			'USER_ID'   => $row['user_id'],
 			'USERNAME'  => $row['username'],
 		]);
-	}
-
-	/**
-	* Интервал времени для SQL-запроса
-	*/
-	protected function calculate_interval($year, $month, $day)
-	{
-		if (!$year && !$month && !$day) {
-			return ['start' => 0, 'end' => time()];
-		}
-		
-		/* Новости за день */
-		if ($year && $month && $day) {
-			return [
-				'start' => mktime(0, 0, 0, $month, $day, $year),
-				'end'   => mktime(0, 0, 0, $month, $day + 1, $year) - 1,
-			];
-		}
-		
-		/* Новости за месяц */
-		if ($year && $month) {
-			return [
-				'start' => mktime(0, 0, 0, $month, 1, $year),
-				'end'   => mktime(0, 0, 0, $month + 1, 1, $year) - 1,
-			];
-		}
-		
-		/* Новости за год */
-		if ($year) {
-			return [
-				'start' => mktime(0, 0, 0, 1, 1, $year),
-				'end'   => mktime(0, 0, 0, 1, 1, $year + 1) - 1,
-			];
-		}
-	}
-
-	/**
-	* Проверка даты на корректность
-	*/
-	protected function check_input_date($year, $month, $day)
-	{
-		if (($day && !$this->is_number($day)) || ($month && !$this->is_number($month)) || ($year && !$this->is_number($year))) {
-			trigger_error('PAGE_NOT_FOUND');
-		}
-		
-		if ($year && $month && $day) {
-			/* Новости за день */
-			if (false === checkdate((int) $month, (int) $day, (int) $year)) {
-				trigger_error('PAGE_NOT_FOUND');
-			}
-		} elseif ($year && $month) {
-			/* Новости за месяц */
-			if (false === checkdate((int) $month, 1, (int) $year)) {
-				trigger_error('PAGE_NOT_FOUND');
-			}
-		} elseif ($year) {
-			/* Новости за год */
-			if (false === checkdate(1, 1, (int) $year)) {
-				trigger_error('PAGE_NOT_FOUND');
-			}
-		}
-	}
-	
-	/**
-	* Количество новостей на языке сайта
-	*/
-	protected function get_news_count($year, $month, $day)
-	{
-		if (!$year && !$month && !$day) {
-			return $this->config['num_news'];
-		}
-		
-		$sql_array = [
-			'SELECT' => 'COUNT(*) AS total',
-			'FROM'   => 'site_news',
-			'WHERE'  => ['site_id = ' . $this->db->check_value($this->data['site_id'])],
-		];
-		
-		$interval = $this->calculate_interval($year, $month, $day);
-		$sql_array['WHERE'][] = "news_time BETWEEN {$interval['start']} AND {$interval['end']}";
-		
-		$this->db->query($this->db->build_query('SELECT', $sql_array));
-		$total_news = $this->db->fetchfield('total');
-		$this->db->freeresult();
-		
-		return $total_news;
-	}
-	
-	protected function is_number($n)
-	{
-		return is_int($n) || ctype_digit(strval($n));
 	}
 }
